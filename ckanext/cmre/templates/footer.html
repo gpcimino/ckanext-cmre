@@ -1,34 +1,34 @@
-<footer class="site-footer">
-  <div class="container">
-    {% block footer_content %}
-      <nav class="footer-links">
-        {% block footer_nav %}
-          <!--ul class="unstyled">
-            {% block footer_links %}
-              <li><a href="{{ h.url_for(controller='home', action='about') }}">{{ _('About {0}').format(g.site_title) }}</a></li>
-            {% endblock %}
-          </ul-->
-          <ul class="unstyled">
-            {% block footer_links_ckan %}
-              {% set api_url = 'http://docs.ckan.org/en/{0}/api.html'.format(g.ckan_doc_version) %}
-              <!--li><a href="{{ api_url }}">{{ _('CKAN API') }}</a></li-->
-              <li><a href="http://www.okfn.org/"><strong>{{ _('Open Knowledge Foundation') }}</strong></a></li>
-              <li><a href="http://www.opendefinition.org/okd/"><img src="http://assets.okfn.org/images/ok_buttons/od_80x15_blue.png"></a></li>
-            {% endblock %}
-          </ul>
-        {% endblock %}
+<div id="wb-foot">
+  <div id="wb-foot-in">
+    <footer>
+      <h2 id="wb-nav">Footer</h2>
+      <!-- FooterStart -->
+      <nav role="navigation">
+        <div id="gcwu-sft">
+          <div id="gcwu-sft-in">
+            <br/><br/><!-- Break needed to avoid display issues with the footer nav overlapping the maple leaf image -->
+            <div class="clear"></div>
+            <div class="span-2">
+              <div class="gcwu-col-head">
+                <a href="#" target="_blank">{{ _('About us') }}</a>
+              </div>
+            </div>
+            <div class="span-2">
+              <div class="gcwu-col-head">
+                <a href="#" target="_blank">{{ _('Contact us') }}</a>
+              </div>
+            </div>
+			
+			<div class="attribution">
+				<strong class="cmre-attribution-strong">Powered by</strong>
+				<p>
+					<a class="hide-text ckan-footer-logo" href="http://ckan.org">CKAN</a>
+					<a class="hide-text geosolutions-footer-logo" href="http://www.geo-solutions.it">GeoSolutions</a>
+				</p>
+			  </div>
+          </div>
+        </div>
       </nav>
-	  
-      <div class="attribution">
-        {% block footer_attribution %}
-		<strong>Powered by</strong>
-        <p>
-			 {% trans %}
-			<a class="hide-text ckan-footer-logo" href="http://ckan.org">CKAN</a>
-			<a class="hide-text geosolutions-footer-logo" href="http://www.geo-solutions.it">GeoSolutions</a>{% endtrans %} 
-		</p>
-        {% endblock %}
-      </div>
 	  
 	  <div class="cmre-footer"> 
 		  <p> 
@@ -37,13 +37,7 @@
 			<a href="http://www.cmre.nato.int">www.nurc.nato.int</a><br> 
 		  </p> 
 	  </div>
-
-    {% endblock %}
+      <!-- FooterEnd -->
+    </footer>
   </div>
-
-  {% block footer_debug %}
-    {% if g.debug %}
-      {% include 'snippets/debug.html' %}
-    {% endif %}
-  {% endblock %}
-</footer>
+</div>

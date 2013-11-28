@@ -2,31 +2,9 @@
 {% block header_account %}
 
   <header class="cmre-masthead">
-	<nav>
-		<div id="gcwu-gcnb">
-			<h2><span>Site</span> menu</h2>
-			<div id="gcwu-gcnb-in">
-			<div id="gcwu-gcnb-fip">
-			  <div id="gcwu-sig">
-				<div id="gcwu-sig-in">
-				  <div id="gcwu-sig-eng" title="CMRE">
-					<img src="{{h.url_for_static('/base/images/cmre.png')}}" height="20" alt="CMRE" />
-				  </div>
-				</div>
-			  </div>
-			  <ul>
-				<li id="gcwu-gcnb1"><a rel="external" href="#">CMRE</a></li>
-				<li id="gcwu-gcnb2"><a rel="external" href="#">Services</a></li>
-				<li id="gcwu-gcnb3"><a rel="external" href="#">Departments</a></li>
-			  </ul>
-			</div>
-			</div>
-		</div>
-	</nav>
-	
 	<div class="cmre-container">
 		<div class="cmre-banner-content">
-			    <!--a class="cmre-logob" title="Go to CMRE Geo Data Fusion Centre - Geo-Spatial Web Portal" href="#"> 
+			    <a class="cmre-logob" title="Go to CMRE Geo Data Fusion Centre - Geo-Spatial Web Portal" href="#"> 
 					<span>CMRE Geo Data Fusion Centre - Geo-Spatial Web Portal</span> 
 				</a> 
 				<a class="cmre-logoa" title="Go to CMRE Geo Data Fusion Centre - Geo-Spatial Web Portal" href="#"> 
@@ -34,13 +12,7 @@
 				</a> 
 				<a class="cmre-logoc" title="Go to CMRE Geo Data Fusion Centre - Geo-Spatial Web Portal" href="#"> 
 					<span>CMRE Geo Data Fusion Centre - Geo-Spatial Web Portal</span> 
-				</a-->
-				
-				<img class="cmre-ilablogo" src="{{h.url_for_static('/base/images/ILAB-06-2.png')}}" height="140" width="200" alt="CMRE" />
-				
-				<!--a class="cmre-logocmre" title="Go to CMRE Geo Data Fusion Centre - Geo-Spatial Web Portal" href="#"> 
-					<span>CMRE Geo Data Fusion Centre - Geo-Spatial Web Portal</span> 
-				</a--> 
+				</a> 
 		</div>
 	</div>
   </header>

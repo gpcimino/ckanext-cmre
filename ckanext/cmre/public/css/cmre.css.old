@@ -2,14 +2,13 @@
 
 /*Header*/
 
-/*.cmre-logoa {
-    background: url("../../../base/images/ILAB-06.png") no-repeat scroll 0 0 #FFFFFF;
+.cmre-logoa {
+    background: url("../../../base/images/cmre_company_logo1.png") no-repeat scroll 0 0 #FFFFFF;
     height: 144px;
 	font-size: 0;
 	width: 714px;
 	display: inline-block;
 }
-
 .cmre-logob {
     background: url("../../../base/images/cmre_company_logo2.png") no-repeat scroll 0 0 #FFFFFF;
     height: 144px;
@@ -23,19 +22,6 @@
 	font-size: 0;
 	width: 67px;
 	display: inline-block;
-}*/
-
-.cmre-logocmre {
-    background: url("../../../base/images/banner_cmre_959.jpg") no-repeat scroll 0 0 #FFFFFF;
-    height: 96px;
-	font-size: 0;
-	width: 960px;
-	display: inline-block;
-}
-
-.cmre-ilablogo {
-    margin: 0 auto;
-	padding-top: 10px;
 }
 
 .cmre-container{
@@ -44,7 +30,7 @@
 
 .cmre-banner-content{
 	margin: 0 auto;
-	width: 960px;
+	width: 900px;
 }
 
 .masthead{
@@ -56,7 +42,6 @@
 	background-color: #FFFFFF;
     margin-left: auto;
     margin-right: auto;
-	width: 940px;
 }
 
 .account-masthead {
@@ -75,7 +60,7 @@
 .account-masthead .account  ul li a:hover{
 	text-shadow: 1px 1px 3px #6B92B5;
 	background-color: #FFFFFF;
-	color: #000033;
+	color: #999999;
 }
 
 /*Body*/
@@ -85,33 +70,28 @@ body {
 }
 
 form h3 {
-    color: #000033;
+    color: #444444;
     font-size: 24.5px;
 }
 
 /* for templates / home / index.html */
 
-.container-cmre-ovr{
-	width: 1200px;
-}
-
 .hero .module-dark .cmre-module-content {
-    background-color: #EFEFEF;
+    background-color: #E8E8E8;
 }
 
 .hero .cmre-tags {
-    background-color: #0099cc;
+    background-color: #CCCCCC;
 }
 
 .hero .cmre-tags  h3{
-    color: #000033;
+    color: #444444;
 }
 
 .cmre-hero-primary {
     margin: 0;
     float: left;
-    width: 600px;
-	padding-left: 50px;
+    width: 460px;
 }
 
 .hero .module-dark {
@@ -122,7 +102,7 @@ form h3 {
 }
 
 a.tag:hover{
-	background-color: #CCCCCC;
+	background-color: #ABAFB3;
 	border: 1px solid #000000;
 	box-shadow: 0 1px 0 #FFFFFF inset;
 }
@@ -143,8 +123,6 @@ a.tag:hover{
 .cmre-hero-secondary {
     bottom: inherit;
     position: inherit;
-	float: right;
-	padding-right:50px;
 }
 
 /*Footer*/
@@ -176,7 +154,6 @@ a.tag:hover{
 
 .cmre-footer {
     border-top: 1px solid #CCCCCC;
-	background: #EFEFEF;
     bottom: 0;
     clear: both;
     color: #999999;
@@ -192,13 +169,11 @@ a.tag:hover{
 
 .attribution{
 	margin-left: 320px;
-	float: right;
 	width: 160px;
-	padding-top: 20px;
 }
 
 .attribution p{
-	float: left;
+	float: center;
 	margin: 0 0 0 0px;
 	line-height: 0px;
 }
@@ -216,150 +191,4 @@ a.tag:hover{
 	margin-top: 0px;
 	height: 21px;
 	width: 55px;
-}
-
-/*New Header*/
-
-#gcwu-gcnb h2{
-	clip:rect(1px,1px,1px,1px);
-	height:0!important;
-	overflow:hidden!important;
-	position:absolute;
-	width:0!important;
-	margin:0!important
-}
-
-#gcwu-gcnb ul{
-	list-style-type:none;
-	float:right;
-	margin:0;
-	padding:0
-}
-
-#gcwu-gcnb ul li {
-	float:left;
-	padding:13px 0
-}
-
-#gcwu-gcnb ul li #gcwu-gcnb-lang a{
-	text-transform:capitalize;
-	padding-right:10px;
-	margin-right:1px
-}
-
-#gcwu-gcnb a{
-	color:#fff
-}
-
-#gcwu-gcnb-in{
-	width:960px
-}
-
-#gcwu-gcnb-in{
-	margin:auto
-}
-
-#gcwu-gcnb a{
-	font-weight:400
-}
-
-#gcwu-gcnb-in{
-	overflow:hidden
-}
-
-#gcwu-gcnb a{
-	display:block
-}
-
-#gcwu-sig,[dir="rtl"] #gcwu-gcnb ul{
-	float:left
-}
-
-[dir="rtl"] #gcwu-sig,[dir="rtl"] #gcwu-gcnb ul li{
-	float:right
-}
-
-#gcwu-gcnb a{
-	border-left:1px solid #fff;
-	padding:0 1em;
-	text-shadow:none
-}
-
-img {
-	display:block
-}
-
-#gcwu-gcnb{
-	min-height:42px;
-	height:20px;
-	height:20px;
-	background-image:-webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#000033),color-stop(100%,#005596));
-	background-image:-webkit-linear-gradient(#000033,#005596);
-	background-image:-moz-linear-gradient(#000033,#005596);
-	background-image:-o-linear-gradient(#000033,#005596);
-	background-image:linear-gradient(#000033,#005596);
-	font-size:.9em
-}
-
-/*New Footer*/
-
-#wb-foot {
-    line-height: normal;
-}
-
-#wb-foot h2{
-    clip: rect(1px, 1px, 1px, 1px);
-    margin: 0 !important;
-    overflow: hidden !important;
-    position: absolute;
-}
-
-#gcwu-sft {
-    background: url("data:image/gif;base64,R0lGODlhAgA8AKIAAO/v7////9fX1+fn58vLy/Pz85qamgAAACH5BAAAAAAALAAAAAACADwAAAMVGLrc/jCGUsYQghBjgP9gKI5kaZYJADs=") repeat-x scroll center top #EFEFEF;
-}
-
-#gcwu-sft {
-    padding-bottom: 20px;
-}
-
-#wb-foot, #wb-foot-in, #gcwu-sft, #gcwu-sft-in{
-    overflow: hidden;
-}
-
-#gcwu-sft-in{
-    margin: auto;
-}
-
-#gcwu-sft-in{
-    width: 960px;
-}
-
-#gcwu-sft-in {
-    background-color: rgba(0, 0, 0, 0);
-	background-image: url("../../../base/images/ilab-corona.png");
-    background-position: center top, left top, right top;
-    background-repeat: no-repeat;
-}
-
-#gcwu-sft-in {
-    padding-top: 20px;
-}
-
-#wb-foot h4, #wb-foot .gcwu-col-head {
-    border: 0 none;
-    font-size: 110%;
-    font-weight: 700;
-    margin: 20px 0 5px;
-}
-
-#gcwu-sft-in a{
-	color: #000033;
-}
-
-.module-content .box .module-content-cmre-primary table, h1{
-	color: #000033;
-}
-
-.cmre-attribution-strong{
-	color: #000033;
 }
