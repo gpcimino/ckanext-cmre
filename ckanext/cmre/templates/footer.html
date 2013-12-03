@@ -10,22 +10,22 @@
             <div class="clear"></div>
             <div class="span-2">
               <div class="gcwu-col-head">
-                <a href="#" target="_blank">{{ _('About STO-CMRE') }}</a>
+                <a href="{{ h.url_for('aboutcmre', action='aboutcmre') }}" target="_blank">{{ _('About STO-CMRE') }}</a>
               </div>
             </div>
             <div class="span-2">
               <div class="gcwu-col-head">
-                <a href="#" target="_blank">{{ _('About iLab') }}</a>
+                <a href="{{ h.url_for('aboutilab', action='aboutilab') }}" target="_blank">{{ _('About iLab') }}</a>
               </div>
             </div>
 			<div class="span-2">
               <div class="gcwu-col-head">
-                <a href="#" target="_blank">{{ _('About this portal') }}</a>
+                <a href="{{ h.url_for(controller='home', action='about') }}" target="_blank">{{ _('About this portal') }}</a>
               </div>
             </div>
 		    <div class="span-2">
               <div class="gcwu-col-head">
-                <a href="#" target="_blank">{{ _('Contact us') }}</a>
+                <a href="{{ h.url_for('contactus', action='contactus') }}" target="_blank">{{ _('Contact us') }}</a>
               </div>
             </div>
 			
