@@ -25,6 +25,15 @@
 	display: inline-block;
 }*/
 
+#gcwu-sig-eng {
+    color: #FFFFFF;
+    font-family: inherit;
+    font-size: 22px;
+    padding-top: 10px;
+	text-shadow: 0.5px 0.5px 2px #FFFFFF;
+}
+
+
 .cmre-logocmre {
     background: url("../../../base/images/banner_cmre_959.jpg") no-repeat scroll 0 0 #FFFFFF;
     height: 96px;
@@ -205,10 +214,10 @@ a.tag:hover{
 }
 
 .attribution{
-	margin-left: 320px;
+	margin-left: 0px;
 	float: right;
-	width: 160px;
-	padding-top: 20px;
+	width: 50px;
+	padding-top: 17px;
 }
 
 .attribution p{
@@ -226,8 +235,9 @@ a.tag:hover{
 
 .attribution .ckan-footer-logo {
     background: url("../../../base/images/ckan-logo-footer.png") no-repeat scroll left bottom rgba(0, 0, 0, 0);
-	display: inline-block;
+	/*display: inline-block;*/
 	margin-top: 0px;
+	margin-left: 0px;
 	height: 21px;
 	width: 55px;
 }
@@ -302,6 +312,7 @@ a.tag:hover{
 	border-left:1px solid #fff;
 	padding:0 1em;
 	text-shadow:none;
+	text-shadow: 0px 0px 0.5px #FFFFFF;
 }
 
 img {
@@ -375,12 +386,13 @@ img {
 	color: #000033;
 }
 
-.module-content .box .module-content-cmre-primary table, h1{
+.module-content .box .module-content-cmre-primary table, h1, h3{
 	color: #000033;
 }
 
 .cmre-attribution-strong{
 	color: #000033;
+	margin-left: 430px;
 }
 
 /* Basic OVR CSS*/
@@ -402,3 +414,29 @@ a {
 .toolbar .breadcrumb a {
     color: #000033;
 }
+
+#about-bk{
+	background-image: url("../../../base/images/about-bk.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	height: 361px;
+	margin: 0 auto;
+}
+
+/*#about-cmre{
+	background-image: url("../../../base/images/cmre.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	display: inline-block;
+	height: 50px;
+	margin: 0 auto;
+}
+
+#about-geosolutions{
+	background-image: url("../../../base/images/geosolutions.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	display: inline-block;
+	height: 50px;
+	margin: 0 auto;
+}*/

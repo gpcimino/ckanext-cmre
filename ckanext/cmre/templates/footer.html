@@ -8,19 +8,19 @@
           <div id="gcwu-sft-in">
             <br/><br/><!-- Break needed to avoid display issues with the footer nav overlapping the maple leaf image -->
             <div class="clear"></div>
-            <div class="span-2">
+            <!--div class="span-2">
               <div class="gcwu-col-head">
                 <a href="{{ h.url_for('aboutcmre', action='aboutcmre') }}" target="_blank">{{ _('About STO-CMRE') }}</a>
+              </div>
+            </div-->
+			<div class="span-2">
+              <div class="gcwu-col-head">
+                <a href="{{ h.url_for(controller='home', action='about') }}" target="_blank">{{ _('About this portal') }}</a>
               </div>
             </div>
             <div class="span-2">
               <div class="gcwu-col-head">
                 <a href="{{ h.url_for('aboutilab', action='aboutilab') }}" target="_blank">{{ _('About iLab') }}</a>
-              </div>
-            </div>
-			<div class="span-2">
-              <div class="gcwu-col-head">
-                <a href="{{ h.url_for(controller='home', action='about') }}" target="_blank">{{ _('About this portal') }}</a>
               </div>
             </div>
 		    <div class="span-2">
@@ -29,14 +29,26 @@
               </div>
             </div>
 			
-			<div class="attribution">
+		    <div class="span-2">
+              <div class="gcwu-col-head">
+                <strong class="cmre-attribution-strong">Powered by:</strong>
+              </div>
+            </div>
+			
+			<div class="span-2">
+              <div class="attribution">
+                <a class="hide-text ckan-footer-logo" href="http://ckan.org">CKAN</a>
+              </div>
+            </div>
+			
+			<!--div class="attribution">
 				<strong class="cmre-attribution-strong">Powered by</strong>
 				<br/>
 				<p>
 					<a class="hide-text ckan-footer-logo" href="http://ckan.org">CKAN</a>
-					<!--a class="hide-text geosolutions-footer-logo" href="http://www.geo-solutions.it">GeoSolutions</a-->
+					<a class="hide-text geosolutions-footer-logo" href="http://www.geo-solutions.it">GeoSolutions</a>
 				</p>
-			  </div>
+			  </div-->
           </div>
         </div>
       </nav>

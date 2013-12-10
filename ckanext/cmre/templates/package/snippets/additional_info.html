@@ -1,12 +1,13 @@
 <section class="additional-info">
-  <h3>{{ _('Additional Info') }}</h3>
+  <!--h3>{{ _('Additional Info') }}</h3-->
+  <br/>
   <table class="table table-striped table-bordered table-condensed">
-    <thead>
+    <!--thead>
       <tr>
         <th scope="col">{{ _('Field') }}</th>
         <th scope="col">{{ _('Value') }}</th>
       </tr>
-    </thead>
+    </thead-->
     <tbody>
       {% block package_additional_info %}
       {% if pkg_dict.url %}
@@ -56,9 +57,11 @@
 
       {% for extra in h.sorted_extras(pkg_dict.extras) %}
         {% set key, value = extra %}
-		
+
 			<!-- For CMRE only: data, update, preview and email should be visualized-->
-			{% if _(key) == 'dataset-reference-date' or _(key) == 'frequency-of-update' or _(key) == 'graphic-preview-file' or _(key) == 'contact-email' %}
+			{% if _(key) == 'dataset-reference-date' or _(key) == 'frequency-of-update' or _(key) == 'graphic-preview-file' or 
+				_(key) == 'contact-email' or _(key) == 'time-coverage-instant'  or _(key) == 'time-coverage-period' or
+				_(key) == 'vertical-extension' or _(key) == 'use-limitation' or _(key) == 'use-classification' %}
 				
 				{% if _(key) == 'graphic-preview-file' %}
 				
@@ -66,12 +69,12 @@
 					
 					<tr rel="dc:relation" resource="_:extra{{ i }}">
 					  <th scope="row" class="dataset-label" property="rdfs:label">{{ _(key) }}</th>
-					  <td class="dataset-details" property="rdf:value"><img src="{{ value }}" alt="{{ value }}" /></td>
+					  <td class="dataset-details" property="rdf:value"><img src="{{ value }}" style="font-weight: bold;" alt="Authorization needed to view the preview" /></td>
 					</tr>
 		        {% elif _(key) != 'graphic-preview-file' %}
 				
 					{% if _(key) == 'dataset-reference-date' %}
-						{% set key = 'Dataset Reference Date' %}
+						{% set key = 'Dataset Creation Date' %}
 					{% endif %}
 					
 					{% if _(key) == 'frequency-of-update' %}
@@ -80,6 +83,26 @@
 					
 					{% if _(key) == 'contact-email' %}
 						{% set key = 'Contact Email' %}
+					{% endif %}
+					
+					{% if _(key) == 'time-coverage-instant' %}
+						{% set key = 'Time Coverage Instant' %}
+					{% endif %}
+					
+				    {% if _(key) == 'time-coverage-period' %}
+						{% set key = 'Time Coverage Period' %}
+					{% endif %}
+					
+					{% if _(key) == 'vertical-extension' %}
+						{% set key = 'Vertical Extension' %}
+					{% endif %}
+					
+				    {% if _(key) == 'use-limitation' %}
+						{% set key = 'Use Limitation' %}
+					{% endif %}
+					
+					{% if _(key) == 'use-classification' %}
+						{% set key = 'Use Classification' %}
 					{% endif %}
 					
 					<tr rel="dc:relation" resource="_:extra{{ i }}">
