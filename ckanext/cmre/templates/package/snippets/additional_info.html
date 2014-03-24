@@ -48,20 +48,65 @@
         </tr>
       {% endif %}
 
-      {% if h.check_access('package_update',{'id':pkg_dict.id}) %}
+      {# % if h.check_access('package_update',{'id':pkg_dict.id}) %}
         <tr>
           <th scope="row" class="dataset-label">{{ _("State") }}</th>
           <td class="dataset-details">{{ pkg_dict.state }}</td>
         </tr>
-      {% endif %}
+      {% endif % #}
 
-      {% for extra in h.sorted_extras(pkg_dict.extras) %}
+      {% for key,label in [
+                           ['contact-email',           'Contact e-mail' ],
+                           ['date-created',            'Data creation date'],
+                           ['frequency-of-update',     'Frequency of update' ],
+                           ['time-coverage-instant',   'Time coverage instant' ],
+                           ['time-coverage-period',    'Time coverage period' ],
+                           ['temporal-extent-instant', 'Time instant extent' ],
+                           ['temporal-extent-begin',   'Time extent begin' ],
+                           ['temporal-extent-end',     'Time extent end' ],
+                           ['vertical-extent',         'Vertical extent'],  
+                           ['ngmp-security-classification-code','Classification' ],
+                           ['use-classification',      'Use Classification' ],
+                           ['use-limitation',          'Use Limitation' ]
+                           ]%}
+         {% set value = h.get_pkg_dict_extra(pkg_dict, key) %}
+
+         {% if value %}
+
+            {% if key in [ 'temporal-extent-begin', 'temporal-extent-end', 'temporal-extent-instant'] %}
+               {% set value = value.replace('T',' ')  %}
+            {% endif %}
+
+            {% if key == 'ngmp-security-classification-code' %}
+               {% set value = 'NATO ' + value.upper() %}
+            {% endif %}
+
+            <tr rel="dc:relation" resource="{{key}}">
+               <th scope="row" class="dataset-label" property="rdfs:label">{{_(label)}}</th>
+               <td class="dataset-details" property="rdf:value">{{ value }}</td>
+            </tr>
+         {% endif %}
+      {% endfor %}
+
+      {% set preview_file = h.get_pkg_dict_extra(pkg_dict, 'graphic-preview-file')%}
+      {% if preview_file %}
+         <tr rel="dc:relation" resource="_:extra{{ i }}">
+            <th scope="row" class="dataset-label" property="rdfs:label">{{ _('Graphic Preview File') }}</th>
+            <td class="dataset-details" property="rdf:value"><img src="{{ preview_file }}" style="font-weight: bold;" alt="Authorization needed to view the preview" /></td>
+         </tr>
+       {% endif %}
+
+
+  <!-- For CMRE only: data, update, preview and email should be visualized-->
+
+      {#% for extra in h.sorted_extras(pkg_dict.extras) %}
         {% set key, value = extra %}
 
-			<!-- For CMRE only: data, update, preview and email should be visualized-->
-			{% if _(key) == 'dataset-reference-date' or _(key) == 'frequency-of-update' or _(key) == 'graphic-preview-file' or 
+			{% if _(key) == 'date-created' or _(key) == 'frequency-of-update' or _(key) == 'graphic-preview-file' or 
 				_(key) == 'contact-email' or _(key) == 'time-coverage-instant'  or _(key) == 'time-coverage-period' or
-				_(key) == 'vertical-extension' or _(key) == 'use-limitation' or _(key) == 'use-classification' %}
+				_(key) == 'vertical-extent' or _(key) == 'use-limitation' or _(key) == 'use-classification' or 
+                                _(key) == 'temporal-extent-begin' or _(key) == 'temporal-extent-end' or _(key) == 'temporal-extent-instant' or
+                                _(key) == 'ngmp-security-classification-code'  %}
 				
 				{% if _(key) == 'graphic-preview-file' %}
 				
@@ -71,39 +116,58 @@
 					  <th scope="row" class="dataset-label" property="rdfs:label">{{ _(key) }}</th>
 					  <td class="dataset-details" property="rdf:value"><img src="{{ value }}" style="font-weight: bold;" alt="Authorization needed to view the preview" /></td>
 					</tr>
-		        {% elif _(key) != 'graphic-preview-file' %}
+				{% elif _(key) != 'graphic-preview-file' %}
 				
-					{% if _(key) == 'dataset-reference-date' %}
-						{% set key = 'Dataset Creation Date' %}
+					{% if _(key) == 'date-created' %}
+						{% set key = 'Data creation date' %}
 					{% endif %}
 					
 					{% if _(key) == 'frequency-of-update' %}
-						{% set key = 'Frequency Of Update' %}
+						{% set key = 'Frequency of update' %}
 					{% endif %}
 					
 					{% if _(key) == 'contact-email' %}
-						{% set key = 'Contact Email' %}
+						{% set key = 'Contact e-mail' %}
 					{% endif %}
 					
 					{% if _(key) == 'time-coverage-instant' %}
-						{% set key = 'Time Coverage Instant' %}
+						{% set key = 'Time coverage instant' %}
 					{% endif %}
 					
-				    {% if _(key) == 'time-coverage-period' %}
-						{% set key = 'Time Coverage Period' %}
+					{% if _(key) == 'time-coverage-period' %}
+						{% set key = 'Time coverage period' %}
+					{% endif %}
+
+                                        {% if _(key) == 'temporal-extent-begin' %}
+                                                {% set key = 'Time extent begin' %}
+                                                {% set value = value.replace('T',' ')  %}
+                                        {% endif %}
+                                        {% if _(key) == 'temporal-extent-end' %}
+                                                {% set key = 'Time extent end' %}
+                                                {% set value = value.replace('T',' ')  %}
+                                        {% endif %}
+
+                                        {% if _(key) == 'temporal-extent-instant' %}
+                                                {% set key = 'Time instant extent' %}
+                                                {% set value = value.replace('T',' ')  %}
+                                        {% endif %}
+					
+					{% if _(key) == 'vertical-extent' %}
+						{% set key = 'Vertical extent' %}
 					{% endif %}
 					
-					{% if _(key) == 'vertical-extension' %}
-						{% set key = 'Vertical Extension' %}
-					{% endif %}
-					
-				    {% if _(key) == 'use-limitation' %}
+					{% if _(key) == 'use-limitation' %}
 						{% set key = 'Use Limitation' %}
 					{% endif %}
 					
 					{% if _(key) == 'use-classification' %}
 						{% set key = 'Use Classification' %}
 					{% endif %}
+
+                                        {% if _(key) == 'ngmp-security-classification-code' %}
+                                                {% set key = 'Classification' %}
+                                                {% set value = 'NATO ' + value.upper() %}
+                                        {% endif %}
 					
 					<tr rel="dc:relation" resource="_:extra{{ i }}">
 					  <th scope="row" class="dataset-label" property="rdfs:label">{{ _(key) }}</th>
@@ -112,7 +176,7 @@
 			    {% endif %}
 			   
 			{% endif %}		
-        {% endfor %}
+        {% endfor %#}
       {% endblock %}
     </tbody>
   </table>
