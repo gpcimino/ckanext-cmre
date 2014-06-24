@@ -92,7 +92,25 @@
       {% if preview_file %}
          <tr rel="dc:relation" resource="_:extra{{ i }}">
             <th scope="row" class="dataset-label" property="rdfs:label">{{ _('Graphic Preview File') }}</th>
-            <td class="dataset-details" property="rdf:value"><img src="{{ preview_file }}" style="font-weight: bold;" alt="Authorization needed to view the preview" /></td>
+            <td class="dataset-details" property="rdf:value">
+				<!--img src="{{ preview_file }}" style="font-weight: bold;" alt="Authorization needed to view the preview" /-->
+				<div class="item">
+					<a href="#prev_cel" data-toggle="modal">
+						<img src="{{ preview_file }}" style="font-weight: bold;" alt="Authorization needed to view the preview">
+					</a>
+				</div>
+				<section id="prev_cel" class="modal hide fade">
+				  <div id="previewContainer">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+						<h4 class="modal-title">Graphic Preview File</h4>
+					</div>
+					<div class="modal-body">
+						<img src="{{ preview_file }}" style="font-weight: bold;" alt="Authorization needed to view the preview">
+					</div>
+				  </div>
+				</section>
+			</td>
          </tr>
        {% endif %}
 
@@ -114,7 +132,25 @@
 					
 					<tr rel="dc:relation" resource="_:extra{{ i }}">
 					  <th scope="row" class="dataset-label" property="rdfs:label">{{ _(key) }}</th>
-					  <td class="dataset-details" property="rdf:value"><img src="{{ value }}" style="font-weight: bold;" alt="Authorization needed to view the preview" /></td>
+					  <td class="dataset-details" property="rdf:value">
+						<!--img src="{{ value }}" style="font-weight: bold;" alt="Authorization needed to view the preview" /-->
+						<div class="item">
+							<a href="#prev_cel" data-toggle="modal">
+								<img src="{{ value }}" style="font-weight: bold;" alt="Authorization needed to view the preview">
+							</a>
+						</div>
+						<section id="prev_cel" class="modal hide fade">
+						  <div id="previewContainer">
+						    <div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+								<h4 class="modal-title">Graphic Preview File</h4>
+						    </div>
+							<div class="modal-body">
+								<img src="{{ value }}" style="font-weight: bold;" alt="Authorization needed to view the preview">
+							</div>
+						  </div>
+						</section>
+					  </td>
 					</tr>
 				{% elif _(key) != 'graphic-preview-file' %}
 				
