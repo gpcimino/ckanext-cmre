@@ -61,9 +61,9 @@
                            ['frequency-of-update',     'Frequency of update' ],
                            ['time-coverage-instant',   'Time coverage instant' ],
                            ['time-coverage-period',    'Time coverage period' ],
-                           ['temporal-extent-instant', 'Time instant extent' ],
-                           ['temporal-extent-begin',   'Time extent begin' ],
-                           ['temporal-extent-end',     'Time extent end' ],
+                           ['temporal_extent_instant', 'Time instant extent' ],
+                           ['temporal_extent_begin',   'Time extent begin' ],
+                           ['temporal_extent_end',     'Time extent end' ],
                            ['vertical-extent',         'Vertical extent'],  
                            ['ngmp-security-classification-code','Classification' ],
                            ['use-classification',      'Use Classification' ],
@@ -73,8 +73,9 @@
 
          {% if value %}
 
-            {% if key in [ 'temporal-extent-begin', 'temporal-extent-end', 'temporal-extent-instant'] %}
+            {% if key in [ 'temporal_extent_begin', 'temporal_extent_end', 'temporal_extent_instant'] %}
                {% set value = value.replace('T',' ')  %}
+			   {% set value = value.replace('Z',' ')  %}
             {% endif %}
 
             {% if key == 'ngmp-security-classification-code' %}
@@ -123,7 +124,7 @@
 			{% if _(key) == 'date-created' or _(key) == 'frequency-of-update' or _(key) == 'graphic-preview-file' or 
 				_(key) == 'contact-email' or _(key) == 'time-coverage-instant'  or _(key) == 'time-coverage-period' or
 				_(key) == 'vertical-extent' or _(key) == 'use-limitation' or _(key) == 'use-classification' or 
-                                _(key) == 'temporal-extent-begin' or _(key) == 'temporal-extent-end' or _(key) == 'temporal-extent-instant' or
+                                _(key) == 'temporal_extent_begin' or _(key) == 'temporal_extent_end' or _(key) == 'temporal_extent_instant' or
                                 _(key) == 'ngmp-security-classification-code'  %}
 				
 				{% if _(key) == 'graphic-preview-file' %}
@@ -174,16 +175,16 @@
 						{% set key = 'Time coverage period' %}
 					{% endif %}
 
-                                        {% if _(key) == 'temporal-extent-begin' %}
+                                        {% if _(key) == 'temporal_extent_begin' %}
                                                 {% set key = 'Time extent begin' %}
                                                 {% set value = value.replace('T',' ')  %}
                                         {% endif %}
-                                        {% if _(key) == 'temporal-extent-end' %}
+                                        {% if _(key) == 'temporal_extent_end' %}
                                                 {% set key = 'Time extent end' %}
                                                 {% set value = value.replace('T',' ')  %}
                                         {% endif %}
 
-                                        {% if _(key) == 'temporal-extent-instant' %}
+                                        {% if _(key) == 'temporal_extent_instant' %}
                                                 {% set key = 'Time instant extent' %}
                                                 {% set value = value.replace('T',' ')  %}
                                         {% endif %}
