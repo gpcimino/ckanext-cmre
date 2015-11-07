@@ -26,5 +26,6 @@ setup(
         [ckan.plugins]
 	# Add plugins here, eg
 	cmre=ckanext.cmre.plugin:CMREThemePlugin
+	cmre_harvester=ckanext.cmre.harvesters.cmre:CMREHarvester
 	""",
 )

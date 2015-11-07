@@ -7,6 +7,7 @@ import ckan.plugins.toolkit as toolkit
 class CMREThemePlugin(plugins.SingletonPlugin):
     
     plugins.implements(plugins.IConfigurer)
+    plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IRoutes)
 
     def update_config(self, config):
@@ -19,9 +20,13 @@ class CMREThemePlugin(plugins.SingletonPlugin):
         # that CKAN will use this plugin's custom static files.
         toolkit.add_public_directory(config, 'public')
 
-    
+    # see the ITemplateHelpers plugin interface.
+    def get_helpers(self):
+        return {
+        }
+
     def before_map(self, map):
-	map.connect('aboutcmre', '/aboutcmre', controller='ckanext.cmre.controllers.cmre:CMREController', action='aboutcmre')
+        map.connect('aboutcmre', '/aboutcmre', controller='ckanext.cmre.controllers.cmre:CMREController', action='aboutcmre')
         map.connect('aboutilab', '/aboutilab', controller='ckanext.cmre.controllers.cmre:CMREController', action='aboutilab')
         map.connect('contactus', '/contactus', controller='ckanext.cmre.controllers.cmre:CMREController', action='contactus')
         return map
