@@ -61,9 +61,9 @@
                            ['frequency-of-update',     'Frequency of update' ],
                            ['time-coverage-instant',   'Time coverage instant' ],
                            ['time-coverage-period',    'Time coverage period' ],
-                           ['temporal_extent_instant', 'Time instant extent' ],
-                           ['temporal_extent_begin',   'Time extent begin' ],
-                           ['temporal_extent_end',     'Time extent end' ],
+                           ['temporal-extent-instant', 'Time instant extent' ],
+                           ['temporal-extent-begin',   'Time extent begin' ],
+                           ['temporal-extent-end',     'Time extent end' ],
                            ['vertical-extent',         'Vertical extent'],  
                            ['ngmp-security-classification-code','Classification' ],
                            ['use-classification',      'Use Classification' ],
@@ -73,7 +73,7 @@
 
          {% if value %}
 
-            {% if key in [ 'temporal_extent_begin', 'temporal_extent_end', 'temporal_extent_instant'] %}
+            {% if key in [ 'temporal-extent-begin', 'temporal-extent-end', 'temporal-extent-instant'] %}
                {% set value = value.replace('T',' ')  %}
 			   {% set value = value.replace('Z',' ')  %}
             {% endif %}
@@ -114,106 +114,7 @@
 			</td>
          </tr>
        {% endif %}
-
-
-  <!-- For CMRE only: data, update, preview and email should be visualized-->
-
-      {#% for extra in h.sorted_extras(pkg_dict.extras) %}
-        {% set key, value = extra %}
-
-			{% if _(key) == 'date-created' or _(key) == 'frequency-of-update' or _(key) == 'graphic-preview-file' or 
-				_(key) == 'contact-email' or _(key) == 'time-coverage-instant'  or _(key) == 'time-coverage-period' or
-				_(key) == 'vertical-extent' or _(key) == 'use-limitation' or _(key) == 'use-classification' or 
-                                _(key) == 'temporal_extent_begin' or _(key) == 'temporal_extent_end' or _(key) == 'temporal_extent_instant' or
-                                _(key) == 'ngmp-security-classification-code'  %}
-				
-				{% if _(key) == 'graphic-preview-file' %}
-				
-				    {% set key = 'Graphic Preview File' %}
-					
-					<tr rel="dc:relation" resource="_:extra{{ i }}">
-					  <th scope="row" class="dataset-label" property="rdfs:label">{{ _(key) }}</th>
-					  <td class="dataset-details" property="rdf:value">
-						<!--img src="{{ value }}" style="font-weight: bold;" alt="Authorization needed to view the preview" /-->
-						<div class="item">
-							<a href="#prev_cel" data-toggle="modal">
-								<img src="{{ value }}" style="font-weight: bold;" alt="Authorization needed to view the preview">
-							</a>
-						</div>
-						<section id="prev_cel" class="modal hide fade">
-						  <div id="previewContainer">
-						    <div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-								<h4 class="modal-title">Graphic Preview File</h4>
-						    </div>
-							<div class="modal-body">
-								<img src="{{ value }}" style="font-weight: bold;" alt="Authorization needed to view the preview">
-							</div>
-						  </div>
-						</section>
-					  </td>
-					</tr>
-				{% elif _(key) != 'graphic-preview-file' %}
-				
-					{% if _(key) == 'date-created' %}
-						{% set key = 'Data creation date' %}
-					{% endif %}
-					
-					{% if _(key) == 'frequency-of-update' %}
-						{% set key = 'Frequency of update' %}
-					{% endif %}
-					
-					{% if _(key) == 'contact-email' %}
-						{% set key = 'Contact e-mail' %}
-					{% endif %}
-					
-					{% if _(key) == 'time-coverage-instant' %}
-						{% set key = 'Time coverage instant' %}
-					{% endif %}
-					
-					{% if _(key) == 'time-coverage-period' %}
-						{% set key = 'Time coverage period' %}
-					{% endif %}
-
-                                        {% if _(key) == 'temporal_extent_begin' %}
-                                                {% set key = 'Time extent begin' %}
-                                                {% set value = value.replace('T',' ')  %}
-                                        {% endif %}
-                                        {% if _(key) == 'temporal_extent_end' %}
-                                                {% set key = 'Time extent end' %}
-                                                {% set value = value.replace('T',' ')  %}
-                                        {% endif %}
-
-                                        {% if _(key) == 'temporal_extent_instant' %}
-                                                {% set key = 'Time instant extent' %}
-                                                {% set value = value.replace('T',' ')  %}
-                                        {% endif %}
-					
-					{% if _(key) == 'vertical-extent' %}
-						{% set key = 'Vertical extent' %}
-					{% endif %}
-					
-					{% if _(key) == 'use-limitation' %}
-						{% set key = 'Use Limitation' %}
-					{% endif %}
-					
-					{% if _(key) == 'use-classification' %}
-						{% set key = 'Use Classification' %}
-					{% endif %}
-
-                                        {% if _(key) == 'ngmp-security-classification-code' %}
-                                                {% set key = 'Classification' %}
-                                                {% set value = 'NATO ' + value.upper() %}
-                                        {% endif %}
-					
-					<tr rel="dc:relation" resource="_:extra{{ i }}">
-					  <th scope="row" class="dataset-label" property="rdfs:label">{{ _(key) }}</th>
-					  <td class="dataset-details" property="rdf:value">{{ value }}</td>
-					</tr>
-			    {% endif %}
-			   
-			{% endif %}		
-        {% endfor %#}
+       
       {% endblock %}
     </tbody>
   </table>

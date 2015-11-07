@@ -46,8 +46,7 @@ within_tertiary
       {% set wrapper_class = 'nav-facet nav-facet-tertiary' %}
     {% endif %}
 	
-	<!-- For CMRE in left side: organizzations, groups and license shouldn't be visualized -->
-	{# % if name != 'organization' and name != 'groups' and name != 'license_id' % #}
+	<!-- For CMRE in left side: license shouldn't be visualized -->
   {% if name != 'license_id' %}
     <section class="{{ wrapper_class or 'module module-narrow module-shallow' }}">
       <h2 class="module-heading">

@@ -11,7 +11,9 @@ from ckanext.spatial.model import ISODocument
 from ckanext.spatial.model import ISOElement
 
 from pylons import config
-from datetime import datetime
+import datetime
+
+from dateutil.parser import parse
 
 log = logging.getLogger(__name__)
 
@@ -123,11 +125,8 @@ class CMREHarvester(GeoNetworkHarvester, SingletonPlugin):
         # TEMPORAL ELEMENTS
         if len(iso_values.get('temporal-extent-instant', [])):
             tempstr = iso_values['temporal-extent-instant'][0]
-
-            if 'Z' not in tempstr:
-                package_dict['extras'].append({'key': 'temporal-extent-instant', 'value': iso_values['temporal-extent-instant'][0] + 'Z'})
-            else:
-                package_dict['extras'].append({'key': 'temporal-extent-instant', 'value': iso_values['temporal-extent-instant'][0]})
+            date_str = self.parseDate(tempstr)
+            package_dict['extras'].append({'key': 'temporal-extent-instant', 'value': date_str})
 
         for key in ['temporal-extent-begin', 'temporal-extent-end']:
             if len(iso_values[key]) > 0:
@@ -137,10 +136,7 @@ class CMREHarvester(GeoNetworkHarvester, SingletonPlugin):
                     extra_key = extra['key']
 
                     if key == extra_key:
-                        if 'Z' not in tempstr:
-                            extra['value'] = iso_values[key][0] + 'Z'
-                        else:
-                            extra['value'] = iso_values[key][0]        
+                        extra['value'] = self.parseDate(tempstr)       
             
         # SECURITY CLASSIFICATION
         for name in ['ngmp-security-classification-code', 'ngmp-security-classification-system']:
@@ -150,3 +146,14 @@ class CMREHarvester(GeoNetworkHarvester, SingletonPlugin):
 
         # End of processing, return the modified package
         return package_dict
+
+    def parseDate(self, date):
+        bogus_date = datetime.datetime(1, 1, 1)
+
+        date_prs = parse(date, default=bogus_date)
+        date_str = date_prs.isoformat()
+
+        if 'Z' not in date_str:
+            date_str = date_str + 'Z'
+
+        return date_str
