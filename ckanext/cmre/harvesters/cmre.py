@@ -5,12 +5,10 @@ import logging
 
 from ckan.plugins.core import SingletonPlugin
 
+from ckanext.geonetwork.harvesters.geonetwork import GeoNetworkHarvester
+
 from ckanext.spatial.model import ISODocument
 from ckanext.spatial.model import ISOElement
-from ckanext.spatial.model import ISOResponsibleParty
-from ckanext.spatial.model import ISOKeyword
-
-from ckan.logic import ValidationError, NotFound, get_action
 
 from pylons import config
 from datetime import datetime
@@ -26,75 +24,62 @@ ISODocument.elements.append(
         name="legal-use-constraints",
         search_paths=[
             "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useLimitation/gco:CharacterString/text()",
-            "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useLimitation/gco:CharacterString/text()",
+            "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useLimitation/gco:CharacterString/text()"
         ],
-        multiplicity="*",
-    ),
+        multiplicity="*"
+    )
+)
+
+ISODocument.elements.append(
     ISOElement(
         name="ngmp-security-classification-code",
         search_paths=[
-           "gmd:metadataConstraints/gmd:MD_SecurityConstraints/gmd:classification/gmd:MD_ClassificationCode[@codeList='http://eden.ign.fr/xsd/ngmp/20110916/resources/codelist/ngmpCodelists.xml#MD_ClassificationCode']/text()",
+           "gmd:metadataConstraints/gmd:MD_SecurityConstraints/gmd:classification/gmd:MD_ClassificationCode[@codeList='http://eden.ign.fr/xsd/ngmp/20110916/resources/codelist/ngmpCodelists.xml#MD_ClassificationCode']/text()"
         ],
-        multiplicity="0..1",
-    ),
+        multiplicity="0..1"
+    )
+)
+
+ISODocument.elements.append(
     ISOElement(
         name="ngmp-security-classification-system",
         search_paths=[
-           "gmd:metadataConstraints/gmd:MD_SecurityConstraints[gmd:classification/gmd:MD_ClassificationCode/@codeList='http://eden.ign.fr/xsd/ngmp/20110916/resources/codelist/ngmpCodelists.xml#MD_ClassificationCode']/gmd:classificationSystem/gco:CharacterString/text()",
+           "gmd:metadataConstraints/gmd:MD_SecurityConstraints[gmd:classification/gmd:MD_ClassificationCode/@codeList='http://eden.ign.fr/xsd/ngmp/20110916/resources/codelist/ngmpCodelists.xml#MD_ClassificationCode']/gmd:classificationSystem/gco:CharacterString/text()"
         ],
-        multiplicity="0..1",
-    ),
+        multiplicity="0..1"
+    )
+)
 
-    ## Already added by the base CSW harvester
-    #ISOElement(
-    #    name="temporal-extent-begin",
-    #    search_paths=[
-    #        "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod/gml:beginPosition/text()",
-    #        "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod/gml:beginPosition/text()",
-    #    ],
-    #    multiplicity="*",
-    #),
-
-    ## Already added by the GeoNetwork harvester
-    #ISOElement(
-    #    name="temporal-extent-end",
-    #    search_paths=[
-    #        "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod/gml:endPosition/text()",
-    #        "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod/gml:endPosition/text()",
-    #    ],
-    #    multiplicity="*",
-    #),
-    #ISOElement(
-    #    name="temporal-extent-instant",
-    #    search_paths=[
-    #        "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent/gml:TimeInstant/gml:timePosition/text()",
-    #        "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent/gml:TimeInstant/gml:timePosition/text()",
-    #    ],
-    #    multiplicity="*",
-    #),
+ISODocument.elements.append(
     ISOElement(
         name="vertical-extent-min",
         search_paths=[
             "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent/gmd:minimumValue/gco:Real/text()",
-            "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent/gmd:minimumValue/gco:Real/text()",
+            "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent/gmd:minimumValue/gco:Real/text()"
         ],
-        multiplicity="*",
-    ),
+        multiplicity="*"
+    )
+)
+
+ISODocument.elements.append(
     ISOElement(
         name="vertical-extent-max",
         search_paths=[
             "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent/gmd:maximumValue/gco:Real/text()",
-            "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent/gmd:maximumValue/gco:Real/text()",
+            "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent/gmd:maximumValue/gco:Real/text()"
         ],
-        multiplicity="*",
-    ),
+        multiplicity="*"
+    )
+)
+
+ISODocument.elements.append(
     ISOElement(
         name="vertical-extent-crs-title",
         search_paths=[
             "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent/gmd:verticalCRS/@xlink:title",
-            "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent/gmd:verticalCRS/@xlink:title",
+            "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent/gmd:verticalCRS/@xlink:title"
         ],
-        multiplicity="*",
+        multiplicity="*"
     )
 )
 

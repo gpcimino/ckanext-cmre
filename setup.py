@@ -6,7 +6,7 @@ version = '1.0'
 setup(
 	name='ckanext-cmre',
 	version=version,
-	description="Ckan cmre theme extension",
+	description="Ckan cmre extension",
 	long_description="""\
 	""",
 	classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
