@@ -64,7 +64,13 @@
 }
 
 .masthead{
-	display: none;
+	/*display: none;*/
+	background: #FFFFFF;
+}
+
+.cmre-masthead .container{
+	width: 1200px;
+	padding-left: 70px;
 }
 
 .container-ovr{
@@ -461,4 +467,46 @@ a {
 	max-width: 1000px;
     height: 780px;
 	width: 700px;
+}
+
+.hero .tags h3 {
+    font-size: 14px; 
+    line-height: 20px; 
+    padding: 2px 8px;
+}
+
+.hero .tags {
+    padding: 5px 10px 10px 10px;
+    background-color: #0e7eb9;
+    -webkit-border-radius: 0 0 3px 3px;
+    -moz-border-radius: 0 0 3px 3px;
+    border-radius: 0 0 3px 3px;
+}
+
+.hero .page-heading {
+    font-size: 18px;
+    margin-bottom: 0;
+}
+
+.cmre-nav .nav>li>a{
+	color: #000033;
+}
+
+.cmre-nav .nav>li>a:hover, .cmre-nav .nav>li>a:focus {
+    color: #000033;
+    background-color: rgba(14, 126, 185, 0.14);
+}
+
+.account-masthead .account.authed .image img{
+	display: inline;
+}
+
+.masthead .cmre-nav .nav>li>a:hover{
+	background-color: #0E7EB9;
+	color: #000033;
+}
+
+.nav-pills>.active>a, .nav-pills>.active>a:hover, .nav-pills>.active>a:focus {
+    color: #000033;
+    background-color: rgba(14, 126, 185, 0.49);
 }

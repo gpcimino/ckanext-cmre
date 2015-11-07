@@ -47,7 +47,8 @@ within_tertiary
     {% endif %}
 	
 	<!-- For CMRE in left side: organizzations, groups and license shouldn't be visualized -->
-	{% if name != 'organization' and name != 'groups' and name != 'license_id' %}
+	{# % if name != 'organization' and name != 'groups' and name != 'license_id' % #}
+  {% if name != 'license_id' %}
     <section class="{{ wrapper_class or 'module module-narrow module-shallow' }}">
       <h2 class="module-heading">
         <i class="icon-medium icon-filter"></i>
