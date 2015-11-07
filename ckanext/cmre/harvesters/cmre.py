@@ -132,10 +132,15 @@ class CMREHarvester(GeoNetworkHarvester, SingletonPlugin):
         for key in ['temporal-extent-begin', 'temporal-extent-end']:
             if len(iso_values[key]) > 0:
                 tempstr = iso_values[key][0]
-        if 'Z' not in tempstr:
-            package_dict['extras'][key] = iso_values[key][0] + 'Z'
-        else:
-            package_dict['extras'][key] = iso_values[key][0]        
+
+                for extra in package_dict['extras']:
+                    extra_key = extra['key']
+
+                    if key == extra_key:
+                        if 'Z' not in tempstr:
+                            extra['value'] = iso_values[key][0] + 'Z'
+                        else:
+                            extra['value'] = iso_values[key][0]        
             
         # SECURITY CLASSIFICATION
         for name in ['ngmp-security-classification-code', 'ngmp-security-classification-system']:
