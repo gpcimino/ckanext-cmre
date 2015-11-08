@@ -168,6 +168,11 @@ a.tag:hover{
     position: inherit;
 	float: right;
 	padding-right:50px;
+	width: 460px;
+}
+
+.tag_container{
+    text-align: center;
 }
 
 /*Footer*/
@@ -509,4 +514,12 @@ a {
 .nav-pills>.active>a, .nav-pills>.active>a:hover, .nav-pills>.active>a:focus {
     color: #000033;
     background-color: rgba(14, 126, 185, 0.49);
+}
+
+.module-heading .action {
+    float: right;
+    color: #888888;
+    font-size: 12px;
+    line-height: 20px;
+    text-decoration: underline;
 }

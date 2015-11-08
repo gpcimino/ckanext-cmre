@@ -85,6 +85,17 @@ ISODocument.elements.append(
     )
 )
 
+ISODocument.elements.append(
+    ISOElement(
+        name="keyword-inspire-theme-anchor",
+        search_paths=[
+            "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gmx:Anchor/text()",
+            "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gmx:Anchor/text()"
+        ],
+        multiplicity="*"
+    )
+)
+
 
 class CMREHarvester(GeoNetworkHarvester, SingletonPlugin):
 
@@ -98,6 +109,8 @@ class CMREHarvester(GeoNetworkHarvester, SingletonPlugin):
 
     def get_package_dict(self, iso_values, harvest_object):
         package_dict = super(CMREHarvester, self).get_package_dict(iso_values, harvest_object)        
+        
+        #log.info('::::::::::::::::: %r', package_dict)
         
         # LEGAL CONSTRAINTS
         if len(iso_values.get('legal-use-constraints', [])):
@@ -143,6 +156,11 @@ class CMREHarvester(GeoNetworkHarvester, SingletonPlugin):
            val = iso_values.get(name)
            if val:
               package_dict['extras'].append({'key': name, 'value': val})
+
+        # ISO 19139 EXTENSION ELEMENTS (MyOcean)
+        for tag in iso_values['keyword-inspire-theme-anchor']:
+            tag = tag[:50] if len(tag) > 50 else tag
+            package_dict['tags'].append({'name': tag})
 
         # End of processing, return the modified package
         return package_dict
