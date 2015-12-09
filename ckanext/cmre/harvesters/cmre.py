@@ -175,3 +175,16 @@ class CMREHarvester(GeoNetworkHarvester, SingletonPlugin):
             date_str = date_str + 'Z'
 
         return date_str
+
+    def fix_resource_type(self, resources):
+        super(CMREHarvester, self).fix_resource_type(resources)
+
+        for resource in resources:
+            if 'MYO:MOTU-SUB' in resource['resource_locator_protocol']:
+                resource['format'] = 'HTTP'
+            
+            if 'MYO:MOTU-DGF' in resource['resource_locator_protocol']:
+                resource['format'] = 'HTTP'
+
+            if 'WWW:FTP' in resource['resource_locator_protocol']:
+                resource['format'] = 'FTP'

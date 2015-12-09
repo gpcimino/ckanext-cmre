@@ -22,9 +22,28 @@
       {% endblock %}
     </h1>
     {% block package_notes %}
+    {% set truncate = truncate or 400 %}
+    {% set short_notes = h.markdown_extract(pkg.notes, extract_length=truncate) %}
+    {% if short_notes %}
+      <div id="short_pkg_notes" class="notes embedded-content">
+        {{ short_notes }}
+        <br/>
+        <a style="float:right; cursor: pointer; text-decoration: none; font-weight: bold;" onClick="javascript: 
+            var el_long = document.getElementById('long_pkg_notes'); 
+            el_long.style.display = 'block';
+            var el_short = document.getElementById('short_pkg_notes');
+            el_short.style.display = 'none';">show more...</a>
+      </div>
+    {% endif %}
     {% if c.pkg_notes_formatted %}
-      <div class="notes embedded-content">
+      <div id="long_pkg_notes" class="notes embedded-content" style="display: none;">
         {{ c.pkg_notes_formatted }}
+        <br/>
+        <a style="float:right; cursor: pointer; text-decoration: none; font-weight: bold; " onClick="javascript: 
+            var el_long = document.getElementById('long_pkg_notes'); 
+            el_long.style.display = 'none';
+            var el_short = document.getElementById('short_pkg_notes');
+            el_short.style.display = 'block';">show less...</a>
       </div>
     {% endif %}
     {% endblock %}

@@ -523,3 +523,21 @@ a {
     line-height: 20px;
     text-decoration: underline;
 }
+
+/* DATA FORMATS STYLES */
+
+.label[data-format=ftp] {
+    background-color: #708FB7;
+}
+.format-label[data-format=ftp],
+.format-label[data-format*=ftp] {
+    background: url("../../../base/images/icons/ftp.png");
+}
+
+.label[data-format=http] {
+    background-color: #5E7692;
+}
+.format-label[data-format=http],
+.format-label[data-format*=http] {
+    background: url("../../../base/images/icons/http.png");
+}
