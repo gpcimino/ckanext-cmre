@@ -524,6 +524,18 @@ a {
     text-decoration: underline;
 }
 
+.cmre-dataset-item {
+    border-bottom: 1px dotted #dddddd;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    padding-left: 100px;
+}
+
+.package-item-img {
+	float: left;
+	padding: 5px;
+}
+
 /* DATA FORMATS STYLES */
 
 .label[data-format=ftp] {
