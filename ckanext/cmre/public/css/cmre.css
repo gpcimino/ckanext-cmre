@@ -528,12 +528,16 @@ a {
     border-bottom: 1px dotted #dddddd;
     padding-bottom: 20px;
     margin-bottom: 20px;
-    padding-left: 100px;
+    padding-left: 120px;
 }
 
 .package-item-img {
 	float: left;
 	padding: 5px;
+}
+
+.cmre-resource-item a{
+    font-weight: normal;
 }
 
 /* DATA FORMATS STYLES */
@@ -543,7 +547,7 @@ a {
 }
 .format-label[data-format=ftp],
 .format-label[data-format*=ftp] {
-    background: url("../../../base/images/icons/ftp.png");
+    background: url("../../../base/images/icons/ftp.png") no-repeat;
 }
 
 .label[data-format=http] {
@@ -551,5 +555,82 @@ a {
 }
 .format-label[data-format=http],
 .format-label[data-format*=http] {
-    background: url("../../../base/images/icons/http.png");
+    background: url("../../../base/images/icons/http.png") no-repeat;
+}
+
+.label[data-format=netcdf] {
+    background-color: #3858E8;
+}
+.format-label[data-format=netcdf],
+.format-label[data-format*=netcdf] {
+    background: url("../../../base/images/icons/netcdf.png") no-repeat;
+    
+}
+
+.label[data-format=ncml] {
+    background-color: #3858E8;
+}
+.format-label[data-format=ncml],
+.format-label[data-format*=ncml] {
+    background: url("../../../base/images/icons/netcdf.png") no-repeat;
+    
+}
+
+.label[data-format=wms] {
+    background-color: #adc717;
+}
+.format-label[data-format=wms],
+.format-label[data-format*=wms] {
+    background: url("../../../base/images/gis-resources-sprite-icons.png") no-repeat 0 0;
+    background-position: -32px -62px;
+}
+
+.label[data-format=kml] {
+    background-color: #7aae3d;
+}
+.format-label[data-format=kml],
+.format-label[data-format*=kml] {
+    background: url("../../../base/images/gis-resources-sprite-icons.png") no-repeat 0 0;
+    background-position: -96px -62px;
+}
+
+.label[data-format=kmz] {
+    background-color: #7aae3d;
+}
+.format-label[data-format=kmz],
+.format-label[data-format*=kmz] {
+    background: url("../../../base/images/gis-resources-sprite-icons.png") no-repeat 0 0;
+    background-position: -96px -62px;
+}
+
+.label[data-format=log] {
+    background-color: #000000;
+}
+.format-label[data-format=log],
+.format-label[data-format*=log] {
+    background: url("../../../base/images/icons/log.png") no-repeat 0 0;
+}
+
+.label[data-format=matlab] {
+    background-color: #B93434;
+}
+.format-label[data-format=matlab],
+.format-label[data-format*=matlab] {
+    background: url("../../../base/images/icons/dat.png") no-repeat 0 0;
+}
+
+.label[data-format=asc] {
+    background-color: #7aae3d;
+}
+.format-label[data-format=asc],
+.format-label[data-format*=asc] {
+    background: url("../../../base/images/icons/asc.png") no-repeat 0 0;
+}
+
+.label[data-format=cnv] {
+    background-color: #B97EAC;
+}
+.format-label[data-format=cnv],
+.format-label[data-format*=cnv] {
+    background: url("../../../base/images/icons/cnv.png") no-repeat 0 0;
 }

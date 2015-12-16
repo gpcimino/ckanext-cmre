@@ -38,7 +38,7 @@
 				</a-->
 				
 				<a href='/'>
-          <img class="cmre-ilablogo" src="{{h.url_for_static('/base/images/logo-cmre.png')}}" alt="CMRE" />
+          <img class="cmre-ilablogo" src="{{h.url_for_static('/base/images/logo-cmre-home.png')}}" alt="CMRE" />
         </a>
 				
 				<!--a class="cmre-logocmre" title="Go to CMRE Geo Data Fusion Centre - Geo-Spatial Web Portal" href="#"> 
@@ -47,6 +47,8 @@
 		</div>
 	</div>
   </header>
+  
+  <!--header><div><h1 style="margin: 0 auto; width: 600px; color: red;">SYSTEM UNDER MAINTENANCE UNTIL 7 PM</h1></div></header-->
   
   <!-- Uncomment this in order to enable the Ckan login/register bar -->
   <header class="account-masthead">
@@ -99,16 +101,16 @@
             </ul>
           </div>
         {% else %}
-          <nav class="account not-authed">
+          {#<nav class="account not-authed">
             <ul class="unstyled">
               {% block header_account_notlogged %}
               <li>{% link_for _('Log in'), controller='user', action='login' %}</li>
-              {#% if h.check_access('user_create') %}
+              {% if h.check_access('user_create') %}
                 <li>{% link_for _('Register'), controller='user', action='register', class_='sub' %}</li>
-              {% endif %#}
+              {% endif %}
               {% endblock %}
             </ul>
-          </nav>
+          </nav>#}
         {% endif %}
       {% endblock %}
 
