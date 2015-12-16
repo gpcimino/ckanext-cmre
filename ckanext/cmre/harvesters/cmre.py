@@ -182,26 +182,24 @@ class CMREHarvester(GeoNetworkHarvester, SingletonPlugin):
         for resource in resources:
             if 'MYO:MOTU-SUB' in resource['resource_locator_protocol']:
                 resource['format'] = 'HTTP'
-            
-            if 'MYO:MOTU-DGF' in resource['resource_locator_protocol']:
+            elif 'MYO:MOTU-DGF' in resource['resource_locator_protocol']:
                 resource['format'] = 'HTTP'
-
-            if 'WWW:FTP' in resource['resource_locator_protocol']:
+            elif 'WWW:FTP' in resource['resource_locator_protocol']:
                 resource['format'] = 'FTP'
+            else:
+                url = resource.get('url').lower().strip()
 
-            url = resource.get('url').lower().strip()
+                file_types = self.source_config.get('file_types', {})
+                if file_types is None:
+                    file_types = {
+                        'NetCDF': ['nc', 'ncml'],
+                        'log': ['log'],
+                        'matlab': ['dat'],
+                        'cnv': ['cnv'],
+                        'out': ['out'],
+                        'asc': ['asc'],
+                    }
 
-            file_types = self.source_config.get('file_types', {})
-            if file_types is None:
-                file_types = {
-                    'NetCDF': ['nc', 'ncml'],
-                    'log': ['log'],
-                    'matlab': ['dat'],
-                    'cnv': ['cnv'],
-                    'out': ['out'],
-                    'asc': ['asc'],
-                }
-
-            for file_type, extensions in file_types.iteritems():
-                if any(url.endswith(extension) for extension in extensions):
-                    resource['format'] = file_type
+                for file_type, extensions in file_types.iteritems():
+                    if any(url.endswith(extension) for extension in extensions):
+                        resource['format'] = file_type
