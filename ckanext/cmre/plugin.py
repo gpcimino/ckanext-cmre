@@ -1,35 +1,71 @@
 '''plugin.py
 
 '''
+import logging
+from datetime import date
+import json
+
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 
-class CMREThemePlugin(plugins.SingletonPlugin):
-    
-    plugins.implements(plugins.IConfigurer)
-    plugins.implements(plugins.ITemplateHelpers)
-    plugins.implements(plugins.IRoutes)
+log = logging.getLogger(__name__)
 
-    def update_config(self, config):
 
-        # Add this plugin's templates dir to CKAN's extra_template_paths, so
-        # that CKAN will use this plugin's custom templates.
-        toolkit.add_template_directory(config, 'templates')
+class CMREFacetsPlugin(plugins.SingletonPlugin):
+    plugins.implements(plugins.IPackageController)
+    plugins.implements(plugins.IFacets)
 
-        # Add this plugin's public dir to CKAN's extra_public_paths, so
-        # that CKAN will use this plugin's custom static files.
-        toolkit.add_public_directory(config, 'public')
+    # IPackageController
+    def before_search(self, search_params):
+        return search_params
 
-    # see the ITemplateHelpers plugin interface.
-    def get_helpers(self):
-        return {
-        }
+    def after_search(self, search_results, search_params):
+        return search_results
 
-    def before_map(self, map):
-        map.connect('aboutcmre', '/aboutcmre', controller='ckanext.cmre.controllers.cmre:CMREController', action='aboutcmre')
-        map.connect('aboutilab', '/aboutilab', controller='ckanext.cmre.controllers.cmre:CMREController', action='aboutilab')
-        map.connect('contactus', '/contactus', controller='ckanext.cmre.controllers.cmre:CMREController', action='contactus')
-        return map
+    def before_index(self, dataset_dict):
+        log.info("BEFORE_INDEX")
 
-    def after_map(self, route_map):
-        return route_map
+        for f in ['platform', 'instrument', 'cruise']:
+            key = 'ekoe_' + f
+            v = dataset_dict.get(key)
+            log.info("INDEXING {} -> ({}) {}".format(key, type(v), v))
+
+            if v and isinstance(v, unicode):
+                dataset_dict[key] = json.loads(v)
+                log.info("DUMPING {}".format(v))
+
+        return dataset_dict
+
+    def before_view(self, pkg_dict):
+        return pkg_dict
+
+    def read(self, entity):
+        return entity
+
+    def create(self, entity):
+        return entity
+
+    def edit(self, entity):
+        return entity
+
+    def delete(self, entity):
+        return entity
+
+    def after_create(self, context, pkg_dict):
+        return pkg_dict
+
+    def after_update(self, context, pkg_dict):
+        return pkg_dict
+
+    def after_delete(self, context, pkg_dict):
+        return pkg_dict
+
+    def after_show(self, context, pkg_dict):
+        return pkg_dict
+
+    # IFacets
+    def dataset_facets(self, facets_dict, package_type):
+        for f in ['platform', 'instrument', 'cruise']:
+            facets_dict['ekoe_' + f] = plugins.toolkit._("EKOE " + f)
+        return facets_dict
+

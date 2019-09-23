@@ -1,56 +1,52 @@
-
-import json
-
 import logging
+import datetime
+import json
+from pylons import config
+from dateutil.parser import parse
 
 from ckan.plugins.core import SingletonPlugin
 
-from ckanext.geonetwork.harvesters.geonetwork import GeoNetworkHarvester
+from ckanext.spatial.harvesters.fs import FileSystemHarvester
 
 from ckanext.spatial.model import ISODocument
 from ckanext.spatial.model import ISOElement
-
-from pylons import config
-import datetime
-
-from dateutil.parser import parse
 
 log = logging.getLogger(__name__)
 
 # Extend the ISODocument definitions by adding some more useful elements
 
-log.info('GeoNetwork CSW (CMRE) harvester: extending ISODocument')
+log.info('CMRE EKOE harvester: extending ISODocument')
 
-ISODocument.elements.append(
-    ISOElement(
-        name="legal-use-constraints",
-        search_paths=[
-            "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useLimitation/gco:CharacterString/text()",
-            "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useLimitation/gco:CharacterString/text()"
-        ],
-        multiplicity="*"
-    )
-)
-
-ISODocument.elements.append(
-    ISOElement(
-        name="ngmp-security-classification-code",
-        search_paths=[
-           "gmd:metadataConstraints/gmd:MD_SecurityConstraints/gmd:classification/gmd:MD_ClassificationCode[@codeList='http://eden.ign.fr/xsd/ngmp/20110916/resources/codelist/ngmpCodelists.xml#MD_ClassificationCode']/text()"
-        ],
-        multiplicity="0..1"
-    )
-)
-
-ISODocument.elements.append(
-    ISOElement(
-        name="ngmp-security-classification-system",
-        search_paths=[
-           "gmd:metadataConstraints/gmd:MD_SecurityConstraints[gmd:classification/gmd:MD_ClassificationCode/@codeList='http://eden.ign.fr/xsd/ngmp/20110916/resources/codelist/ngmpCodelists.xml#MD_ClassificationCode']/gmd:classificationSystem/gco:CharacterString/text()"
-        ],
-        multiplicity="0..1"
-    )
-)
+# ISODocument.elements.append(
+#     ISOElement(
+#         name="legal-use-constraints",
+#         search_paths=[
+#             "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useLimitation/gco:CharacterString/text()",
+#             "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useLimitation/gco:CharacterString/text()"
+#         ],
+#         multiplicity="*"
+#     )
+# )
+#
+# ISODocument.elements.append(
+#     ISOElement(
+#         name="ngmp-security-classification-code",
+#         search_paths=[
+#            "gmd:metadataConstraints/gmd:MD_SecurityConstraints/gmd:classification/gmd:MD_ClassificationCode[@codeList='http://eden.ign.fr/xsd/ngmp/20110916/resources/codelist/ngmpCodelists.xml#MD_ClassificationCode']/text()"
+#         ],
+#         multiplicity="0..1"
+#     )
+# )
+#
+# ISODocument.elements.append(
+#     ISOElement(
+#         name="ngmp-security-classification-system",
+#         search_paths=[
+#            "gmd:metadataConstraints/gmd:MD_SecurityConstraints[gmd:classification/gmd:MD_ClassificationCode/@codeList='http://eden.ign.fr/xsd/ngmp/20110916/resources/codelist/ngmpCodelists.xml#MD_ClassificationCode']/gmd:classificationSystem/gco:CharacterString/text()"
+#         ],
+#         multiplicity="0..1"
+#     )
+# )
 
 ISODocument.elements.append(
     ISOElement(
@@ -87,35 +83,54 @@ ISODocument.elements.append(
 
 ISODocument.elements.append(
     ISOElement(
-        name="keyword-inspire-theme-anchor",
+        name="keyword-platform",
         search_paths=[
-            "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gmx:Anchor/text()",
-            "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gmx:Anchor/text()"
+            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE - Platforms"]/gmd:keyword/gco:CharacterString/text()'
+        ],
+        multiplicity="*"
+    )
+)
+
+ISODocument.elements.append(
+    ISOElement(
+        name="keyword-instrument",
+        search_paths=[
+            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE - Instruments"]/gmd:keyword/gco:CharacterString/text()'
+        ],
+        multiplicity="*"
+    )
+)
+
+ISODocument.elements.append(
+    ISOElement(
+        name="keyword-cruise",
+        search_paths=[
+            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE - Cruises"]/gmd:keyword/gco:CharacterString/text()'
         ],
         multiplicity="*"
     )
 )
 
 
-class CMREHarvester(GeoNetworkHarvester, SingletonPlugin):
+class CMREHarvester(FileSystemHarvester, SingletonPlugin):
 
     def info(self):
         return {
-            'name': 'cmre',
-            'title': 'GeoNetwork CSW server (CMRE)',
-            'description': 'Harvests CWS from CMRE GeoNetwork',
+            'name': 'cmre-ekoe',
+            'title': 'CMRE EKOE filesystem harvester',
+            'description': 'Harvests local documents',
             'form_config_interface': 'Text'
         }
 
     def get_package_dict(self, iso_values, harvest_object):
-        package_dict = super(CMREHarvester, self).get_package_dict(iso_values, harvest_object)        
-        
-        #log.info('::::::::::::::::: %r', package_dict)
-        
+        package_dict = super(CMREHarvester, self).get_package_dict(iso_values, harvest_object)
+
+        # log.info('::::::::::::::::: %r', package_dict)
+
         # LEGAL CONSTRAINTS
         if len(iso_values.get('legal-use-constraints', [])):
             package_dict['extras'].append({'key': 'use-limitation', 'value': iso_values['legal-use-constraints'][0]})
-        
+
         date_created = iso_values.get('date-created')
         if date_created:
             package_dict['extras'].append({'key': 'date-created', 'value': date_created})
@@ -133,7 +148,8 @@ class CMREHarvester(GeoNetworkHarvester, SingletonPlugin):
             if vert_ext_min == vert_ext_max:
                 package_dict['extras'].append({'key': 'vertical-extent', 'value': vert_ext_min + ' ' + crs_title})
             else:
-                package_dict['extras'].append({'key': 'vertical-extent', 'value': vert_ext_min + ' / ' + vert_ext_max + ' ' + crs_title})
+                package_dict['extras'].append(
+                    {'key': 'vertical-extent', 'value': vert_ext_min + ' / ' + vert_ext_max + ' ' + crs_title})
 
         # TEMPORAL ELEMENTS
         if len(iso_values.get('temporal-extent-instant', [])):
@@ -149,18 +165,23 @@ class CMREHarvester(GeoNetworkHarvester, SingletonPlugin):
                     extra_key = extra['key']
 
                     if key == extra_key:
-                        extra['value'] = self.parseDate(tempstr)       
-            
-        # SECURITY CLASSIFICATION
+                        extra['value'] = self.parseDate(tempstr)
+
+                        # SECURITY CLASSIFICATION
         for name in ['ngmp-security-classification-code', 'ngmp-security-classification-system']:
-           val = iso_values.get(name)
-           if val:
-              package_dict['extras'].append({'key': name, 'value': val})
+            val = iso_values.get(name)
+            if val:
+                package_dict['extras'].append({'key': name, 'value': val})
+
+        for name in ['platform', 'instrument', 'cruise']:
+            val = iso_values.get("keyword-" + name)
+            if val:
+                package_dict['extras'].append({'key': "ekoe_"+name, 'value': json.dumps(val)})
 
         # ISO 19139 EXTENSION ELEMENTS (MyOcean)
-        for tag in iso_values['keyword-inspire-theme-anchor']:
-            tag = tag[:50] if len(tag) > 50 else tag
-            package_dict['tags'].append({'name': tag})
+        # for tag in iso_values['keyword-inspire-theme-anchor']:
+        #    tag = tag[:50] if len(tag) > 50 else tag
+        #    package_dict['tags'].append({'name': tag})
 
         # End of processing, return the modified package
         return package_dict
