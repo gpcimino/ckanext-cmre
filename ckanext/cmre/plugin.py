@@ -2,8 +2,8 @@
 
 '''
 import logging
-from datetime import date
 import json
+from collections import OrderedDict
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
@@ -23,16 +23,26 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
         return search_results
 
     def before_index(self, dataset_dict):
-        log.info("BEFORE_INDEX")
+        log.debug("BEFORE_INDEX")
 
-        for f in ['platform', 'instrument', 'cruise']:
+        # expand multi valued fields
+
+        for f in ['trial', 'platform', 'sensor', 'experiment']:
             key = 'ekoe_' + f
             v = dataset_dict.get(key)
-            log.info("INDEXING {} -> ({}) {}".format(key, type(v), v))
+            log.debug("INDEXING {} -> ({}) {}".format(key, type(v), v))
 
             if v and isinstance(v, unicode):
                 dataset_dict[key] = json.loads(v)
-                log.info("DUMPING {}".format(v))
+                log.debug("DUMPING {}".format(v))
+
+        for key in ['ekoe_dimension']:
+            v = dataset_dict.get(key)
+            log.debug("INDEXING {} -> ({}) {}".format(key, type(v), v))
+
+            if v and isinstance(v, unicode):
+                dataset_dict[key] = json.loads(v)
+                log.debug("DUMPING {}".format(v))
 
         return dataset_dict
 
@@ -64,8 +74,19 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
         return pkg_dict
 
     # IFacets
-    def dataset_facets(self, facets_dict, package_type):
-        for f in ['platform', 'instrument', 'cruise']:
-            facets_dict['ekoe_' + f] = plugins.toolkit._("EKOE " + f)
+    def dataset_facets(self, orig_facets_dict, package_type):
+        facets_dict = OrderedDict()
+        facets_dict['ekoe_owner_org'] = plugins.toolkit._("Owner")
+
+        for f in ['trial', 'platform', 'sensor', 'experiment']:
+            facets_dict['ekoe_' + f] = plugins.toolkit._(f.capitalize())
+
+        facets_dict['ekoe_classification'] = plugins.toolkit._("Classification")
+        facets_dict['ekoe_dimension'] = plugins.toolkit._("Dimension")
+
+        # Add back original facets to the bottom
+        for key, value in orig_facets_dict.items():
+            facets_dict[key] = value
+
         return facets_dict
 
