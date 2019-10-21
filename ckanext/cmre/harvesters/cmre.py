@@ -246,7 +246,11 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
         if classif:
             code = classif.get("code")
             system = classif.get("classification")
-            package_dict['extras'].append({'key': "ekoe_classification", 'value': "{system}: {code}".format(code=code, system=system)})
+            system = system.upper() if system else ''
+            package_dict['extras'].append({'key': "ekoe_classification", 'value': "{system} {code}".format(code=code, system=system)})
+        else:
+            package_dict['extras'].append({'key': "ekoe_classification", 'value': "PUBLIC RELEASABLE"})
+
 
         # ISO 19139 EXTENSION ELEMENTS (MyOcean)
         # for tag in iso_values['keyword-inspire-theme-anchor']:
