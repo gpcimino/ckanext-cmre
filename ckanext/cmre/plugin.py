@@ -84,9 +84,13 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
         facets_dict['ekoe_classification'] = plugins.toolkit._("Classification")
         facets_dict['ekoe_dimension'] = plugins.toolkit._("Scientific variable")
 
+        remove = ['organization', 'groups']
+
         # Add back original facets to the bottom
         for key, value in orig_facets_dict.items():
-            facets_dict[key] = value
+            if key not in remove:
+                # log.info("Add facet key:{key}".format(key=key))
+                facets_dict[key] = value
 
         return facets_dict
 
