@@ -82,7 +82,7 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
             facets_dict['ekoe_' + f] = plugins.toolkit._(f.capitalize())
 
         facets_dict['ekoe_classification'] = plugins.toolkit._("Classification")
-        facets_dict['ekoe_dimension'] = plugins.toolkit._("Dimension")
+        facets_dict['ekoe_dimension'] = plugins.toolkit._("Scientific variable")
 
         # Add back original facets to the bottom
         for key, value in orig_facets_dict.items():
