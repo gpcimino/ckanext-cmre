@@ -246,8 +246,7 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
         if classif:
             code = classif.get("code")
             system = classif.get("classification")
-            system = system.upper() if system else ''
-            package_dict['extras'].append({'key': "ekoe_classification", 'value': "{system} {code}".format(code=code, system=system)})
+            package_dict['extras'].append({'key': "ekoe_classification", 'value': "{system} {code}".format(code=code, system=system).upper()})
         else:
             package_dict['extras'].append({'key': "ekoe_classification", 'value': "PUBLIC RELEASABLE"})
 
