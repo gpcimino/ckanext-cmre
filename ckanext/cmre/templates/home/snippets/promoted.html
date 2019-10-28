@@ -1,0 +1,30 @@
+{% set intro = g.site_intro_text %}
+
+<div class="module-content box">
+  <header>
+    <h2 class="page-heading">{{ _("CKAN") }}</h2>
+    <p>
+      The CKAN catalog (this very site), allows you to interactively search for data using many different search criteria.
+    </p>
+    <h2 class="page-heading">{{ _("ERDDAP") }}</h2>
+    <p>
+      The ERDDAP application can be found <a href="/erddap">at this link</a>
+    </p>
+    <h2 class="page-heading">{{ _("CSW") }}</h2>
+    <p>
+      The dataset contained in this catalog can be queried using the CSW protocol.
+      <ul>
+    <li> This is the <a href="/csw">base CSW endpoint</a></li>
+    <li> This is the <a href="/csw?service=CSW&version=2.0.2&request=GetCapabilities">GetCapabilities</a> request</li>
+    <li> This is a sample <a href="/csw?service=CSW&version=2.0.2&request=GetRecords&typenames=csw:Record&elementSetName=brief">GetRecords</a> request</li>
+    </ul>
+    </p>
+    <h2 class="page-heading">{{ _("Data directory") }}</h2>
+    <p>
+      The metadata contain links to data stored in <a href="/rawdata">the data directory</a>.<br/>
+      You'll need credentials to be able to browse the directory and download the data.
+    </p>
+
+  </header>
+
+</div>
