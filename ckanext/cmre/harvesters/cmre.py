@@ -229,7 +229,7 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
                     extra_key = extra['key']
 
                     if key == extra_key:
-                        extra['value'] = self.parseDate(tempstr)
+                        extra['value'] = tempstr
 
         # SECURITY CLASSIFICATION
         for name in ['ngmp-security-classification-code', 'ngmp-security-classification-system']:
@@ -258,17 +258,6 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
 
         # End of processing, return the modified package
         return package_dict
-
-    def parseDate(self, date):
-        bogus_date = datetime.datetime(1, 1, 1)
-
-        date_prs = parse(date, default=bogus_date)
-        date_str = date_prs.isoformat()
-
-        if 'Z' not in date_str:
-            date_str = date_str + 'Z'
-
-        return date_str
 
     def fix_resource_type(self, resources):
         super(CMREHarvester, self).fix_resource_type(resources)

@@ -4,6 +4,7 @@
 import logging
 import json
 from collections import OrderedDict
+from dateutil.parser import parse
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
@@ -12,11 +13,37 @@ log = logging.getLogger(__name__)
 
 
 class CMREFacetsPlugin(plugins.SingletonPlugin):
+
     plugins.implements(plugins.IPackageController)
     plugins.implements(plugins.IFacets)
+    plugins.implements(plugins.IConfigurer)
 
     # IPackageController
     def before_search(self, search_params):
+        return self._temporal_search(search_params)
+
+    def _temporal_search(self, search_params):
+        extras = search_params.get('extras')
+        if not extras:
+            # There are no extras in the search params, so do nothing.
+            return search_params
+
+        # Add a date-range query with the selected start and end dates into the
+        # Solr facet queries.
+        fq = search_params['fq']
+
+        start_date = extras.get('ext_startdate')
+        end_date = extras.get('ext_enddate')
+
+        if start_date:
+            fq = '{fq} +ekoe_temporal_end:[{start_date} TO *]'.format(
+                fq=fq, start_date=start_date)
+
+        if end_date:
+            fq = '{fq} +ekoe_temporal_start:[* TO {end_date}]'.format(
+                fq=fq, end_date=end_date)
+
+        search_params['fq'] = fq
         return search_params
 
     def after_search(self, search_results, search_params):
@@ -29,7 +56,7 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
 
         for f in ['trial', 'platform', 'sensor', 'experiment']:
             key = 'ekoe_' + f
-            v = dataset_dict.get(key)
+            v = dataset_dict.get(key, None)
             log.debug("INDEXING {} -> ({}) {}".format(key, type(v), v))
 
             if v and isinstance(v, unicode):
@@ -37,12 +64,23 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
                 log.debug("DUMPING {}".format(v))
 
         for key in ['ekoe_dimension']:
-            v = dataset_dict.get(key)
+            v = dataset_dict.get(key, None)
             log.debug("INDEXING {} -> ({}) {}".format(key, type(v), v))
 
             if v and isinstance(v, unicode):
                 dataset_dict[key] = json.loads(v)
                 log.debug("DUMPING {}".format(v))
+
+        for isokey,ekoekey in [('temporal-extent-begin', 'ekoe_temporal_start'),
+                               ('temporal-extent-end', 'ekoe_temporal_end')]:
+            datetime = dataset_dict.get(isokey, None)
+            if datetime:
+                log.debug("TEMPORAL:  {field}:{value}".format(field=isokey, value=datetime))
+                try:
+                    date = parse(datetime)
+                    dataset_dict[ekoekey] = date
+                except ValueError as e:
+                    log.warn("Error while parsing {field}:{value}".format(field=isokey, value=datetime))
 
         return dataset_dict
 
@@ -99,3 +137,8 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
 
     def group_facets(self, facets_dict, group_type, package_type):
         return facets_dict
+
+
+    def update_config(self, config):
+        toolkit.add_template_directory(config, 'templates')
+        toolkit.add_resource('fanstatic', 'ckanext-datesearch')

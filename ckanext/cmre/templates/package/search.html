@@ -1,0 +1,33 @@
+{% ckan_extends %}
+
+{% block secondary_content %}
+  {% resource 'ckanext-datesearch/moment.js' %}
+  {% resource 'ckanext-datesearch/datepicker.css' %}
+  {% resource 'ckanext-datesearch/bootstrap-datepicker.js' %}
+  {% resource 'ckanext-datesearch/daterangepicker-module.js' %}
+
+  {# This <section> is the date-range picker widget in the sidebar. #}
+  <section class="module module-narrow module-shallow"
+           data-step="4" data-tooltipclass='introjs-ttip'
+           data-intro-group="explain-datasets"
+           data-intro="Here you can search for data lying within a specific time range. You can either define a range or just a starting date.">
+    <h2 class="module-heading">
+      <i class="fa fa-calendar"></i>
+      {{ _('Filter by temporal extent') }}
+    </h2>
+    <div class="module-content input-prepend input-daterange" data-module="daterange-query" id="datepicker">
+      <input type="text" class="input-mini" style="cursor:pointer;" readonly="" name="start" id="start" data-module="daterangepicker-module" />
+      <span class="add-on" style="border:none;background-color:#ffffff;">&nbsp;&nbsp;to&nbsp;&nbsp;</span>
+      <input type="text" class="input-mini" style="cursor:pointer;" readonly="" name="end" id="end" data-module="daterangepicker-module"/>
+    </div>
+
+    <p id="clear_range"class="module-footer" align="right" hidden="true">
+      <i class="fa fa-calendar-times-o"></i>
+      <a href="{{ h.remove_url_param(['ext_startdate', 'ext_enddate']) }}" class="action">{{ _('Clear') }}</a>
+    </p>
+  </section>
+
+  {{ super() }}
+
+{% endblock %}
+
