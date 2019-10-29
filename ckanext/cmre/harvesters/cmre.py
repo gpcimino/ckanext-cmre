@@ -6,7 +6,7 @@ from dateutil.parser import parse
 
 from ckan.plugins.core import SingletonPlugin
 
-from ckanext.spatial.harvesters.fs import FileSystemHarvester
+from ckanext.cmre.harvesters.fs import FileSystemHarvester
 
 from ckanext.spatial.model import (ISODocument, ISOElement, ISOResponsibleParty)
 
