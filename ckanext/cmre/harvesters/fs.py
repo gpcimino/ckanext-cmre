@@ -70,7 +70,7 @@ class FileSystemHarvester(SpatialHarvester, SingletonPlugin):
                                         filter(HarvestObject.harvest_source_id==harvest_job.source.id)
 
         for guid, package_id, modified_date, url in query:
-            url_to_modified_db[url] = modified_date
+            url_to_modified_db[url] = float(modified_date)
             url_to_ids[url] = (guid, package_id)
 
         ######  Compare source and db ######
