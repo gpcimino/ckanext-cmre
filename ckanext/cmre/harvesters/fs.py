@@ -58,13 +58,16 @@ class FileSystemHarvester(SpatialHarvester, SingletonPlugin):
 
         HOExtraAlias1 = aliased(HOExtra)
         HOExtraAlias2 = aliased(HOExtra)
-        query = model.Session.query(HarvestObject.guid, HarvestObject.package_id, HOExtraAlias1.value, HOExtraAlias2.value).\
-                                    join(HOExtraAlias1, HarvestObject.extras).\
-                                    join(HOExtraAlias2, HarvestObject.extras).\
-                                    filter(HOExtraAlias1.key == 'lfs_modified_date').\
-                                    filter(HOExtraAlias2.key == 'lfs_filename').\
-                                    filter(HarvestObject.current==True).\
-                                    filter(HarvestObject.harvest_source_id==harvest_job.source.id)
+        query = model.Session.query(HarvestObject.guid,
+                                    HarvestObject.package_id,
+                                    HOExtraAlias1.value,
+                                    HOExtraAlias2.value).\
+                                        join(HOExtraAlias1, HarvestObject.extras).\
+                                        join(HOExtraAlias2, HarvestObject.extras).\
+                                        filter(HOExtraAlias1.key == 'lfs_modified_date').\
+                                        filter(HOExtraAlias2.key == 'lfs_filename').\
+                                        filter(HarvestObject.current==True).\
+                                        filter(HarvestObject.harvest_source_id==harvest_job.source.id)
 
         for guid, package_id, modified_date, url in query:
             url_to_modified_db[url] = modified_date
