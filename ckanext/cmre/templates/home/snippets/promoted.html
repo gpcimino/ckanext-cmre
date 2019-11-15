@@ -2,27 +2,26 @@
 
 <div class="module-content box">
   <header>
-    <h2 class="page-heading">{{ _("CKAN") }}</h2>
+    <h2 class="page-heading">{{ _("CMRE EKOE Data Catalog") }}</h2>
     <p>
-      The CKAN catalog (this very site), allows you to interactively search for data using many different search criteria.
+      Welcome to CMRE EKOE Data Catalog. You can search scientific data using the search engine in this page.
     </p>
-    <h2 class="page-heading">{{ _("ERDDAP") }}</h2>
+    <h2 class="page-heading">{{ _("Data Services") }}</h2>
     <p>
-      The ERDDAP application can be found <a href="/erddap">at this link</a>
+      <a href="/erddap">ERDDAP</a> data server is avaialble for data access.
     </p>
-    <h2 class="page-heading">{{ _("CSW") }}</h2>
+    <h2 class="page-heading">{{ _("Catalogue Service for the Web (CWS)") }}</h2>
     <p>
-      The dataset contained in this catalog can be queried using the CSW protocol.
+      Machine-to-machine data search can be done using CSW web service via the links below:
       <ul>
-    <li> This is the <a href="/csw">base CSW endpoint</a></li>
-    <li> This is the <a href="/csw?service=CSW&version=2.0.2&request=GetCapabilities">GetCapabilities</a> request</li>
-    <li> This is a sample <a href="/csw?service=CSW&version=2.0.2&request=GetRecords&typenames=csw:Record&elementSetName=brief">GetRecords</a> request</li>
-    </ul>
+      <li><a href="/csw">Base CSW endpoint</a></li>
+      <li><a href="/csw?service=CSW&version=2.0.2&request=GetCapabilities">CSW GetCapabilities request</a></li>
+      <li><a href="/csw?service=CSW&version=2.0.2&request=GetRecords&typenames=csw:Record&elementSetName=brief">CSW GetRecords request</a></li>
+      </ul>
     </p>
-    <h2 class="page-heading">{{ _("Data directory") }}</h2>
+    <h2 class="page-heading">{{ _("Data Browsing") }}</h2>
     <p>
-      The metadata contain links to data stored in <a href="/rawdata">the data directory</a>.<br/>
-      You'll need credentials to be able to browse the directory and download the data.
+      <a href="/rawdata">Data browsing via HTTP</a> is avaiable .<br/>
     </p>
 
   </header>
