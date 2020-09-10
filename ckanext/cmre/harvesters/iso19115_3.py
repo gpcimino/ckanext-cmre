@@ -121,7 +121,6 @@ class ISO19115_3Harvester(FileSystemHarvester):
 
             iso_parser = ISO19115_3Document(harvest_object.content)
             iso_values = iso_parser.read_values()
-            log.info('example iso19115-3 parsed value', iso_values.get('example-value'))
         except Exception, e:
             self._save_object_error('Error parsing ISO document for object {0}: {1}'.format(harvest_object.id, str(e)),
                                     harvest_object, 'Import')
