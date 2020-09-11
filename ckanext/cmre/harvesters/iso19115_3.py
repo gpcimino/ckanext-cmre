@@ -32,7 +32,7 @@ ISO19115_3Document.elements.append(
 ),
 
 
-class TestVerticalExtent(ISOElement):
+class VerticalExtent(ISOElement):
     elements = [
         ISOElement(
             name="minimum-value",
@@ -51,7 +51,7 @@ class TestVerticalExtent(ISOElement):
     ]
 
 ISO19115_3Document.elements.append(
-    TestVerticalExtent(
+    VerticalExtent(
         name="vertical-extent",
         search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent",
@@ -150,7 +150,6 @@ class ISO19115_3Harvester(FileSystemHarvester):
 
             iso_parser = ISO19115_3Document(harvest_object.content)
             iso_values = iso_parser.read_values()
-            print('iso values ---0000)))', iso_values)
         except Exception, e:
             self._save_object_error('Error parsing ISO document for object {0}: {1}'.format(harvest_object.id, str(e)),
                                     harvest_object, 'Import')
