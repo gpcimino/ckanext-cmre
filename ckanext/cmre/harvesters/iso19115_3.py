@@ -1,18 +1,18 @@
-from ckanext.cmre.harvesters.fs import FileSystemHarvester
-from ckanext.spatial.model.harvested_metadata import MappedXmlDocument
-from ckanext.spatial.model import ISOElement, ISODocument, MappedXmlDocument
-from ckan import model
-from pylons import config
 import logging
-from ckan.lib.search.index import PackageSearchIndex
-from ckanext.harvest.model import HarvestObject
-import dateutil
-from ckan import plugins as p
-from ckanext.spatial.interfaces import ISpatialHarvester
-from ckan import logic
-from ckan.lib.navl.validators import not_empty
 import uuid
 
+import dateutil
+
+from ckan import logic, model
+from ckan import plugins as p
+from ckan.lib.navl.validators import not_empty
+from ckan.lib.search.index import PackageSearchIndex
+from ckanext.cmre.harvesters.fs import FileSystemHarvester
+from ckanext.harvest.model import HarvestObject
+from ckanext.spatial.interfaces import ISpatialHarvester
+from ckanext.spatial.model import ISODocument, ISOElement, MappedXmlDocument
+from ckanext.spatial.model.harvested_metadata import MappedXmlDocument
+from pylons import config
 
 log = logging.getLogger(__name__)
 
