@@ -1,6 +1,6 @@
 from ckanext.cmre.harvesters.fs import FileSystemHarvester
 from ckanext.spatial.model.harvested_metadata import MappedXmlDocument
-from ckanext.spatial.model import ISOElement, ISODocument
+from ckanext.spatial.model import ISOElement, ISODocument, MappedXmlDocument
 from ckan import model
 import logging
 from ckanext.harvest.model import HarvestObject
@@ -16,19 +16,48 @@ log = logging.getLogger(__name__)
 
 
 class ISO19115_3Document(ISODocument):
-    # elements = []
     pass
 
 
 ISO19115_3Document.elements.append(
     ISOElement(
-        name="example-value",
+        name="owner-org",
         search_paths=[
             'gmd:identificationInfo/gmd:MD_DataIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty[gmd:role/gmd:CI_RoleCode/@codeListValue="owner"]/gmd:organisationName/gco:CharacterString/text()',
             'gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty[gmd:role/gmd:CI_RoleCode/@codeListValue="owner"]/gmd:organisationName/gco:CharacterString/text()',
-            "gmd:contact/gmd:CI_ResponsibleParty",
+            "gmd:contact/gmd:CI_ResponsibleParty/gmd:organisationName/gco:CharacterString/text()",
         ],
         multiplicity="*"
+    )
+),
+
+
+class TestVerticalExtent(ISOElement):
+    elements = [
+        ISOElement(
+            name="minimum-value",
+            search_paths=[
+                "gmd:minimumValue/gco:Real/text()",
+            ],
+            multiplicity="1",
+        ),
+        ISOElement(
+            name="maximum-value",
+            search_paths=[
+                "gmd:maximumValue/gco:Real/text()",
+            ],
+            multiplicity="1",
+        ),
+    ]
+
+ISO19115_3Document.elements.append(
+    TestVerticalExtent(
+        name="vertical-extent",
+        search_paths=[
+                "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent",
+                "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent",
+        ],
+        multiplicity="1..*"
     )
 ),
 
@@ -121,6 +150,7 @@ class ISO19115_3Harvester(FileSystemHarvester):
 
             iso_parser = ISO19115_3Document(harvest_object.content)
             iso_values = iso_parser.read_values()
+            print('iso values ---0000)))', iso_values)
         except Exception, e:
             self._save_object_error('Error parsing ISO document for object {0}: {1}'.format(harvest_object.id, str(e)),
                                     harvest_object, 'Import')
