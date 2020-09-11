@@ -2,7 +2,9 @@ from ckanext.cmre.harvesters.fs import FileSystemHarvester
 from ckanext.spatial.model.harvested_metadata import MappedXmlDocument
 from ckanext.spatial.model import ISOElement, ISODocument, MappedXmlDocument
 from ckan import model
+from pylons import config
 import logging
+from ckan.lib.search.index import PackageSearchIndex
 from ckanext.harvest.model import HarvestObject
 import dateutil
 from ckan import plugins as p
