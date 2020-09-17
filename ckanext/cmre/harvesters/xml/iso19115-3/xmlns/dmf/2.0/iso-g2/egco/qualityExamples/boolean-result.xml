@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmd:DQ_QuantitativeResult xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.isotc211.org/2005/gmd http://standards.iso.org/itff/PubliclyAvailableStandards/ISO_19139_Schemas/gmd/gmd.xsd">
+	<!-- 	ISO 19103 Boolean is implemented in XML as xs:boolean. 
+			The current location of the XML Schema implementation of the xs namespace is http://www.w3.org/2001/XMLSchema.xsd. 
+			But, its location is subject to change. A URN is used instead of a URL to prevent any change. 
+			urn:dgiwg:metadata:dmf:1.0:xmlns:w3:XMLSchema:2001:boolean currently corresponds to http://www.w3.org/2001/XMLSchema.xsd#boolean -->
+	<gmd:valueType>
+		<gco:RecordType xlink:href="http://www.w3.org/2001/XMLSchema.xsd#boolean">Boolean</gco:RecordType>
+	</gmd:valueType>
+	<!-- The value unit can be defaulted to unity for boolean -->
+	<gmd:valueUnit xlink:href="http://www.opengis.net/def/uom/OGC/1.0/unity"/>
+	<!-- Encoding of a record containing a Boolean value -->
+	<gmd:value>
+		<gco:Record xsi:type="xs:boolean">true</gco:Record>
+	</gmd:value>
+</gmd:DQ_QuantitativeResult>

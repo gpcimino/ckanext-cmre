@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmd:DQ_QuantitativeResult xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:gco="http://www.isotc211.org/2005/gco" 
+xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.isotc211.org/2005/gmx http://standards.iso.org/itff/PubliclyAvailableStandards/ISO_19139_Schemas/gmx/gmx.xsd">
+	<!-- ISO/TS 19139 defines the Anchor types for hyperlink strings.  -->
+	<gmd:valueType>
+		<!-- NOTE:	The effective location of the XML Schema is not very stable. A URN is used instead of a URL to prevent any change.
+							E.g. urn:dgiwg:metadata:dmf:1.0:xmlns:isotc211:gmx:1.0:Anchor_Type currently corresponds to 
+							../gmx/extendedTypes.xsd -->
+		<gco:RecordType xlink:href="urn:dgiwg:metadata:dmf:1.0:xmlns:isotc211:gmx:1.0:Anchor_Type">Anchor</gco:RecordType>
+	</gmd:valueType>
+	<!-- Unit can be defaulted to unity for multilingual anchors -->
+	<gmd:valueUnit xlink:href="http://www.opengis.net/def/uom/OGC/1.0/unity"/>
+	<!-- Encoding of a record containing a Real value. Floating and Decimal representations are allowed -->
+	<gmd:value>
+		<gco:Record xsi:type="gmx:Anchor_Type" xlink:href="urn:dgiwg:metadata:dmf:1.0:xmlns:isotc211:gmx:1.0:Anchor_Type"> Anchor XML Type</gco:Record>
+	</gmd:value>
+</gmd:DQ_QuantitativeResult>

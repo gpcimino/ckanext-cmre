@@ -1,4 +1,5 @@
 import logging
+import os
 import uuid
 
 import dateutil
@@ -12,6 +13,7 @@ from ckanext.harvest.model import HarvestObject
 from ckanext.spatial.interfaces import ISpatialHarvester
 from ckanext.spatial.model import ISODocument, ISOElement, MappedXmlDocument
 from ckanext.spatial.model.harvested_metadata import MappedXmlDocument
+from ckanext.spatial.validation.validation import Validators, all_validators, XsdValidator
 from pylons import config
 
 log = logging.getLogger(__name__)
@@ -19,6 +21,38 @@ log = logging.getLogger(__name__)
 
 class ISO19115_3Document(ISODocument):
     pass
+
+
+class ISO19115_3Schema(XsdValidator):
+    name = 'iso19115-3'
+    title = 'ISO19115-3 XSD Schema'
+
+    @classmethod
+    def is_valid(cls, xml):
+        xsd_path = 'xml/iso19115-3'
+        gmx_xsd_filepath = os.path.join(os.path.dirname(__file__),
+                                        xsd_path, 'xmlns/isotc211/gmx/gmx.xsd')
+
+        xsd_name = 'ISO19115-3 Dataset schema (gmx.xsd)'
+        is_valid, errors = cls._is_valid(xml, gmx_xsd_filepath, xsd_name)
+        if not is_valid:
+            # TODO: not sure if we need this one,
+            # keeping for backwards compatibility
+            errors.insert(0, ('{0} Validation Error'.format(xsd_name), None))
+        return is_valid, errors
+
+
+all_validators += (ISO19115_3Schema,)
+
+
+class ISO19115_3Validators(Validators):
+    def __init__(self, profiles=["iso19115-3", "constraints", "gemini2"]):
+        super(ISO19115_3Validators, self).__init__(profiles=profiles)
+        self.profiles = profiles
+
+        self.validators = {}  # name: class
+        for validator_class in all_validators:
+            self.validators[validator_class.name] = validator_class
 
 
 ISO19115_3Document.elements.append(
@@ -304,3 +338,35 @@ class ISO19115_3Harvester(FileSystemHarvester):
         model.Session.commit()
 
         return True
+
+    def _get_validator(self):
+        '''
+        Returns the validator object using the relevant profiles
+
+        The profiles to be used are assigned in the following order:
+
+        1. 'validator_profiles' property of the harvest source config object
+        2. 'ckan.spatial.validator.profiles' configuration option in the ini file
+        3. Default value as defined in DEFAULT_VALIDATOR_PROFILES
+        '''
+        if not hasattr(self, '_validator'):
+            if hasattr(self, 'source_config') and self.source_config.get('validator_profiles', None):
+                profiles = self.source_config.get('validator_profiles')
+            elif config.get('ckan.spatial.validator.profiles', None):
+                profiles = [
+                    profile.strip() for profile in
+                    config.get('ckan.spatial.validator.profiles').split(',')
+                ]
+            else:
+                profiles = ["iso19115-3"]
+
+            self._validator = ISO19115_3Validators(profiles=profiles)
+
+            # Add any custom validators from extensions
+            for plugin_with_validators in p.PluginImplementations(ISpatialHarvester):
+                custom_validators = plugin_with_validators.get_validators()
+                for custom_validator in custom_validators:
+                    if custom_validator not in all_validators:
+                        self._validator.add_validator(custom_validator)
+
+        return self._validator

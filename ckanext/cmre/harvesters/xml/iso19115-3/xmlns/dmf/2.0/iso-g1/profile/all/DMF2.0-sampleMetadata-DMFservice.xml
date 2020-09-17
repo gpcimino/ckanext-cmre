@@ -1,0 +1,873 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmd:MD_Metadata xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:egco="urn:dgiwg:xmlns:dmf:2.0:iso-g1:egco" xmlns:ngmp="urn:int:nato:geometoc:geo:metadata:ngmp:1.0" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gmi="http://standards.iso.org/iso/19115/-2/gmi/1.0" xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:dgiwg:xmlns:dmf:2.0:iso-g1:profile:all ./all.xsd">
+	<!-- MDSID [0..1] -->
+	<gmd:fileIdentifier>
+		<gco:CharacterString>1523aca8-6413-4b2a-a2f0-ba9f7c0089d9</gco:CharacterString>
+	</gmd:fileIdentifier>
+	<!-- MDSID [0..1]  with MDLINK set-->
+	<!--<gmd:fileIdentifier>
+		<gmx:Anchor xlink:href="http://linkToMD">1523aca8-6413-4b2a-a2f0-ba9f7c0089d9</gmx:Anchor>
+	</gmd:fileIdentifier>-->
+	<!--MDPTMD  [0..1] -->
+	<!-- MDDLOC.language [1] -->
+	<gmd:language>
+		<gmd:LanguageCode codeList="http://eden.ign.fr/xsd/ngmp/20110916/resources/codelist/ngmpCodelists.xml#LanguageCode" codeListValue="eng">eng</gmd:LanguageCode>
+	</gmd:language>
+	<!-- MDDLOC.encoding [1]-->
+	<gmd:characterSet>
+		<gmd:MD_CharacterSetCode codeList="../resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8">utf8</gmd:MD_CharacterSetCode>
+	</gmd:characterSet>
+	<!--MDPTMD [0..1]-->
+	<gmd:parentIdentifier>
+		<!--MDPTMD.mdIdentifier-->
+		<gco:CharacterString>Parent Identifier</gco:CharacterString>
+	</gmd:parentIdentifier>
+	<!-- RSTYPE [1] -->
+	<gmd:hierarchyLevel>
+		<gmd:MD_ScopeCode codeList="../resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="service">service</gmd:MD_ScopeCode>
+	</gmd:hierarchyLevel>
+	<!-- RSTYPN [0..1] -->
+	<gmd:hierarchyLevelName>
+		<gco:CharacterString>Service</gco:CharacterString>
+	</gmd:hierarchyLevelName>
+	<!-- MDRPTY [1..*] -->
+	<gmd:contact>
+		<!-- MDRPTY.party -->
+		<gmd:CI_ResponsibleParty>
+			<!-- MDRPTY.party.orgName -->
+			<gmd:organisationName>
+				<gco:CharacterString>General Command of Mapping, Department of BSDD</gco:CharacterString>
+			</gmd:organisationName>
+			<gmd:contactInfo>
+				<gmd:CI_Contact>
+					<gmd:phone>
+						<gmd:CI_Telephone>
+							<!-- MDRPTY.party.phone -->
+							<gmd:voice>
+								<gco:CharacterString>+ 90 312 595 2202</gco:CharacterString>
+							</gmd:voice>
+						</gmd:CI_Telephone>
+					</gmd:phone>
+					<gmd:address>
+						<gmd:CI_Address>
+							<!-- MDRPTY.party.address -->
+							<gmd:deliveryPoint>
+								<gco:CharacterString>Harita Genel Komutanlığı Cebeci</gco:CharacterString>
+							</gmd:deliveryPoint>
+							<!-- MDRPTY.party.city -->
+							<gmd:city>
+								<gco:CharacterString>Ankara</gco:CharacterString>
+							</gmd:city>
+							<!-- MDRPTY.party.postalCode -->
+							<gmd:postalCode>
+								<gco:CharacterString>06100</gco:CharacterString>
+							</gmd:postalCode>
+							<!-- MDRPTY.party.country -->
+							<gmd:country>
+								<gco:CharacterString>TÜRKİYE (TUR)</gco:CharacterString>
+							</gmd:country>
+							<!-- MDRPTY.party.email-->
+							<gmd:electronicMailAddress>
+								<gco:CharacterString>webmaster@hgk.msb.gov.tr</gco:CharacterString>
+							</gmd:electronicMailAddress>
+							<gmd:electronicMailAddress>
+								<gco:CharacterString>arsiv@hgk.msb.gov.tr</gco:CharacterString>
+							</gmd:electronicMailAddress>
+						</gmd:CI_Address>
+					</gmd:address>
+				</gmd:CI_Contact>
+			</gmd:contactInfo>
+			<!-- MDRPTY.role -->
+			<gmd:role>
+				<gmd:CI_RoleCode codeList="../resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+			</gmd:role>
+		</gmd:CI_ResponsibleParty>
+	</gmd:contact>
+	<!-- MDDATE [1] -->
+	<gmd:dateStamp>
+		<gco:Date>2013-10-29</gco:Date>
+	</gmd:dateStamp>
+	<!-- MDSTD.title [1]-->
+	<gmd:metadataStandardName>
+		<gco:CharacterString>urn:dgiwg:metadata:dmf:1.0:profile:all</gco:CharacterString>
+	</gmd:metadataStandardName>
+	<!-- MDSTD.version [1]-->
+	<gmd:metadataStandardVersion>
+		<gco:CharacterString>1.0</gco:CharacterString>
+	</gmd:metadataStandardVersion>
+	<!--MDTLOC  [0..*] -->
+	<gmd:locale>
+		<gmd:PT_Locale id="locale_tur">
+			<gmd:languageCode>
+				<gmd:LanguageCode codeList="http://eden.ign.fr/xsd/ngmp/20110916/resources/codelist/ngmpCodelists.xml#LanguageCode" codeListValue="tur">tur</gmd:LanguageCode>
+			</gmd:languageCode>
+			<gmd:characterEncoding>
+				<gmd:MD_CharacterSetCode codeList="../resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8">utf8</gmd:MD_CharacterSetCode>
+			</gmd:characterEncoding>
+		</gmd:PT_Locale>
+	</gmd:locale>
+	<!--RCGRSPREP [0..1] (when gridLocation is not set) -->
+	<!-- RSRSYS [0..*] -->
+	<gmd:referenceSystemInfo>
+		<gmd:MD_ReferenceSystem>
+			<gmd:referenceSystemIdentifier>
+				<gmd:RS_Identifier>
+					<gmd:code>
+						<gco:CharacterString>http://www.opengis.net/def/crs/EPSG/0/32636</gco:CharacterString>
+					</gmd:code>
+				</gmd:RS_Identifier>
+			</gmd:referenceSystemIdentifier>
+		</gmd:MD_ReferenceSystem>
+	</gmd:referenceSystemInfo>
+	<gmd:referenceSystemInfo>
+		<gmd:MD_ReferenceSystem>
+			<gmd:referenceSystemIdentifier>
+				<gmd:RS_Identifier>
+					<gmd:code>
+						<gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/5775">Mean Sea Level at Antalya, Antalya Height</gmx:Anchor>
+					</gmd:code>
+				</gmd:RS_Identifier>
+			</gmd:referenceSystemIdentifier>
+		</gmd:MD_ReferenceSystem>
+	</gmd:referenceSystemInfo>
+	<gmd:identificationInfo>
+		<srv:SV_ServiceIdentification>
+			<gmd:citation>
+				<gmd:CI_Citation>
+					<!-- RSTITLE  [1] -->
+					<gmd:title>
+						<gco:CharacterString>Sample DGIWG View service</gco:CharacterString>
+					</gmd:title>
+					<!--RSALT [0..1]-->
+					<!-- RSDATE [1..*]-->
+					<gmd:date>
+						<gmd:CI_Date>
+							<!-- RSDATE.date -->
+							<gmd:date>
+								<gco:Date>2008-12-30</gco:Date>
+							</gmd:date>
+							<!-- RSDATE.type -->
+							<gmd:dateType>
+								<gmd:CI_DateTypeCode codeList="../resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
+							</gmd:dateType>
+						</gmd:CI_Date>
+					</gmd:date>
+					<!-- RSED [0..1] -->
+					<gmd:edition>
+						<gco:CharacterString>3</gco:CharacterString>
+					</gmd:edition>
+					<!-- RSEDDAT  [0..1] -->
+					<gmd:editionDate>
+						<gco:Date>2010-01-01</gco:Date>
+					</gmd:editionDate>
+					<!-- RSID [0..*] -->
+					<gmd:identifier>
+						<gmd:RS_Identifier>
+							<!-- RSID.code -->
+							<gmd:code>
+								<gco:CharacterString>7640270299287</gco:CharacterString>
+							</gmd:code>
+							<!-- RSID.namespace -->
+							<gmd:codeSpace>
+								<gco:CharacterString>namespace</gco:CharacterString>
+							</gmd:codeSpace>
+						</gmd:RS_Identifier>
+					</gmd:identifier>
+				</gmd:CI_Citation>
+			</gmd:citation>
+			<!-- RSABSTR  [1] -->
+			<gmd:abstract xsi:type="gmd:PT_FreeText_PropertyType">
+				<gco:CharacterString>This service provides topographic maps, etc.</gco:CharacterString>
+				<gmd:PT_FreeText>
+					<gmd:textGroup>
+						<gmd:LocalisedCharacterString locale="#locale_tur">Topoğrafik haritada, çizim ölçeğine uygun olarak; arazide mevcut doğal ve yapay detaylar kartoğrafik sembollerle, yeryüzü şekilleri (topoğrafyası) 10 metre aralıklı eş yükseklik eğrileri ile gösterilmiştir.</gmd:LocalisedCharacterString>
+					</gmd:textGroup>
+				</gmd:PT_FreeText>
+			</gmd:abstract>
+			<!-- RSPURP [0..1] -->
+			<gmd:purpose>
+				<gco:CharacterString>This service is used to provide topographic maps. Topographic map is used by defence organisations for various military purposes. It is also used by government and industry to assist with regional planning, infrastructure, environmental monitoring, emergency management, outdoor recreation etc. The raster map is mostly used as a background image for many purposes. The height or depth of the terrain, ie the shape and elevation of the landscape can be determined on the map.</gco:CharacterString>
+			</gmd:purpose>
+			<!-- RSSTAT [0..1]-->
+			<gmd:status>
+				<gmd:MD_ProgressCode codeList="../resources/Codelist/gmxCodelists.xml#MD_ProgressCode" codeListValue="completed">completed</gmd:MD_ProgressCode>
+			</gmd:status>
+			<!-- RSRPTY [0..*]-->
+			<gmd:pointOfContact>
+				<!-- RSRPTY.party -->
+				<gmd:CI_ResponsibleParty>
+					<!-- RSRPTY.party.orgName -->
+					<gmd:organisationName>
+						<gco:CharacterString>General Command of Mapping (THGK)</gco:CharacterString>
+					</gmd:organisationName>
+					<gmd:contactInfo>
+						<gmd:CI_Contact>
+							<gmd:phone>
+								<gmd:CI_Telephone>
+									<!-- RSRPTY.party.phone -->
+									<gmd:voice>
+										<gco:CharacterString>+ 90 312 595 2202</gco:CharacterString>
+									</gmd:voice>
+								</gmd:CI_Telephone>
+							</gmd:phone>
+							<gmd:address>
+								<gmd:CI_Address>
+									<!-- RSRPTY.party.address -->
+									<gmd:deliveryPoint>
+										<gco:CharacterString>Harita Genel Komutanlığı Cebeci</gco:CharacterString>
+									</gmd:deliveryPoint>
+									<!-- RSRPTY.party.city -->
+									<gmd:city>
+										<gco:CharacterString>Ankara</gco:CharacterString>
+									</gmd:city>
+									<!-- RSRPTY.party.postalCode -->
+									<gmd:postalCode>
+										<gco:CharacterString>06100</gco:CharacterString>
+									</gmd:postalCode>
+									<!-- RSRPTY.party.country -->
+									<gmd:country>
+										<gco:CharacterString>TÜRKİYE (TUR)</gco:CharacterString>
+									</gmd:country>
+									<!-- RSRPTY.party.email -->
+									<gmd:electronicMailAddress>
+										<gco:CharacterString>webmaster@hgk.msb.gov.tr</gco:CharacterString>
+									</gmd:electronicMailAddress>
+									<gmd:electronicMailAddress>
+										<gco:CharacterString>arsiv@hgk.msb.gov.tr</gco:CharacterString>
+									</gmd:electronicMailAddress>
+								</gmd:CI_Address>
+							</gmd:address>
+						</gmd:CI_Contact>
+					</gmd:contactInfo>
+					<!-- RSRPTY.role -->
+					<gmd:role>
+						<gmd:CI_RoleCode codeList="../resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="originator">originator</gmd:CI_RoleCode>
+					</gmd:role>
+				</gmd:CI_ResponsibleParty>
+			</gmd:pointOfContact>
+			<!-- RSMTNC [0..1]-->
+			<gmd:resourceMaintenance>
+				<gmd:MD_MaintenanceInformation>
+					<!-- RSMTNC.maintenanceFrequency -->
+					<gmd:maintenanceAndUpdateFrequency>
+						<gmd:MD_MaintenanceFrequencyCode codeList="../resources/Codelist/gmxCodelists.xml#MD_MaintenanceFrequencyCode" codeListValue="irregular">irregular</gmd:MD_MaintenanceFrequencyCode>
+					</gmd:maintenanceAndUpdateFrequency>
+				</gmd:MD_MaintenanceInformation>
+			</gmd:resourceMaintenance>
+			<!--THUMB [0..1]-->
+			<gmd:graphicOverview>
+				<gmd:MD_BrowseGraphic>
+					<gmd:fileName>
+						<gco:CharacterString>./thumbnail.gif</gco:CharacterString>
+					</gmd:fileName>
+					<gmd:fileDescription>
+						<gco:CharacterString>thumbnail</gco:CharacterString>
+					</gmd:fileDescription>
+				</gmd:MD_BrowseGraphic>
+			</gmd:graphicOverview>
+			<gmd:graphicOverview>
+				<!--GPHICS [0..*]-->
+				<gmd:MD_BrowseGraphic>
+					<!--GPHICS.name [1]-->
+					<gmd:fileName>
+						<gco:CharacterString>./overview.gif</gco:CharacterString>
+					</gmd:fileName>
+					<!--GPHICS.description [1]-->
+					<gmd:fileDescription>
+						<gco:CharacterString>overview</gco:CharacterString>
+					</gmd:fileDescription>
+				</gmd:MD_BrowseGraphic>
+			</gmd:graphicOverview>
+			<!--		RSRPTP [0..1] DMF/Core-->
+			<gmd:descriptiveKeywords>
+				<gmd:MD_Keywords>
+					<gmd:keyword>
+						<gmd:MD_SpatialRepresentationTypeCode codeList="../resources/codelist/xml#MD_SpatialRepresentationTypeCode" codeListValue="vector">vector</gmd:MD_SpatialRepresentationTypeCode>
+					</gmd:keyword>
+					<gmd:thesaurusName>
+						<gmd:CI_Citation>
+							<gmd:title>
+								<gco:CharacterString>MD_SpatialRepresentationTypeCode</gco:CharacterString>
+							</gmd:title>
+							<gmd:date>
+								<gmd:CI_Date>
+									<gmd:date>
+										<gco:Date>2016-02-04</gco:Date>
+									</gmd:date>
+									<gmd:dateType>
+										<gmd:CI_DateTypeCode codeList="../resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="creation">creation</gmd:CI_DateTypeCode>
+									</gmd:dateType>
+								</gmd:CI_Date>
+							</gmd:date>
+						</gmd:CI_Citation>
+					</gmd:thesaurusName>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords>
+			<!--		RSTOPIC [0..*]-->
+			<gmd:descriptiveKeywords>
+				<gmd:MD_Keywords>
+					<gmd:keyword>
+						<gmd:MD_TopicCategoryCode>imageryBaseMapsEarthCover</gmd:MD_TopicCategoryCode>
+					</gmd:keyword>
+					<gmd:thesaurusName>
+						<gmd:CI_Citation>
+							<gmd:title>
+								<gco:CharacterString>Topic category</gco:CharacterString>
+							</gmd:title>
+							<gmd:date>
+								<gmd:CI_Date>
+									<gmd:date>
+										<gco:Date>2016-02-04</gco:Date>
+									</gmd:date>
+									<gmd:dateType>
+										<gmd:CI_DateTypeCode codeList="../resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="creation">creation</gmd:CI_DateTypeCode>
+									</gmd:dateType>
+								</gmd:CI_Date>
+							</gmd:date>
+						</gmd:CI_Citation>
+					</gmd:thesaurusName>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords>
+			<!--RSKWDS [0..*]-->
+			<gmd:descriptiveKeywords>
+				<gmd:MD_Keywords>
+					<gmd:keyword>
+						<gco:CharacterString>map</gco:CharacterString>
+					</gmd:keyword>
+					<gmd:type>
+						<gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/iso/19115/-3/mmi/1.0/codelists.xml#MD_KeywordTypeCode" codeListValue="product">product</gmd:MD_KeywordTypeCode>
+					</gmd:type>
+					<gmd:thesaurusName>
+						<gmd:CI_Citation>
+							<gmd:title>
+								<gco:CharacterString>GEMET</gco:CharacterString>
+							</gmd:title>
+							<gmd:date>
+								<gmd:CI_Date>
+									<gmd:date>
+										<gco:Date>2015-01-27</gco:Date>
+									</gmd:date>
+									<gmd:dateType>
+										<gmd:CI_DateTypeCode codeList="../resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="creation">creation</gmd:CI_DateTypeCode>
+									</gmd:dateType>
+								</gmd:CI_Date>
+							</gmd:date>
+						</gmd:CI_Citation>
+					</gmd:thesaurusName>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords>
+			<!-- RSSPUS [0..*] -->
+			<gmd:resourceSpecificUsage>
+				<gmd:MD_Usage>
+					<!-- RSSPUS.name -->
+					<gmd:specificUsage>
+						<gco:CharacterString>In order to convert the coordinates from WGS-84 to ED50; add 29 m. (1” to Longitude) to Easting and add 184 m. (3.5” to Latitude) to Northing. Find corresponding height value in the map by subtracting 35 m. from the Ellipsoidal Height in WGS-84 computed by GPS receivers.</gco:CharacterString>
+					</gmd:specificUsage>
+					<gmd:userContactInfo>
+						<gmd:CI_ResponsibleParty>
+							<gmd:organisationName>
+								<gco:CharacterString>General Command of Mapping</gco:CharacterString>
+							</gmd:organisationName>
+							<gmd:role>
+								<gmd:CI_RoleCode codeList="../resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="user">user</gmd:CI_RoleCode>
+							</gmd:role>
+						</gmd:CI_ResponsibleParty>
+					</gmd:userContactInfo>
+				</gmd:MD_Usage>
+			</gmd:resourceSpecificUsage>
+			<!-- RSUSE [0..*] -->
+			<gmd:resourceConstraints>
+				<gmd:MD_Constraints>
+					<gmd:useLimitation>
+						<gco:CharacterString>Croplands and the administrative boundaries other than international are not shown on this map.</gco:CharacterString>
+					</gmd:useLimitation>
+				</gmd:MD_Constraints>
+			</gmd:resourceConstraints>
+			<!-- RSSCST [0..*] -->
+			<gmd:resourceConstraints>
+				<gmd:MD_SecurityConstraints>
+					<!-- RSSCST.limitation -->
+					<gmd:useLimitation>
+						<gco:CharacterString>This raster map contains a hidden digital identification information which proves to whom this map supplied.</gco:CharacterString>
+					</gmd:useLimitation>
+					<!-- RSSCST.level -->
+					<gmd:classification>
+						<gmd:MD_ClassificationCode codeList="../resources/Codelist/gmxCodelists.xml#MD_ClassificationCode" codeListValue="restricted">restricted</gmd:MD_ClassificationCode>
+					</gmd:classification>
+					<!-- RSSCST.system -->
+					<gmd:classificationSystem>
+						<gco:CharacterString>TUR</gco:CharacterString>
+					</gmd:classificationSystem>
+				</gmd:MD_SecurityConstraints>
+			</gmd:resourceConstraints>
+			<!-- RSLCST [0..*]-->
+			<gmd:resourceConstraints>
+				<gmd:MD_LegalConstraints>
+					<!-- RSLCST.statement -->
+					<gmd:useLimitation>
+						<gco:CharacterString>All rights reserved. Whole or any part of this data may not be misused, reproduced, published, distributed or used as a base map, in any form or by any means without the prior written consent of the General Command of Mapping.</gco:CharacterString>
+					</gmd:useLimitation>
+					<!-- RSLCST.access -->
+					<gmd:accessConstraints>
+						<gmd:MD_RestrictionCode codeList="../resources/Codelist/gmxCodelists.xml#MD_RestrictionCode" codeListValue="copyright">copyright</gmd:MD_RestrictionCode>
+					</gmd:accessConstraints>
+					<!-- RSLCST.use -->
+					<gmd:useConstraints>
+						<gmd:MD_RestrictionCode codeList="../resources/Codelist/gmxCodelists.xml#MD_RestrictionCode" codeListValue="copyright">copyright</gmd:MD_RestrictionCode>
+					</gmd:useConstraints>
+				</gmd:MD_LegalConstraints>
+			</gmd:resourceConstraints>
+			<!--SRTYPE DMF/Services [1]-->
+			<srv:serviceType>
+				<gco:LocalName>WMS</gco:LocalName>
+			</srv:serviceType>
+			<!--SRTVER DMF/Services [1]-->
+			<srv:serviceTypeVersion>
+				<gco:CharacterString>1.3</gco:CharacterString>
+			</srv:serviceTypeVersion>
+			<!--RSEXT [0..*] DMF/Core-->
+			<srv:extent>
+				<gmd:EX_Extent>
+					<!--RSEXT.description [0..1]-->
+					<gmd:description>
+						<gco:CharacterString>France and overseas</gco:CharacterString>
+					</gmd:description>
+					<gmd:geographicElement>
+						<!-- RSEXT.boundingBox -->
+						<gmd:EX_GeographicBoundingBox>
+							<!-- RSEXT.boundingBox.west -->
+							<gmd:westBoundLongitude>
+								<gco:Decimal>34.5</gco:Decimal>
+							</gmd:westBoundLongitude>
+							<!-- RSEXT.boundingBox.east -->
+							<gmd:eastBoundLongitude>
+								<gco:Decimal>34.625</gco:Decimal>
+							</gmd:eastBoundLongitude>
+							<!-- RSEXT.boundingBox.south -->
+							<gmd:southBoundLatitude>
+								<gco:Decimal>39.875</gco:Decimal>
+							</gmd:southBoundLatitude>
+							<!-- RSEXT.boundingBox.north -->
+							<gmd:northBoundLatitude>
+								<gco:Decimal>40</gco:Decimal>
+							</gmd:northBoundLatitude>
+						</gmd:EX_GeographicBoundingBox>
+					</gmd:geographicElement>
+					<!-- RSEXT.geogId -->
+					<gmd:geographicElement>
+						<gmd:EX_GeographicDescription>
+							<gmd:geographicIdentifier>
+								<gmd:MD_Identifier>
+									<!-- RSEXT.geogId.code -->
+									<gmd:code>
+										<gco:CharacterString>NJ36-4,Türkiye,Çorum,Yozgat,Boğazkale,Yozgat Merkez,Musabeyli</gco:CharacterString>
+									</gmd:code>
+								</gmd:MD_Identifier>
+							</gmd:geographicIdentifier>
+						</gmd:EX_GeographicDescription>
+					</gmd:geographicElement>
+				</gmd:EX_Extent>
+			</srv:extent>
+			<!-- RSSRES [0..*] -->
+			<!--RSSRES.equivalentScale [0..1]-->
+			<srv:extent>
+				<gmd:EX_Extent>
+					<gmd:description>
+						<gco:CharacterString>Equivalent scale: 25000</gco:CharacterString>
+					</gmd:description>
+				</gmd:EX_Extent>
+			</srv:extent>
+			<!--RSSRES.distance [0..1]-->
+			<srv:extent>
+				<gmd:EX_Extent>
+					<gmd:description>
+						<gco:CharacterString>Ground sample distance: 5 m</gco:CharacterString>
+					</gmd:description>
+				</gmd:EX_Extent>
+			</srv:extent>
+			<!--RSSRES.vertical [0..1]-->
+			<srv:extent>
+				<gmd:EX_Extent>
+					<gmd:description>
+						<gco:CharacterString>Vertical resolution: 10 m</gco:CharacterString>
+					</gmd:description>
+				</gmd:EX_Extent>
+			</srv:extent>
+			<!--RSTRES [0..1]-->
+			<srv:extent>
+				<gmd:EX_Extent>
+					<gmd:description>
+						<gco:CharacterString>Temporal resolution: 5 10^-3 s</gco:CharacterString>
+					</gmd:description>
+				</gmd:EX_Extent>
+			</srv:extent>
+			<!--SRCORS DMF/Services [0..*]-->
+			<srv:coupledResource>
+				<srv:SV_CoupledResource>
+					<!--operationName [1]-->
+					<srv:operationName>
+						<gco:CharacterString>GetMap</gco:CharacterString>
+					</srv:operationName>
+					<!--identifier [1]-->
+					<srv:identifier>
+						<gco:CharacterString>dataID</gco:CharacterString>
+					</srv:identifier>
+					<!--scope [0..1]-->
+					<gco:ScopedName>MyLAYER56</gco:ScopedName>
+				</srv:SV_CoupledResource>
+			</srv:coupledResource>
+			<!--SRCPLING DMF/Services [1]-->
+			<srv:couplingType>
+				<srv:SV_CouplingType codeList="http://www.dgiwg.org/metadata/iso19119/2005/srvCodeLists.xml#SV_CouplingType" codeListValue="tight">tight</srv:SV_CouplingType>
+			</srv:couplingType>
+			<!--SROPER DMF/Services [1..*]-->
+			<srv:containsOperations>
+				<srv:SV_OperationMetadata>
+					<!--name [1]-->
+					<srv:operationName>
+						<gco:CharacterString>GetMap</gco:CharacterString>
+					</srv:operationName>
+					<!--platform [1..*]-->
+					<srv:DCP>
+						<srv:DCPList codeList="http://standards.iso.org/iso/19115/resources/Codelist/cat/codelists.xml#DCPList" codeListValue="WebServices">WebServices</srv:DCPList>
+					</srv:DCP>
+					<!--connectPoint [1..*]-->
+					<srv:connectPoint>
+						<gmd:CI_OnlineResource>
+							<gmd:linkage>
+								<gmd:URL>http://myserver/wms?request=GetMap</gmd:URL>
+							</gmd:linkage>
+						</gmd:CI_OnlineResource>
+					</srv:connectPoint>
+				</srv:SV_OperationMetadata>
+			</srv:containsOperations>
+			<!--SROPRS DMF/Services [0..*]-->
+			<srv:operatesOn xlink:href="my-data-url#MD_DataIdentification"/>
+		</srv:SV_ServiceIdentification>
+	</gmd:identificationInfo>
+	<gmd:distributionInfo>
+		<gmd:MD_Distribution>
+			<!-- RSDFMT [1..*] -->
+			<gmd:distributionFormat>
+				<gmd:MD_Format>
+					<!-- RSDFMT.citation.title -->
+					<gmd:name>
+						<gco:CharacterString>GeoTIFF</gco:CharacterString>
+					</gmd:name>
+					<!-- RSDFMT.citation.version -->
+					<gmd:version>
+						<gco:CharacterString>Unknown</gco:CharacterString>
+					</gmd:version>
+					<!-- RSDFMT.decompression -->
+					<gmd:fileDecompressionTechnique>
+						<gco:CharacterString>The file is compressed by loseless LZW. It may require to decompress the file before use.</gco:CharacterString>
+					</gmd:fileDecompressionTechnique>
+				</gmd:MD_Format>
+			</gmd:distributionFormat>
+			<gmd:transferOptions>
+				<gmd:MD_DigitalTransferOptions>
+					<!-- RSUD [0..1] -->
+					<gmd:unitsOfDistribution>
+						<gco:CharacterString>Sheet</gco:CharacterString>
+					</gmd:unitsOfDistribution>
+					<!-- RSTS [0..1]-->
+					<gmd:transferSize>
+						<gco:Real>43.0</gco:Real>
+					</gmd:transferSize>
+					<!-- RSONLLC [0..*] -->
+					<gmd:onLine>
+						<gmd:CI_OnlineResource>
+							<!-- RSONLLC.location -->
+							<gmd:linkage>
+								<gmd:URL>http://www.hgk.msb.gov.tr/urunler/satis.asp</gmd:URL>
+							</gmd:linkage>
+							<!-- RSONLLC.function -->
+							<gmd:function>
+								<gmd:CI_OnLineFunctionCode codeList="../resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information">information</gmd:CI_OnLineFunctionCode>
+							</gmd:function>
+						</gmd:CI_OnlineResource>
+					</gmd:onLine>
+					<!--RSOFDM [0..*]-->
+					<gmd:offLine>
+						<gmd:MD_Medium>
+							<!--name [1]-->
+							<gmd:name>
+								<gmd:MD_MediumNameCode codeList="http://dgiwg.org/codelists/codelist.xml#MD_MediumNameCode" codeListValue="cdRom">cdRom</gmd:MD_MediumNameCode>
+							</gmd:name>
+							<!--volume [0..1]-->
+							<gmd:volumes>
+								<gco:Integer>3</gco:Integer>
+							</gmd:volumes>
+						</gmd:MD_Medium>
+					</gmd:offLine>
+				</gmd:MD_DigitalTransferOptions>
+			</gmd:transferOptions>
+		</gmd:MD_Distribution>
+	</gmd:distributionInfo>
+	<!--RSRQR [0..*]-->
+	<gmd:dataQualityInfo>
+		<gmd:DQ_DataQuality>
+			<gmd:scope>
+				<gmd:DQ_Scope>
+					<!-- RSTYPE -->
+					<gmd:level>
+						<gmd:MD_ScopeCode codeList="../resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="dataset">dataset</gmd:MD_ScopeCode>
+					</gmd:level>
+				</gmd:DQ_Scope>
+			</gmd:scope>
+			<gmd:report>
+				<gmd:DQ_ConceptualConsistency>
+					<!--identifier [1]-->
+					<gmd:measureIdentification>
+						<gmd:MD_Identifier>
+							<gmd:code>
+								<gco:CharacterString>http://dgiwg.org/quality/mymeasure1</gco:CharacterString>
+							</gmd:code>
+						</gmd:MD_Identifier>
+					</gmd:measureIdentification>
+					<!--method [0..1]-->
+					<gmd:evaluationMethodDescription>
+						<gco:CharacterString>usual method, performed by an operator</gco:CharacterString>
+					</gmd:evaluationMethodDescription>
+					<!--qtyResult [0..1]-->
+					<gmd:result>
+						<gmd:DQ_QuantitativeResult>
+							<gmd:valueUnit>
+								<gml:UnitDefinition gml:id="unitdef">
+									<gml:identifier codeSpace="http://www.opengis.net/def/uom/OGC/1.0/unity">unity</gml:identifier>
+								</gml:UnitDefinition>
+							</gmd:valueUnit>
+							<gmd:value>
+								<gco:Record>
+									<gco:Boolean>true</gco:Boolean>
+								</gco:Record>
+							</gmd:value>
+						</gmd:DQ_QuantitativeResult>
+					</gmd:result>
+					<!--cnfResult [0..1]-->
+					<gmd:result>
+						<gmd:DQ_ConformanceResult>
+							<gmd:specification>
+								<gmd:CI_Citation>
+									<gmd:title>
+										<gco:CharacterString>My specification</gco:CharacterString>
+									</gmd:title>
+									<gmd:date>
+										<gmd:CI_Date>
+											<gmd:date>
+												<gco:Date>2010-12-20</gco:Date>
+											</gmd:date>
+											<gmd:dateType>
+												<gmd:CI_DateTypeCode codeList="../resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="creation">creation</gmd:CI_DateTypeCode>
+											</gmd:dateType>
+										</gmd:CI_Date>
+									</gmd:date>
+								</gmd:CI_Citation>
+							</gmd:specification>
+							<gmd:explanation>
+								<gco:CharacterString>Compliant to the specification</gco:CharacterString>
+							</gmd:explanation>
+							<gmd:pass>
+								<gco:Boolean>true</gco:Boolean>
+							</gmd:pass>
+						</gmd:DQ_ConformanceResult>
+					</gmd:result>
+				</gmd:DQ_ConceptualConsistency>
+			</gmd:report>
+		</gmd:DQ_DataQuality>
+	</gmd:dataQualityInfo>
+	<!-- RSUQR [0..*]-->
+	<gmd:dataQualityInfo>
+		<gmd:DQ_DataQuality>
+			<gmd:scope>
+				<gmd:DQ_Scope>
+					<!-- RSTYPE -->
+					<gmd:level>
+						<gmd:MD_ScopeCode codeList="../resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="dataset">dataset</gmd:MD_ScopeCode>
+					</gmd:level>
+				</gmd:DQ_Scope>
+			</gmd:scope>
+			<gmd:report>
+				<gmd:DQ_AbsoluteExternalPositionalAccuracy>
+					<!-- RSUQR.measureName -->
+					<gmd:nameOfMeasure>
+						<gco:CharacterString>Horizontal Positional Accuracy</gco:CharacterString>
+					</gmd:nameOfMeasure>
+					<!-- RSUQR.measureDescription -->
+					<gmd:measureDescription>
+						<gco:CharacterString>This measure provides the absolute horizontal accuracy of the data</gco:CharacterString>
+					</gmd:measureDescription>
+					<!-- RSUQR.method -->
+					<gmd:evaluationMethodDescription>
+						<gco:CharacterString>at 90% confidence level</gco:CharacterString>
+					</gmd:evaluationMethodDescription>
+					<!-- RSUQR.qtyResult  -->
+					<gmd:result>
+						<gmd:DQ_QuantitativeResult>
+							<gmd:valueType>
+								<gco:RecordType xlink:href="urn:dgiwg:metadata:dmf:1.0:xmlns:w3:XMLSchema:2001:double">Real</gco:RecordType>
+								<!-- <gco:RecordType xlink:href="http://www.w3.org/2001/XMLSchema.xsd#double">Real</gco:RecordType> -->
+							</gmd:valueType>
+							<!-- RSUQR.qtyResult.unit -->
+							<gmd:valueUnit xlink:href="http://www.opengis.net/def/uom/OGC/1.0/metre"/>
+							<!-- <gmd:valueUnit xlink:href="http://www.dgiwg.org/dmf/data/1.0/uom/metre"/> -->
+							<!-- RSUQR.qtyResult.result -->
+							<gmd:value>
+								<gco:Record xsi:type="xs:double">12.5</gco:Record>
+							</gmd:value>
+						</gmd:DQ_QuantitativeResult>
+					</gmd:result>
+				</gmd:DQ_AbsoluteExternalPositionalAccuracy>
+			</gmd:report>
+			<!-- RSUQR [0..*]-->
+			<gmd:report>
+				<gmd:DQ_AbsoluteExternalPositionalAccuracy>
+					<!-- RSUQR.measureName -->
+					<gmd:nameOfMeasure>
+						<gco:CharacterString>Vertical Positional Accuracy</gco:CharacterString>
+					</gmd:nameOfMeasure>
+					<!-- RSUQR.measureDescription -->
+					<gmd:measureDescription>
+						<gco:CharacterString>This measure provides the absolute vertical accuracy of the data</gco:CharacterString>
+					</gmd:measureDescription>
+					<!-- RSUQR.method -->
+					<gmd:evaluationMethodDescription>
+						<gco:CharacterString>at 90% confidence level</gco:CharacterString>
+					</gmd:evaluationMethodDescription>
+					<!-- RSUQR.qtyResult -->
+					<gmd:result>
+						<gmd:DQ_QuantitativeResult>
+							<gmd:valueType>
+								<gco:RecordType xlink:href="urn:dgiwg:metadata:dmf:1.0:xmlns:w3:XMLSchema:2001:double">Real</gco:RecordType>
+								<!-- <gco:RecordType xlink:href="http://www.w3.org/2001/XMLSchema.xsd#double">Real</gco:RecordType> -->
+							</gmd:valueType>
+							<!-- RSUQR.qtyResult.unit -->
+							<gmd:valueUnit xlink:href="http://www.opengis.net/def/uom/OGC/1.0/metre"/>
+							<!-- <gmd:valueUnit xlink:href="http://www.dgiwg.org/dmf/data/1.0/uom/metre"/> -->
+							<!-- RSUQR.qtyResult.result -->
+							<gmd:value>
+								<gco:Record xsi:type="xs:double">5.0</gco:Record>
+							</gmd:value>
+						</gmd:DQ_QuantitativeResult>
+					</gmd:result>
+				</gmd:DQ_AbsoluteExternalPositionalAccuracy>
+			</gmd:report>
+			<gmd:lineage>
+				<gmd:LI_Lineage>
+					<!-- RSLING [1] -->
+					<gmd:statement>
+						<gco:CharacterString>The features were captured from stereo aerial photos by digital photogrammetric methods. Then the map was completed on the field on 2007-06-10 and produced a publication version of the map in pdf format after digital cartographic works. After that, the raster map was produced by converting the pdf file to tiff format with 300 dpi resolution and 24 bit-RGB colour model, following with georeference process. The bilinear interpolation method was used in the georeference process as a resampling method.</gco:CharacterString>
+					</gmd:statement>
+					<!--RSPRST [0..*]-->
+					<gmd:processStep>
+						<gmd:LI_ProcessStep>
+							<!--description [1]-->
+							<gmd:description>
+								<gco:CharacterString>First step of the process</gco:CharacterString>
+							</gmd:description>
+							<!--rationale [0..1]-->
+							<gmd:rationale>
+								<gco:CharacterString>This step was necessary to process the data</gco:CharacterString>
+							</gmd:rationale>
+							<!--date [0..1]-->
+							<gmd:dateTime>
+								<gco:DateTime>2015-12-05T09:30:47Z</gco:DateTime>
+							</gmd:dateTime>
+							<!--processor [0..*]-->
+							<gmd:processor>
+								<gmd:CI_ResponsibleParty>
+									<gmd:organisationName>
+										<gco:CharacterString>My organisation</gco:CharacterString>
+									</gmd:organisationName>
+									<gmd:role>
+										<gmd:CI_RoleCode codeList="http://standards.iso.org/iso/19115/resources/Codelist/cat/codelists.xml#CI_RoleCode" codeListValue="processor">processor</gmd:CI_RoleCode>
+									</gmd:role>
+								</gmd:CI_ResponsibleParty>
+							</gmd:processor>
+						</gmd:LI_ProcessStep>
+					</gmd:processStep>
+					<!-- RSSRC [0..*]-->
+					<gmd:source>
+						<gmd:LI_Source>
+							<!-- RSSRC.description -->
+							<gmd:description>
+								<gco:CharacterString>Black and White Aerial Photo</gco:CharacterString>
+							</gmd:description>
+							<!-- RSSRC.citation -->
+							<gmd:sourceCitation>
+								<gmd:CI_Citation>
+									<!-- RSSRC.citation.title -->
+									<gmd:title>
+										<gco:CharacterString>Aerial Photo</gco:CharacterString>
+									</gmd:title>
+									<!-- RSSRC.citation.referenceDate -->
+									<gmd:date>
+										<gmd:CI_Date>
+											<!-- RSSRC.citation.referenceDate.date -->
+											<gmd:date>
+												<gco:Date>2005-08-13</gco:Date>
+											</gmd:date>
+											<!-- RSSRC.citation.referenceDate.type -->
+											<gmd:dateType>
+												<gmd:CI_DateTypeCode codeList="../resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="creation">creation</gmd:CI_DateTypeCode>
+											</gmd:dateType>
+										</gmd:CI_Date>
+									</gmd:date>
+								</gmd:CI_Citation>
+							</gmd:sourceCitation>
+						</gmd:LI_Source>
+					</gmd:source>
+				</gmd:LI_Lineage>
+			</gmd:lineage>
+		</gmd:DQ_DataQuality>
+	</gmd:dataQualityInfo>
+	<!-- MDSCST [0..*]  -->
+	<gmd:metadataConstraints>
+		<gmd:MD_SecurityConstraints>
+			<!-- MDSCST.level -->
+			<gmd:classification>
+				<gmd:MD_ClassificationCode codeList="../resources/Codelist/gmxCodelists.xml#MD_ClassificationCode" codeListValue="unclassified">unclassified</gmd:MD_ClassificationCode>
+			</gmd:classification>
+			<!-- MDSCST.system -->
+			<gmd:classificationSystem>
+				<gco:CharacterString>TUR</gco:CharacterString>
+			</gmd:classificationSystem>
+		</gmd:MD_SecurityConstraints>
+	</gmd:metadataConstraints>
+	<!-- MDREL [0..*] -->
+	<gmd:metadataConstraints>
+		<ngmp:NGMP_Constraints>
+			<ngmp:releasibility>
+				<ngmp:NGMP_Releasibility>
+					<ngmp:addressee>
+						<gmd:CI_ResponsibleParty>
+							<gmd:organisationName>
+								<gco:CharacterString>NOR</gco:CharacterString>
+							</gmd:organisationName>
+							<gmd:role>
+								<gmd:CI_RoleCode codeList="../resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="user"> user</gmd:CI_RoleCode>
+							</gmd:role>
+						</gmd:CI_ResponsibleParty>
+					</ngmp:addressee>
+				</ngmp:NGMP_Releasibility>
+			</ngmp:releasibility>
+		</ngmp:NGMP_Constraints>
+	</gmd:metadataConstraints>
+	<!-- MDLCST [0..*]-->
+	<gmd:metadataConstraints>
+		<gmd:MD_LegalConstraints>
+			<!-- MDLCST.use -->
+			<gmd:useConstraints>
+				<gmd:MD_RestrictionCode codeList="../resources/Codelist/gmxCodelists.xml#MD_RestrictionCode" codeListValue="copyright">copyright</gmd:MD_RestrictionCode>
+			</gmd:useConstraints>
+		</gmd:MD_LegalConstraints>
+	</gmd:metadataConstraints>
+	<!--MDMFRQ [0..1]-->
+	<gmd:metadataMaintenance>
+		<gmd:MD_MaintenanceInformation>
+			<gmd:maintenanceAndUpdateFrequency>
+				<gmd:MD_MaintenanceFrequencyCode codeList="http://standards.iso.org/iso/19115/-3/mmi/1.0/codelists.xml#MD_MaintenanceFrequencyCode" codeListValue="annually">annually</gmd:MD_MaintenanceFrequencyCode>
+			</gmd:maintenanceAndUpdateFrequency>
+		</gmd:MD_MaintenanceInformation>
+	</gmd:metadataMaintenance>
+	</gmd:MD_Metadata>

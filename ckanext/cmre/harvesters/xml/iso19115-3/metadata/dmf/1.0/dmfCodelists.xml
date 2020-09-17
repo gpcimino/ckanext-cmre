@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Codelists extented in DMF 2.0
+#MD_MediumNameCode
+#MD_ProgressCode 
+#MD_CoverageContentTypeCode
+
+-->
+<CT_CodelistCatalogue xmlns="http://www.isotc211.org/2005/gmx" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmx/gmx.xsd http://www.isotc211.org/2005/gco http://www.isotc211.org/2005/gco/gco.xsd http://www.opengis.net/gml http://www.isotc211.org/2005/gml/gml.xsd http://www.w3.org/1999/xlink http://schemas.opengis.net/xlink/1.0.0/xlinks.xsd">
+	<!--=====Catalogue description=====-->
+	<name>
+		<gco:CharacterString>dmfCodelists</gco:CharacterString>
+	</name>
+	<scope>
+		<gco:CharacterString>Codelists extended in DMF 2.0</gco:CharacterString>
+	</scope>
+	<fieldOfApplication>
+		<gco:CharacterString>DMF 2.0</gco:CharacterString>
+	</fieldOfApplication>
+	<versionNumber>
+		<gco:CharacterString>2.0</gco:CharacterString>
+	</versionNumber>
+	<versionDate>
+		<gco:Date>2016-04-15</gco:Date>
+	</versionDate>
+	<!--============================================================================-->
+	<!--============================================================================-->
+	<!--============================= Codelists =======================================-->
+	<!--=== MD_CoverageContentTypeCode ===-->
+	<codelistItem>
+		<CodeListDictionary gml:id="MD_CoverageContentTypeCode">
+			<gml:description>specific type of information represented in the cell</gml:description>
+			<gml:identifier codeSpace="ISOTC211/19115">MD_CoverageContentTypeCode</gml:identifier>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_CoverageContentTypeCode_image">
+					<gml:description>meaningful numerical representation of a physical parameter that is not the actual value of the physical parameter</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">image</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_CoverageContentTypeCode_thematicClassification">
+					<gml:description>code value with no quantitative meaning, used to represent a physical quantity</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">thematicClassification</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_CoverageContentTypeCode_physicalMeasurement">
+					<gml:description>value in physical units of the quantity being measured</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">physicalMeasurement</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_CoverageContentTypeCode_mixed">
+					<gml:description>mixed content type</gml:description>
+					<gml:identifier codeSpace="DGIWG">mixed</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_CoverageContentTypeCode_qualityInformation">
+					<gml:description>data used to characterize the quality of the physicalMeasurement coverages in the dataset.</gml:description>
+					<gml:identifier codeSpace="DGIWG">qualityInformation</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+		</CodeListDictionary>
+	</codelistItem>
+	<!--=== MD_MediumNameCode ===-->
+	<codelistItem>
+		<CodeListDictionary gml:id="MD_MediumNameCode">
+			<gml:description>name of the medium</gml:description>
+			<gml:identifier codeSpace="ISOTC211/19115">MD_MediumNameCode</gml:identifier>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_cdRom">
+					<gml:description>read-only optical disk</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">cdRom</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_dvd">
+					<gml:description>digital versatile disk</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">dvd</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_dvdRom">
+					<gml:description>digital versatile disk, read only</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">dvdRom</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_3halfInchFloppy">
+					<gml:description>3,5 inch magnetic disk</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">3halfInchFloppy</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_5quarterInchFloppy">
+					<gml:description>5,25 inch magnetic disk</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">5quarterInchFloppy</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_7trackTape">
+					<gml:description>7 track magnetic tape</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">7trackTape</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_9trackType">
+					<gml:description>9 track magnetic tape</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">9trackType</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_3480Cartridge">
+					<gml:description>3480 cartridge tape drive</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">3480Cartridge</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_3490Cartridge">
+					<gml:description>3490 cartridge tape drive</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">3490Cartridge</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_3580Cartridge">
+					<gml:description>3580 cartridge tape drive</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">3580Cartridge</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_4mmCartridgeTape">
+					<gml:description>4 millimetre magnetic tape</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">4mmCartridgeTape</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_8mmCartridgeTape">
+					<gml:description>8 millimetre magnetic tape</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">8mmCartridgeTape</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_1quarterInchCartridgeTape">
+					<gml:description>0,25 inch magnetic tape</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">1quarterInchCartridgeTape</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_digitalLinearTape">
+					<gml:description>half inch cartridge streaming tape drive</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">digitalLinearTape</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_onLine">
+					<gml:description>direct computer linkage</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">onLine</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_satellite">
+					<gml:description>linkage through a satellite communication system</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">satellite</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_telephoneLink">
+					<gml:description>communication through a telephone network</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">telephoneLink</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_hardcopy">
+					<gml:description>pamphlet or leaflet giving descriptive information</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">hardcopy</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_rdxRds">
+					<gml:description>RDX Removable Disk Storage</gml:description>
+					<gml:identifier codeSpace="DGIWG">rdxRds</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_bluRay">
+					<gml:description>BD Blu-ray disc</gml:description>
+					<gml:identifier codeSpace="DGIWG">bluRay</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_lto">
+					<gml:description>LTO Linear Tape Open</gml:description>
+					<gml:identifier codeSpace="DGIWG">lto</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_hardDrive">
+					<gml:description>HDD Hard Disk Drive</gml:description>
+					<gml:identifier codeSpace="DGIWG">hardDrive</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_MediumNameCode_flashDrive">
+					<gml:description>SSd Solid-state drive</gml:description>
+					<gml:identifier codeSpace="DGIWG">flashDrive</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+		</CodeListDictionary>
+	</codelistItem>
+	<!--=== MD_ProgressCode===-->
+	<codelistItem>
+		<CodeListDictionary gml:id="MD_ProgressCode">
+			<gml:description>status of the dataset or progress of a review</gml:description>
+			<gml:identifier codeSpace="ISOTC211/19115">MD_ProgressCode</gml:identifier>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_ProgressCode_completed">
+					<gml:description>production of the data has been completed</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">completed</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_ProgressCode_historicalArchive">
+					<gml:description>data has been stored in an offline storage facility</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">historicalArchive</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_ProgressCode_obsolete">
+					<gml:description>data is no longer relevant</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">obsolete</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_ProgressCode_onGoing">
+					<gml:description>data is continually being updated</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">onGoing</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_ProgressCode_planned">
+					<gml:description>fixed date has been established upon or by which the data will be created or updated</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">planned</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_ProgressCode_required">
+					<gml:description>data needs to be generated or updated</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">required</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_ProgressCode_underDevelopment">
+					<gml:description>data is currently in the process of being created</gml:description>
+					<gml:identifier codeSpace="ISOTC211/19115">underDevelopment</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_ProgressCode_latestAvailable">
+					<gml:description>The latest version/edition of the data is available</gml:description>
+					<gml:identifier codeSpace="DGIWG">latestAvailable</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_ProgressCode_olderAvailable">
+					<gml:description>An older version/edition of the data is available.</gml:description>
+					<gml:identifier codeSpace="DGIWG">olderAvailable</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+			<codeEntry>
+				<CodeDefinition gml:id="MD_ProgressCode_notReleasable">
+					<gml:description>Data produced, but not releasable</gml:description>
+					<gml:identifier codeSpace="DGIWG">notReleasable</gml:identifier>
+				</CodeDefinition>
+			</codeEntry>
+		</CodeListDictionary>
+	</codelistItem>
+	<!--=== EOF ===-->
+</CT_CodelistCatalogue>

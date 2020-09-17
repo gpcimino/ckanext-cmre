@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<egco:DMF_Codelist codeListValue="eng" codeList="urn:dgiwg:metadata:dmf:1.0:codelist:LanguageCode" 
+xmlns:egco="urn:dgiwg:xmlns:dmf:1.0:iso-g1:egco" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="urn:dgiwg:xmlns:dmf:1.0:iso-g1:egco http://www.dgiwg.org/xmlns/dmf/1.0/iso-g1/egco/egco.xsd">urn:dgiwg:metadata:dmf:1.0:codelist:LanguageCode:eng</egco:DMF_Codelist>

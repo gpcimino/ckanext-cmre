@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:all="urn:dgiwg:xmlns:dmf:2.0:iso-g2:profile:all" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gco="http://standards.iso.org/iso/19115/-3/gco/1.0" xmlns:egco="urn:dgiwg:xmlns:dmf:2.0:iso-g1:egco" xmlns:gcx="http://standards.iso.org/iso/19115/-3/gcx/1.0" xmlns:srv="http://standards.iso.org/iso/19115/-3/srv/2.0" xmlns:gmi="http://standards.iso.org/iso/19115/-2/gmi/1.0" xmlns:ns1="urn:dgiwg:xmlns:dmf:2.0:iso-g2:egco" xmlns:ns2="http://standards.iso.org/iso/19115/-3/mdb/1.0" xmlns:ns3="http://standards.iso.org/iso/19115/-3/mrs/1.0" xmlns:ns4="http://standards.iso.org/iso/19115/-3/mmi/1.0" xmlns:ns5="http://standards.iso.org/iso/19115/-3/mco/1.0" xmlns:ns6="http://standards.iso.org/iso/19115/-3/mrc/1.0" xmlns:ns7="http://standards.iso.org/iso/19115/-3/mrd/1.0" xmlns:ns8="http://standards.iso.org/iso/19157/-2/mdq/1.0" xmlns:ns9="http://standards.iso.org/iso/19115/-3/mrl/1.0" xmlns:ns10="http://standards.iso.org/iso/19115/-3/mcc/1.0" xmlns:ns11="http://standards.iso.org/iso/19115/-3/mac/1.0" xmlns:ns12="http://standards.iso.org/iso/19115/-3/msr/1.0" targetNamespace="urn:dgiwg:xmlns:dmf:2.0:iso-g2:profile:all" elementFormDefault="qualified" version="2019-10-28">
+	<xs:annotation>
+		<xs:documentation>2016-04-15 Creation by Marie Lambois</xs:documentation>
+		<xs:documentation>2019-10-28 Modification by Stephane Garcia. Added missing namespaces</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://standards.iso.org/iso/19115/-3/gco/1.0" schemaLocation="../../../../../istotc211/19115/-3/gco/1.0/gco.xsd"/>
+	<xs:import namespace="urn:dgiwg:xmlns:dmf:2.0:iso-g2:egco" schemaLocation="../../egco/egco.xsd"/>
+	<xs:import namespace="http://standards.iso.org/iso/19115/-3/mdb/1.0" schemaLocation="../../../../../isotc211/19115/-3/mdb/1.0/mdb.xsd"/>
+	<xs:import namespace="http://standards.iso.org/iso/19115/-3/gcx/1.0" schemaLocation="../../../../../isotc211/19115/-3/gcx/1.0/gcx.xsd"/>
+	<xs:import namespace="http://standards.iso.org/iso/19115/-3/srv/2.0" schemaLocation="../../../../../isotc211/19115/-3/srv/2.0/srv.xsd"/>
+	<xs:import namespace="http://standards.iso.org/iso/19115/-3/mrs/1.0" schemaLocation="../../../../../isotc211/19115/-3/mrs/1.0/mrs.xsd"/>
+	<xs:import namespace="http://standards.iso.org/iso/19115/-3/mmi/1.0" schemaLocation="../../../../../isotc211/19115/-3/mmi/1.0/mmi.xsd"/>
+	<xs:import namespace="http://standards.iso.org/iso/19115/-3/mco/1.0" schemaLocation="../../../../../isotc211/19115/-3/mco/1.0/mco.xsd"/>
+	<xs:import namespace="http://standards.iso.org/iso/19115/-3/mrc/1.0" schemaLocation="../../../../../isotc211/19115/-3/mrc/1.0/mrc.xsd"/>
+	<xs:import namespace="http://standards.iso.org/iso/19115/-3/mrd/1.0" schemaLocation="../../../../../isotc211/19115/-3/mrd/1.0/mrd.xsd"/>
+	<xs:import namespace="http://standards.iso.org/iso/19157/-2/mdq/1.0" schemaLocation="../../../../../isotc211/19157/-2/mdq/1.0/mdq.xsd"/>
+	<xs:import namespace="http://standards.iso.org/iso/19115/-3/mrl/1.0" schemaLocation="../../../../../isotc211/19115/-3/mrl/1.0/mrl.xsd"/>
+	<xs:import namespace="http://standards.iso.org/iso/19115/-3/mcc/1.0" schemaLocation="../../../../../isotc211/19115/-3/mcc/1.0/mcc.xsd"/>
+	<xs:import namespace="http://standards.iso.org/iso/19115/-3/mac/1.0" schemaLocation="../../../../../isotc211/19115/-3/mac/1.0/mac.xsd"/>
+	<xs:import namespace="http://standards.iso.org/iso/19115/-3/msr/1.0" schemaLocation="../../../../../isotc211/19115/-3/msr/1.0/msr.xsd"/>
+</xs:schema>
