@@ -30,7 +30,7 @@ class ISO19115_3Schema(XsdValidator):
     def is_valid(cls, xml):
         xsd_path = 'xml/iso19115-3'
         gmx_xsd_filepath = os.path.join(os.path.dirname(__file__),
-                                        xsd_path, 'xmlns/nato/GeoMetoc/metadata/ngmp/1.0/ngmp.xsd')
+                                        xsd_path, 'xmlns/isotc211/19115/-3/mda/1.0/metadataApplication.xsd')
 
         xsd_name = 'ISO19115-3 Dataset schema (gmx.xsd)'
         is_valid, errors = cls._is_valid(xml, gmx_xsd_filepath, xsd_name)
