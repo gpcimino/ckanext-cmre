@@ -12,7 +12,6 @@ from ckanext.cmre.harvesters.fs import FileSystemHarvester
 from ckanext.harvest.model import HarvestObject
 from ckanext.spatial.interfaces import ISpatialHarvester
 from ckanext.spatial.model import ISODocument, ISOElement, MappedXmlDocument
-from ckanext.spatial.model.harvested_metadata import MappedXmlDocument
 from ckanext.spatial.validation.validation import Validators, all_validators, XsdValidator
 from pylons import config
 
@@ -31,7 +30,7 @@ class ISO19115_3Schema(XsdValidator):
     def is_valid(cls, xml):
         xsd_path = 'xml/iso19115-3'
         gmx_xsd_filepath = os.path.join(os.path.dirname(__file__),
-                                        xsd_path, 'xmlns/isotc211/gmx/gmx.xsd')
+                                        xsd_path, 'xmlns/nato/GeoMetoc/metadata/ngmp/1.0/ngmp.xsd')
 
         xsd_name = 'ISO19115-3 Dataset schema (gmx.xsd)'
         is_valid, errors = cls._is_valid(xml, gmx_xsd_filepath, xsd_name)
@@ -150,6 +149,7 @@ class ISO19115_3Harvester(FileSystemHarvester):
         # Check if it is a non ISO document
         original_document = self._get_object_extra(harvest_object, 'original_document')
         original_format = self._get_object_extra(harvest_object, 'original_format')
+
         if original_document and original_format:
             #DEPRECATED use the ISpatialHarvester interface method
             self.__base_transform_to_iso_called = False
@@ -183,7 +183,6 @@ class ISO19115_3Harvester(FileSystemHarvester):
 
         # Parse ISO document
         try:
-
             iso_parser = ISO19115_3Document(harvest_object.content)
             iso_values = iso_parser.read_values()
         except Exception, e:

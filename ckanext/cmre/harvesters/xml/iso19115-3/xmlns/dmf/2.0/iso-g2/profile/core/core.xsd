@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:core="urn:dgiwg:xmlns:dmf:2.0:iso-g2:profile:core" xmlns:ns1="http://standards.iso.org/iso/19115/-3/mdb/1.0" targetNamespace="urn:dgiwg:xmlns:dmf:2.0:iso-g2:profile:core" elementFormDefault="qualified" version="2013-05-24">
-	<xs:import namespace="http://standards.iso.org/iso/19115/-3/mdb/1.0" schemaLocation="../../../../../isotc211/19115/-3/mdb/1.0/mdb.xsd"/>
-</xs:schema>
