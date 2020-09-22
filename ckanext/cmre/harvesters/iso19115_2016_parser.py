@@ -180,7 +180,6 @@ class ISOResponsibleParty(ISO19115_3Element):
                     name="online-resource",
                     search_paths=[
                         "gmd:onlineResource/gmd:CI_OnlineResource",
-                        # "mdb:distributionInfo/mrd:MD_Distribution/mrd:transferOptions/mrd:MD_DigitalTransferOptions/mrd:onLine/cit:CI_OnlineResource"
                     ],
                     multiplicity="0..1",
                 ),
