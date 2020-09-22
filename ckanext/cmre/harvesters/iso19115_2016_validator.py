@@ -1,5 +1,7 @@
-from ckanext.spatial.validation.validation import Validators, all_validators, XsdValidator
 import os
+
+from ckanext.spatial.validation.validation import (Validators, XsdValidator,
+                                                   all_validators)
 
 
 class ISO19115_3Schema(XsdValidator):

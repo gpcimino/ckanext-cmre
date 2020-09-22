@@ -1,48 +1,54 @@
-from ckanext.spatial.model import (ISODocument, ISOElement, MappedXmlDocument, ISOKeyword, ISOBrowseGraphic,
-                                   ISOResourceLocator, ISOResponsibleParty, ISODataFormat, ISOBoundingBox,
-                                   ISOReferenceDate, ISOUsage, ISOAggregationInfo, ISOCoupledResources)
+from ckanext.spatial.model import (ISOAggregationInfo, ISOBoundingBox,
+                                   ISOBrowseGraphic, ISOCoupledResources,
+                                   ISODataFormat, ISODocument, ISOElement,
+                                   ISOKeyword, ISOReferenceDate,
+                                   ISOResourceLocator, ISOResponsibleParty,
+                                   ISOUsage, MappedXmlDocument)
 
-ISOElement.namespaces = {
-    "gts": "http://www.isotc211.org/2005/gts",
-    "gml": "http://www.opengis.net/gml",
-    "gml32": "http://www.opengis.net/gml/3.2",
-    "gmx": "http://www.isotc211.org/2005/gmx",
-    "gsr": "http://www.isotc211.org/2005/gsr",
-    "gss": "http://www.isotc211.org/2005/gss",
-    "gco": "http://www.isotc211.org/2005/gco",
-    "gmd": "http://www.isotc211.org/2005/gmd",
-    "srv": "http://www.isotc211.org/2005/srv",
-    "xlink": "http://www.w3.org/1999/xlink",
-    "xsi": "http://www.w3.org/2001/XMLSchema-instance",
-    "mdb": "http://standards.iso.org/iso/19115/-3/mdb/1.0",
-    "gco": "http://standards.iso.org/iso/19115/-3/gco/1.0",
-    "mcc": "http://standards.iso.org/iso/19115/-3/mcc/1.0",
-    "lan": "http://standards.iso.org/iso/19115/-3/lan/1.0",
-    "cit": "http://standards.iso.org/iso/19115/-3/cit/1.0",
-    "gex": "http://standards.iso.org/iso/19115/-3/gex/1.0",
-    "mco": "http://standards.iso.org/iso/19115/-3/mco/1.0",
-    "mri": "http://standards.iso.org/iso/19115/-3/mri/1.0",
-    "mrc": "http://standards.iso.org/iso/19115/-3/mrc/1.0",
-    "mrd": "http://standards.iso.org/iso/19115/-3/mrd/1.0",
-    "mda": "http://standards.iso.org/iso/19115/-3/mda/1.0",
-    "mrl": "http://standards.iso.org/iso/19115/-3/mrl/1.0",
-    "mrs": "http://standards.iso.org/iso/19115/-3/mrs/1.0",
-    "msr": "http://standards.iso.org/iso/19115/-3/msr/1.0",
-    "mmi": "http://standards.iso.org/iso/19115/-3/mmi/1.0",
-    "srv": "http://standards.iso.org/iso/19115/-3/srv/2.0",
-    "gfc": "http://standards.iso.org/iso/19110/gfc/1.1",
-    "fcc": "http://standards.iso.org/iso/19110/fcc/1.0",
-    "gml":  "http://www.opengis.net/gml/3.2",
-}
+
+class ISO19115_3Element(ISOElement):
+    namespaces = {
+        "gts": "http://www.isotc211.org/2005/gts",
+        "gml": "http://www.opengis.net/gml",
+        "gml32": "http://www.opengis.net/gml/3.2",
+        "gmx": "http://www.isotc211.org/2005/gmx",
+        "gsr": "http://www.isotc211.org/2005/gsr",
+        "gss": "http://www.isotc211.org/2005/gss",
+        "gco": "http://www.isotc211.org/2005/gco",
+        "gmd": "http://www.isotc211.org/2005/gmd",
+        "srv": "http://www.isotc211.org/2005/srv",
+        "xlink": "http://www.w3.org/1999/xlink",
+        "xsi": "http://www.w3.org/2001/XMLSchema-instance",
+        "mdb": "http://standards.iso.org/iso/19115/-3/mdb/1.0",
+        "gco": "http://standards.iso.org/iso/19115/-3/gco/1.0",
+        "mcc": "http://standards.iso.org/iso/19115/-3/mcc/1.0",
+        "lan": "http://standards.iso.org/iso/19115/-3/lan/1.0",
+        "cit": "http://standards.iso.org/iso/19115/-3/cit/1.0",
+        "gex": "http://standards.iso.org/iso/19115/-3/gex/1.0",
+        "mco": "http://standards.iso.org/iso/19115/-3/mco/1.0",
+        "mri": "http://standards.iso.org/iso/19115/-3/mri/1.0",
+        "mrc": "http://standards.iso.org/iso/19115/-3/mrc/1.0",
+        "mrd": "http://standards.iso.org/iso/19115/-3/mrd/1.0",
+        "mda": "http://standards.iso.org/iso/19115/-3/mda/1.0",
+        "mrl": "http://standards.iso.org/iso/19115/-3/mrl/1.0",
+        "mrs": "http://standards.iso.org/iso/19115/-3/mrs/1.0",
+        "msr": "http://standards.iso.org/iso/19115/-3/msr/1.0",
+        "mmi": "http://standards.iso.org/iso/19115/-3/mmi/1.0",
+        "srv": "http://standards.iso.org/iso/19115/-3/srv/2.0",
+        "gfc": "http://standards.iso.org/iso/19110/gfc/1.1",
+        "fcc": "http://standards.iso.org/iso/19110/fcc/1.0",
+        "gml":  "http://www.opengis.net/gml/3.2",
+    }
+
 
 class ISO19115_3Document(ISODocument):
     elements = [
-        ISOElement(
+        ISO19115_3Element(
             name="guid",
             search_paths="gmd:fileIdentifier/gco:CharacterString/text()",
             multiplicity="0..1",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="metadata-language",
             search_paths=[
                 "gmd:language/gmd:LanguageCode/@codeListValue",
@@ -51,17 +57,17 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="0..1",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="metadata-standard-name",
             search_paths="gmd:metadataStandardName/gco:CharacterString/text()",
             multiplicity="0..1",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="metadata-standard-version",
             search_paths="gmd:metadataStandardVersion/gco:CharacterString/text()",
             multiplicity="0..1",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="resource-type",
             search_paths=[
                 "gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue",
@@ -77,7 +83,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="1..*",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="metadata-date",
             search_paths=[
                 "gmd:dateStamp/gco:DateTime/text()",
@@ -86,14 +92,14 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="1",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="spatial-reference-system",
             search_paths=[
                 "gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code/gco:CharacterString/text()",
             ],
             multiplicity="0..1",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="title",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:title/gco:CharacterString/text()",
@@ -101,7 +107,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="1",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="alternate-title",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:alternateTitle/gco:CharacterString/text()",
@@ -117,7 +123,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="1..*",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="unique-resource-identifier",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:identifier/gmd:MD_Identifier/gmd:code/gco:CharacterString/text()",
@@ -125,7 +131,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="0..1",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="presentation-form",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:presentationForm/gmd:CI_PresentationFormCode/text()",
@@ -136,7 +142,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="*",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="abstract",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:abstract/gco:CharacterString/text()",
@@ -144,7 +150,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="1",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="purpose",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:purpose/gco:CharacterString/text()",
@@ -161,7 +167,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="1..*",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="frequency-of-update",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceMaintenance/gmd:MD_MaintenanceInformation/gmd:maintenanceAndUpdateFrequency/gmd:MD_MaintenanceFrequencyCode/@codeListValue",
@@ -171,7 +177,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="0..1",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="maintenance-note",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceMaintenance/gmd:MD_MaintenanceInformation/gmd:maintenanceNote/gco:CharacterString/text()",
@@ -179,7 +185,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="0..1",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="progress",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:status/gmd:MD_ProgressCode/@codeListValue",
@@ -197,7 +203,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="*"
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="keyword-inspire-theme",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gco:CharacterString/text()",
@@ -206,7 +212,7 @@ class ISO19115_3Document(ISODocument):
             multiplicity="*",
         ),
         # Deprecated: kept for backwards compatibilty
-        ISOElement(
+        ISO19115_3Element(
             name="keyword-controlled-other",
             search_paths=[
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:keywords/gmd:MD_Keywords/gmd:keyword/gco:CharacterString/text()",
@@ -221,7 +227,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="*"
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="limitations-on-public-access",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints/gco:CharacterString/text()",
@@ -229,7 +235,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="*",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="access-constraints",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue",
@@ -240,7 +246,7 @@ class ISO19115_3Document(ISODocument):
             multiplicity="*",
         ),
 
-        ISOElement(
+        ISO19115_3Element(
             name="use-constraints",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_Constraints/gmd:useLimitation/gco:CharacterString/text()",
@@ -256,14 +262,14 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="*"
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="spatial-data-service-type",
             search_paths=[
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:serviceType/gco:LocalName/text()",
             ],
             multiplicity="0..1",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="spatial-resolution",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:spatialResolution/gmd:MD_Resolution/gmd:distance/gco:Distance/text()",
@@ -271,7 +277,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="0..1",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="spatial-resolution-units",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:spatialResolution/gmd:MD_Resolution/gmd:distance/gco:Distance/@uom",
@@ -279,7 +285,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="0..1",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="equivalent-scale",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:spatialResolution/gmd:MD_Resolution/gmd:equivalentScale/gmd:MD_RepresentativeFraction/gmd:denominator/gco:Integer/text()",
@@ -287,7 +293,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="*",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="dataset-language",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:language/gmd:LanguageCode/@codeListValue",
@@ -297,7 +303,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="*",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="topic-category",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:topicCategory/gmd:MD_TopicCategoryCode/text()",
@@ -305,13 +311,13 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="*",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="extent-controlled",
             search_paths=[
             ],
             multiplicity="*",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="extent-free-text",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicDescription/gmd:geographicIdentifier/gmd:MD_Identifier/gmd:code/gco:CharacterString/text()",
@@ -327,7 +333,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="*",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="temporal-extent-begin",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod/gml:beginPosition/text()",
@@ -337,7 +343,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="*",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="temporal-extent-end",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod/gml:endPosition/text()",
@@ -347,7 +353,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="*",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="vertical-extent",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent",
@@ -362,7 +368,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="*",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="additional-information-source",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:supplementalInformation/gco:CharacterString/text()",
@@ -398,28 +404,28 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="*",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="conformity-specification",
             search_paths=[
                 "gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:specification",
             ],
             multiplicity="0..1",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="conformity-pass",
             search_paths=[
                 "gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:pass/gco:Boolean/text()",
             ],
             multiplicity="0..1",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="conformity-explanation",
             search_paths=[
                 "gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:explanation/gco:CharacterString/text()",
             ],
             multiplicity="0..1",
         ),
-        ISOElement(
+        ISO19115_3Element(
             name="lineage",
             search_paths=[
                 "gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:lineage/gmd:LI_Lineage/gmd:statement/gco:CharacterString/text()",
