@@ -1,5 +1,4 @@
 import logging
-import os
 import uuid
 
 import dateutil
@@ -11,90 +10,12 @@ from ckan.lib.search.index import PackageSearchIndex
 from ckanext.cmre.harvesters.fs import FileSystemHarvester
 from ckanext.harvest.model import HarvestObject
 from ckanext.spatial.interfaces import ISpatialHarvester
-from ckanext.spatial.model import ISODocument, ISOElement, MappedXmlDocument
 from ckanext.spatial.validation.validation import Validators, all_validators, XsdValidator
 from pylons import config
+from ckanext.cmre.harvesters.iso19115_2016_parser import ISO19115_3Document
+from ckanext.cmre.harvesters.iso19115_2016_validator import ISO19115_3Validators
 
 log = logging.getLogger(__name__)
-
-
-class ISO19115_3Document(ISODocument):
-    pass
-
-
-class ISO19115_3Schema(XsdValidator):
-    name = 'iso19115-3'
-    title = 'ISO19115-3 XSD Schema'
-
-    @classmethod
-    def is_valid(cls, xml):
-        xsd_path = 'xml/iso19115-3'
-        gmx_xsd_filepath = os.path.join(os.path.dirname(__file__),
-                                        xsd_path, 'xmlns/isotc211/19115/-3/mda/1.0/metadataApplication.xsd')
-
-        xsd_name = 'ISO19115-3 Dataset schema (gmx.xsd)'
-        is_valid, errors = cls._is_valid(xml, gmx_xsd_filepath, xsd_name)
-        if not is_valid:
-            # TODO: not sure if we need this one,
-            # keeping for backwards compatibility
-            errors.insert(0, ('{0} Validation Error'.format(xsd_name), None))
-        return is_valid, errors
-
-
-all_validators += (ISO19115_3Schema,)
-
-
-class ISO19115_3Validators(Validators):
-    def __init__(self, profiles=["iso19115-3", "constraints", "gemini2"]):
-        super(ISO19115_3Validators, self).__init__(profiles=profiles)
-        self.profiles = profiles
-
-        self.validators = {}  # name: class
-        for validator_class in all_validators:
-            self.validators[validator_class.name] = validator_class
-
-
-ISO19115_3Document.elements.append(
-    ISOElement(
-        name="owner-org",
-        search_paths=[
-            'gmd:identificationInfo/gmd:MD_DataIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty[gmd:role/gmd:CI_RoleCode/@codeListValue="owner"]/gmd:organisationName/gco:CharacterString/text()',
-            'gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty[gmd:role/gmd:CI_RoleCode/@codeListValue="owner"]/gmd:organisationName/gco:CharacterString/text()',
-            "gmd:contact/gmd:CI_ResponsibleParty/gmd:organisationName/gco:CharacterString/text()",
-        ],
-        multiplicity="*"
-    )
-),
-
-
-class VerticalExtent(ISOElement):
-    elements = [
-        ISOElement(
-            name="minimum-value",
-            search_paths=[
-                "gmd:minimumValue/gco:Real/text()",
-            ],
-            multiplicity="1",
-        ),
-        ISOElement(
-            name="maximum-value",
-            search_paths=[
-                "gmd:maximumValue/gco:Real/text()",
-            ],
-            multiplicity="1",
-        ),
-    ]
-
-ISO19115_3Document.elements.append(
-    VerticalExtent(
-        name="vertical-extent",
-        search_paths=[
-                "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent",
-                "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent",
-        ],
-        multiplicity="1..*"
-    )
-),
 
 
 class ISO19115_3Harvester(FileSystemHarvester):
@@ -182,13 +103,14 @@ class ISO19115_3Harvester(FileSystemHarvester):
                     return False
 
         # Parse ISO document
-        try:
-            iso_parser = ISO19115_3Document(harvest_object.content)
-            iso_values = iso_parser.read_values()
-        except Exception, e:
-            self._save_object_error('Error parsing ISO document for object {0}: {1}'.format(harvest_object.id, str(e)),
-                                    harvest_object, 'Import')
-            return False
+        # try:
+        iso_parser = ISO19115_3Document(harvest_object.content)
+        iso_values = iso_parser.read_values()
+        print("hahah---000", iso_values)
+        # except Exception, e:
+        #     self._save_object_error('Error parsing ISO document for object {0}: {1}'.format(harvest_object.id, str(e)),
+        #                             harvest_object, 'Import')
+        #     return False
 
         # Flag previous object as not current anymore
         if previous_object and not self.force_import:
