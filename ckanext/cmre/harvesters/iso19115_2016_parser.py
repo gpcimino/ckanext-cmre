@@ -1,7 +1,7 @@
 from ckanext.spatial.model import (ISOAggregationInfo, ISOBoundingBox,
-                                   ISOBrowseGraphic, ISOCoupledResources,
+                                   ISOBrowseGraphic,
                                    ISODataFormat, ISODocument, ISOElement,
-                                   ISOKeyword, ISOReferenceDate,
+                                   ISOKeyword,
                                    ISOResourceLocator, ISOResponsibleParty,
                                    ISOUsage, MappedXmlDocument)
 
@@ -39,6 +39,56 @@ class ISO19115_3Element(ISOElement):
         "fcc": "http://standards.iso.org/iso/19110/fcc/1.0",
         "gml":  "http://www.opengis.net/gml/3.2",
     }
+
+class ISOReferenceDate(ISO19115_3Element):
+
+    elements = [
+        ISO19115_3Element(
+            name="type",
+            search_paths=[
+                "gmd:dateType/gmd:CI_DateTypeCode/@codeListValue",
+                "gmd:dateType/gmd:CI_DateTypeCode/text()",
+                "cit:dateType/cit:CI_DateTypeCode/@codeListValue"
+            ],
+            multiplicity="1",
+        ),
+        ISO19115_3Element(
+            name="value",
+            search_paths=[
+                "gmd:date/gco:Date/text()",
+                "gmd:date/gco:DateTime/text()",
+                "cit:date/gco:DateTime/text()"
+            ],
+            multiplicity="1",
+        ),
+    ]
+
+class ISOCoupledResources(ISO19115_3Element):
+
+    elements = [
+        ISO19115_3Element(
+            name="title",
+            search_paths=[
+                "@xlink:title",
+            ],
+            multiplicity="*",
+        ),
+        ISO19115_3Element(
+            name="href",
+            search_paths=[
+                "@xlink:href",
+            ],
+            multiplicity="*",
+        ),
+        ISO19115_3Element(
+            name="uuid",
+            search_paths=[
+                "@uuidref",
+            ],
+            multiplicity="*",
+        ),
+
+    ]
 
 
 class ISO19115_3ResponsibleParty(ISO19115_3Element):
@@ -191,6 +241,7 @@ class ISO19115_3Document(ISODocument):
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:date/gmd:CI_Date",
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:citation/gmd:CI_Citation/gmd:date/gmd:CI_Date",
+                "mdb:identificationInfo/srv:SV_ServiceIdentification/mri:citation/cit:CI_Citation/cit:date/cit:CI_Date"
             ],
             multiplicity="1..*",
         ),
@@ -441,7 +492,7 @@ class ISO19115_3Document(ISODocument):
             name="coupled-resource",
             search_paths=[
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:operatesOn",
-                # "mdb:identificationInfo/srv:SV_ServiceIdentification/srv:operatesOn"
+                "mdb:identificationInfo/srv:SV_ServiceIdentification/srv:operatesOn"
             ],
             multiplicity="*",
         ),
