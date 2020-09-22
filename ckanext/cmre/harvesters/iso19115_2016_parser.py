@@ -2,7 +2,6 @@ from ckanext.spatial.model import (ISOAggregationInfo, ISOBoundingBox,
                                    ISOBrowseGraphic,
                                    ISODataFormat, ISODocument, ISOElement,
                                    ISOKeyword,
-                                   ISOResourceLocator, ISOResponsibleParty,
                                    ISOUsage, MappedXmlDocument)
 
 
@@ -39,6 +38,52 @@ class ISO19115_3Element(ISOElement):
         "fcc": "http://standards.iso.org/iso/19110/fcc/1.0",
         "gml":  "http://www.opengis.net/gml/3.2",
     }
+
+class ISOResourceLocator(ISO19115_3Element):
+
+    elements = [
+        ISO19115_3Element(
+            name="url",
+            search_paths=[
+                "gmd:linkage/gmd:URL/text()",
+                "cit:linkage/gco:CharacterString/text()"
+            ],
+            multiplicity="1",
+        ),
+        ISO19115_3Element(
+            name="function",
+            search_paths=[
+                "gmd:function/gmd:CI_OnLineFunctionCode/@codeListValue",
+                "cit:function/cit:CI_OnLineFunctionCode/@codeListValue"
+            ],
+            multiplicity="0..1",
+        ),
+        ISO19115_3Element(
+            name="name",
+            search_paths=[
+                "gmd:name/gco:CharacterString/text()",
+                "gmd:name/gmx:MimeFileType/text()",
+                "cit:name/gco:CharacterString/text()"
+            ],
+            multiplicity="0..1",
+        ),
+        ISO19115_3Element(
+            name="description",
+            search_paths=[
+                "gmd:description/gco:CharacterString/text()",
+                "cit:description/gco:CharacterString/text()"
+            ],
+            multiplicity="0..1",
+        ),
+        ISO19115_3Element(
+            name="protocol",
+            search_paths=[
+                "gmd:protocol/gco:CharacterString/text()",
+                "cit:protocol/gco:CharacterString/text()"
+            ],
+            multiplicity="0..1",
+        ),
+    ]
 
 class ISOReferenceDate(ISO19115_3Element):
 
@@ -91,7 +136,7 @@ class ISOCoupledResources(ISO19115_3Element):
     ]
 
 
-class ISO19115_3ResponsibleParty(ISO19115_3Element):
+class ISOResponsibleParty(ISO19115_3Element):
     elements = [
         ISO19115_3Element(
             name="individual-name",
@@ -135,10 +180,10 @@ class ISO19115_3ResponsibleParty(ISO19115_3Element):
                     name="online-resource",
                     search_paths=[
                         "gmd:onlineResource/gmd:CI_OnlineResource",
+                        # "mdb:distributionInfo/mrd:MD_Distribution/mrd:transferOptions/mrd:MD_DigitalTransferOptions/mrd:onLine/cit:CI_OnlineResource"
                     ],
                     multiplicity="0..1",
                 ),
-
             ]
         ),
         ISO19115_3Element(
@@ -191,7 +236,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="*",
         ),
-        ISO19115_3ResponsibleParty(
+        ISOResponsibleParty(
             name="metadata-point-of-contact",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty",
@@ -281,7 +326,7 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="0..1",
         ),
-        ISO19115_3ResponsibleParty(
+        ISOResponsibleParty(
             name="responsible-organisation",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty",
@@ -512,11 +557,11 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="*",
         ),
-        ISO19115_3ResponsibleParty(
+        ISOResponsibleParty(
             name="distributor",
             search_paths=[
                 "gmd:distributionInfo/gmd:MD_Distribution/gmd:distributor/gmd:MD_Distributor/gmd:distributorContact/gmd:CI_ResponsibleParty",
-                "mdb:contact/cit:CI_Responsibility"
+                "mdb:distributionInfo/mrd:MD_Distribution/mrd:distributor/mrd:MD_Distributor/mrd:distributorContact/cit:CI_Responsibility",
             ],
             multiplicity="*",
         ),
@@ -524,7 +569,8 @@ class ISO19115_3Document(ISODocument):
             name="resource-locator",
             search_paths=[
                 "gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource",
-                "gmd:distributionInfo/gmd:MD_Distribution/gmd:distributor/gmd:MD_Distributor/gmd:distributorTransferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource"
+                "gmd:distributionInfo/gmd:MD_Distribution/gmd:distributor/gmd:MD_Distributor/gmd:distributorTransferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource",
+                "mdb:distributionInfo/mrd:MD_Distribution/mrd:transferOptions/mrd:MD_DigitalTransferOptions/mrd:onLine/cit:CI_OnlineResource"
             ],
             multiplicity="*",
         ),
