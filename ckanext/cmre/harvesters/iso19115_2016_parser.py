@@ -41,11 +41,75 @@ class ISO19115_3Element(ISOElement):
     }
 
 
+class ISO19115_3ResponsibleParty(ISO19115_3Element):
+    elements = [
+        ISO19115_3Element(
+            name="individual-name",
+            search_paths=[
+                "gmd:individualName/gco:CharacterString/text()",
+            ],
+            multiplicity="0..1",
+        ),
+        ISO19115_3Element(
+            name="organisation-name",
+            search_paths=[
+                "gmd:organisationName/gco:CharacterString/text()",
+                "cit:party/cit:CI_Organisation/cit:name/gco:CharacterString/text()",
+            ],
+            multiplicity="0..1",
+        ),
+        ISO19115_3Element(
+            name="position-name",
+            search_paths=[
+                "gmd:positionName/gco:CharacterString/text()",
+            ],
+            multiplicity="0..1",
+        ),
+        ISO19115_3Element(
+            name="contact-info",
+            search_paths=[
+                "gmd:contactInfo/gmd:CI_Contact",
+                "cit:party/cit:CI_Organisation/cit:contactInfo/cit:CI_Contact"
+            ],
+            multiplicity="0..1",
+            elements = [
+                ISO19115_3Element(
+                    name="email",
+                    search_paths=[
+                        "gmd:address/gmd:CI_Address/gmd:electronicMailAddress/gco:CharacterString/text()",
+                        "cit:address/cit:CI_Address/cit:electronicMailAddress/gco:CharacterString/text()"
+                    ],
+                    multiplicity="0..1",
+                ),
+                ISOResourceLocator(
+                    name="online-resource",
+                    search_paths=[
+                        "gmd:onlineResource/gmd:CI_OnlineResource",
+                    ],
+                    multiplicity="0..1",
+                ),
+
+            ]
+        ),
+        ISO19115_3Element(
+            name="role",
+            search_paths=[
+                "gmd:role/gmd:CI_RoleCode/@codeListValue",
+                "cit:role/cit:CI_RoleCode/@codeListValue"
+            ],
+            multiplicity="0..1",
+        ),
+    ]
+
+
 class ISO19115_3Document(ISODocument):
     elements = [
         ISO19115_3Element(
             name="guid",
-            search_paths="gmd:fileIdentifier/gco:CharacterString/text()",
+            search_paths=[
+                "gmd:fileIdentifier/gco:CharacterString/text()",
+                "mdb:metadataIdentifier/mcc:MD_Identifier/mcc:codeSpace/gco:CharacterString/text()"
+            ],
             multiplicity="0..1",
         ),
         ISO19115_3Element(
@@ -54,6 +118,7 @@ class ISO19115_3Document(ISODocument):
                 "gmd:language/gmd:LanguageCode/@codeListValue",
                 "gmd:language/gmd:LanguageCode/text()",
                 "gmd:language/gco:CharacterString/text()",
+                "mdb:defaultLocale/lan:PT_Locale/lan:language/lan:LanguageCode/@codeListValue"
             ],
             multiplicity="0..1",
         ),
@@ -72,14 +137,16 @@ class ISO19115_3Document(ISODocument):
             search_paths=[
                 "gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue",
                 "gmd:hierarchyLevel/gmd:MD_ScopeCode/text()",
+                "mdb:resourceLineage/mrl:LI_Lineage/mrl:scope/mcc:MD_Scope/mcc:level/mcc:MD_ScopeCode/@codeListValue"
             ],
             multiplicity="*",
         ),
-        ISOResponsibleParty(
+        ISO19115_3ResponsibleParty(
             name="metadata-point-of-contact",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty",
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty",
+                "mdb:contact/cit:CI_Responsibility"
             ],
             multiplicity="1..*",
         ),
@@ -96,6 +163,7 @@ class ISO19115_3Document(ISODocument):
             name="spatial-reference-system",
             search_paths=[
                 "gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code/gco:CharacterString/text()",
+                "mdb:referenceSystemInfo/mrs:MD_ReferenceSystem/mrs:referenceSystemType/mrs:MD_ReferenceSystemTypeCode/@codeListValue"
             ],
             multiplicity="0..1",
         ),
@@ -103,6 +171,7 @@ class ISO19115_3Document(ISODocument):
             name="title",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:title/gco:CharacterString/text()",
+                "mdb:metadataIdentifier/mcc:MD_Identifier/mcc:authority/cit:CI_Citation/cit:title/gco:CharacterString/text()",
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:citation/gmd:CI_Citation/gmd:title/gco:CharacterString/text()",
             ],
             multiplicity="1",
@@ -112,6 +181,8 @@ class ISO19115_3Document(ISODocument):
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:alternateTitle/gco:CharacterString/text()",
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:citation/gmd:CI_Citation/gmd:alternateTitle/gco:CharacterString/text()",
+                "mdb:alternativeMetadataReference/cit:CI_Citation/cit:title/gco:CharacterString/text()",
+                "mdb:metadataStandard/cit:CI_Citation/cit:title/gco:CharacterString/text()",
             ],
             multiplicity="*",
         ),
@@ -147,6 +218,7 @@ class ISO19115_3Document(ISODocument):
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:abstract/gco:CharacterString/text()",
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:abstract/gco:CharacterString/text()",
+                "mdb:identificationInfo/srv:SV_ServiceIdentification/mri:abstract/gco:CharacterString/text()"
             ],
             multiplicity="1",
         ),
@@ -158,12 +230,13 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="0..1",
         ),
-        ISOResponsibleParty(
+        ISO19115_3ResponsibleParty(
             name="responsible-organisation",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty",
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty",
                 "gmd:contact/gmd:CI_ResponsibleParty",
+                "mdb:contact/cit:CI_Responsibility"
             ],
             multiplicity="1..*",
         ),
@@ -174,6 +247,7 @@ class ISO19115_3Document(ISODocument):
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceMaintenance/gmd:MD_MaintenanceInformation/gmd:maintenanceAndUpdateFrequency/gmd:MD_MaintenanceFrequencyCode/@codeListValue",
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceMaintenance/gmd:MD_MaintenanceInformation/gmd:maintenanceAndUpdateFrequency/gmd:MD_MaintenanceFrequencyCode/text()",
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceMaintenance/gmd:MD_MaintenanceInformation/gmd:maintenanceAndUpdateFrequency/gmd:MD_MaintenanceFrequencyCode/text()",
+                "mdb:identificationInfo/srv:SV_ServiceIdentification/mri:resourceMaintenance/mmi:MD_MaintenanceInformation/mmi:maintenanceAndUpdateFrequency/mmi:MD_MaintenanceFrequencyCode/text()"
             ],
             multiplicity="0..1",
         ),
@@ -192,6 +266,7 @@ class ISO19115_3Document(ISODocument):
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:status/gmd:MD_ProgressCode/@codeListValue",
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:status/gmd:MD_ProgressCode/text()",
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:status/gmd:MD_ProgressCode/text()",
+                "mdb:identificationInfo/srv:SV_ServiceIdentification/mri:status/mcc:MD_ProgressCode/@codeListValue"
             ],
             multiplicity="*",
         ),
@@ -266,6 +341,7 @@ class ISO19115_3Document(ISODocument):
             name="spatial-data-service-type",
             search_paths=[
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:serviceType/gco:LocalName/text()",
+                "mdb:identificationInfo/srv:SV_ServiceIdentification/srv:serviceType/gco:ScopedName/text()"
             ],
             multiplicity="0..1",
         ),
@@ -365,6 +441,7 @@ class ISO19115_3Document(ISODocument):
             name="coupled-resource",
             search_paths=[
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:operatesOn",
+                # "mdb:identificationInfo/srv:SV_ServiceIdentification/srv:operatesOn"
             ],
             multiplicity="*",
         ),
@@ -382,10 +459,11 @@ class ISO19115_3Document(ISODocument):
             ],
             multiplicity="*",
         ),
-        ISOResponsibleParty(
+        ISO19115_3ResponsibleParty(
             name="distributor",
             search_paths=[
                 "gmd:distributionInfo/gmd:MD_Distribution/gmd:distributor/gmd:MD_Distributor/gmd:distributorContact/gmd:CI_ResponsibleParty",
+                "mdb:contact/cit:CI_Responsibility"
             ],
             multiplicity="*",
         ),
