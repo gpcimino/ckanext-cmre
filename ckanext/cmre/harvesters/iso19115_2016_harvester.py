@@ -7,7 +7,6 @@ from ckan import logic, model
 from ckan import plugins as p
 from ckan.lib.navl.validators import not_empty
 from ckan.lib.search.index import PackageSearchIndex
-from ckanext.cmre.harvesters.fs import FileSystemHarvester
 from ckanext.cmre.harvesters.iso19115_2016_parser import ISO19115_3Document
 from ckanext.cmre.harvesters.iso19115_2016_validator import \
     ISO19115_3Validators
@@ -16,11 +15,12 @@ from ckanext.spatial.interfaces import ISpatialHarvester
 from ckanext.spatial.validation.validation import (Validators, XsdValidator,
                                                    all_validators)
 from pylons import config
+from ckanext.cmre.harvesters.cmre import CMREHarvester
 
 log = logging.getLogger(__name__)
 
 
-class ISO19115_3Harvester(FileSystemHarvester):
+class ISO19115_3Harvester(CMREHarvester):
     '''
     A Harvester for local filesystem directory containing spatial metadata documents.
     '''

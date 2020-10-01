@@ -1,8 +1,6 @@
-from ckanext.spatial.model import (ISOAggregationInfo, ISOBoundingBox,
-                                   ISOBrowseGraphic,
-                                   ISODataFormat, ISODocument, ISOElement,
-                                   ISOKeyword,
-                                   ISOUsage, MappedXmlDocument)
+from ckanext.spatial.model import (ISOAggregationInfo,
+                                   ISODocument, ISOElement,
+                                   ISOUsage)
 
 
 class ISO19115_3Element(ISOElement):
@@ -38,6 +36,143 @@ class ISO19115_3Element(ISOElement):
         "fcc": "http://standards.iso.org/iso/19110/fcc/1.0",
         "gml":  "http://www.opengis.net/gml/3.2",
     }
+
+class EKOEClassification(ISO19115_3Element):
+    elements = [
+        ISO19115_3Element(
+            name="code",
+            search_paths=[
+                "gmd:classification/gmd:MD_ClassificationCode/@codeListValue",
+                "mco:classification/mco:MD_ClassificationCode/@codeListValue"
+            ],
+            multiplicity="1",
+        ),
+        ISO19115_3Element(
+            name="name",
+            search_paths=[
+                "gmd:classification/gmd:MD_ClassificationCode/text()",
+                "mco:classification/mco:MD_ClassificationCode/text()"
+            ],
+            multiplicity="0..1",
+        ),
+        ISO19115_3Element(
+            name="classification",
+            search_paths=[
+                "gmd:classificationSystem/gco:CharacterString/text()",
+            ],
+            multiplicity="1",
+        )
+    ]
+
+class ISOBoundingBox(ISO19115_3Element):
+    elements = [
+        ISO19115_3Element(
+            name="west",
+            search_paths=[
+                "gmd:westBoundLongitude/gco:Decimal/text()",
+                "gex:westBoundLongitude/gco:Decimal/text()"
+            ],
+            multiplicity="1",
+        ),
+        ISO19115_3Element(
+            name="east",
+            search_paths=[
+                "gmd:eastBoundLongitude/gco:Decimal/text()",
+                "gex:eastBoundLongitude/gco:Decimal/text()"
+            ],
+            multiplicity="1",
+        ),
+        ISO19115_3Element(
+            name="north",
+            search_paths=[
+                "gmd:northBoundLatitude/gco:Decimal/text()",
+                "gex:northBoundLatitude/gco:Decimal/text()"
+            ],
+            multiplicity="1",
+        ),
+        ISO19115_3Element(
+            name="south",
+            search_paths=[
+                "gmd:southBoundLatitude/gco:Decimal/text()",
+                "gex:southBoundLatitude/gco:Decimal/text()"
+            ],
+            multiplicity="1",
+        ),
+    ]
+
+class ISODataFormat(ISO19115_3Element):
+
+    elements = [
+        ISO19115_3Element(
+            name="name",
+            search_paths=[
+                "gmd:name/gco:CharacterString/text()",
+                "cit:title/gco:CharacterString/text()"
+            ],
+            multiplicity="0..1",
+        ),
+        ISO19115_3Element(
+            name="version",
+            search_paths=[
+                "gmd:version/gco:CharacterString/text()",
+                "cit:edition/gco:CharacterString/text()"
+            ],
+            multiplicity="0..1",
+        ),
+    ]
+
+class ISOBrowseGraphic(ISO19115_3Element):
+
+    elements = [
+        ISO19115_3Element(
+            name="file",
+            search_paths=[
+                "gmd:fileName/gco:CharacterString/text()",
+                "mcc:fileName/gco:CharacterString/text()"
+            ],
+            multiplicity="1",
+        ),
+        ISO19115_3Element(
+            name="description",
+            search_paths=[
+                "gmd:fileDescription/gco:CharacterString/text()",
+                "mcc:fileDescription/gco:CharacterString/text()"
+            ],
+            multiplicity="0..1",
+        ),
+        ISO19115_3Element(
+            name="type",
+            search_paths=[
+                "gmd:fileType/gco:CharacterString/text()",
+                "mcc:fileType/gco:CharacterString/text()"
+            ],
+            multiplicity="0..1",
+        ),
+    ]
+
+class ISOKeyword(ISO19115_3Element):
+
+    elements = [
+        ISO19115_3Element(
+            name="keyword",
+            search_paths=[
+                "gmd:keyword/gco:CharacterString/text()",
+                "mri:keyword/gco:CharacterString/text()"
+            ],
+            multiplicity="*",
+        ),
+        ISO19115_3Element(
+            name="type",
+            search_paths=[
+                "gmd:type/gmd:MD_KeywordTypeCode/@codeListValue",
+                "gmd:type/gmd:MD_KeywordTypeCode/text()",
+                "mri:type/mri:MD_KeywordTypeCode/text()"
+            ],
+            multiplicity="0..1",
+        ),
+        # If Thesaurus information is needed at some point, this is the
+        # place to add it
+   ]
 
 class ISOResourceLocator(ISO19115_3Element):
 
@@ -294,6 +429,7 @@ class ISO19115_3Document(ISODocument):
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:identifier/gmd:MD_Identifier/gmd:code/gco:CharacterString/text()",
                 "gmd:identificationInfo/gmd:SV_ServiceIdentification/gmd:citation/gmd:CI_Citation/gmd:identifier/gmd:MD_Identifier/gmd:code/gco:CharacterString/text()",
+                "mdb:identificationInfo/srv:SV_ServiceIdentification/mri:citation/cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:code/gco:CharacterString/text()"
             ],
             multiplicity="0..1",
         ),
@@ -304,6 +440,7 @@ class ISO19115_3Document(ISODocument):
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:presentationForm/gmd:CI_PresentationFormCode/@codeListValue",
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:citation/gmd:CI_Citation/gmd:presentationForm/gmd:CI_PresentationFormCode/text()",
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:citation/gmd:CI_Citation/gmd:presentationForm/gmd:CI_PresentationFormCode/@codeListValue",
+                "mdb:identificationInfo/srv:SV_ServiceIdentification/gmd:citation/gmd:CI_Citation/cit:presentationForm/cit:CI_PresentationFormCode/@codeListValue"
 
             ],
             multiplicity="*",
@@ -350,7 +487,7 @@ class ISO19115_3Document(ISODocument):
             name="maintenance-note",
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceMaintenance/gmd:MD_MaintenanceInformation/gmd:maintenanceNote/gco:CharacterString/text()",
-                "gmd:identificationInfo/gmd:SV_ServiceIdentification/gmd:resourceMaintenance/gmd:MD_MaintenanceInformation/gmd:maintenanceNote/gco:CharacterString/text()",
+                "gmd:identificationInfo/gmd:SV_ServiceIdentification/gmd:resourceMaintenance/gmd:MD_MaintenanceInformation/gmd:maintenanceNote/gco:CharacterString/text()"
             ],
             multiplicity="0..1",
         ),
@@ -370,6 +507,7 @@ class ISO19115_3Document(ISODocument):
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords",
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords",
+                "mdb:identificationInfo/srv:SV_ServiceIdentification/mri:descriptiveKeywords/mri:MD_Keywords"
             ],
             multiplicity="*"
         ),
@@ -378,6 +516,7 @@ class ISO19115_3Document(ISODocument):
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gco:CharacterString/text()",
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gco:CharacterString/text()",
+                "mdb:identificationInfo/srv:SV_ServiceIdentification/mri:descriptiveKeywords/mri:MD_Keywords/mri:keyword/gco:CharacterString/text()"
             ],
             multiplicity="*",
         ),
@@ -402,7 +541,7 @@ class ISO19115_3Document(ISODocument):
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints/gco:CharacterString/text()",
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints/gco:CharacterString/text()",
-                "mdb:identificationInfo/srv:SV_ServiceIdentification/mri:resourceConstraints/mco:MD_LegalConstraints/mco:accessConstraints/mco:MD_RestrictionCode/text()"
+                "mdb:identificationInfo/srv:SV_ServiceIdentification/mri:resourceConstraints/mco:MD_LegalConstraints/mco:otherConstraints/gco:CharacterString/text()"
             ],
             multiplicity="*",
         ),
@@ -413,6 +552,7 @@ class ISO19115_3Document(ISODocument):
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue",
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:accessConstraints/gmd:MD_RestrictionCode/text()",
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:accessConstraints/gmd:MD_RestrictionCode/text()",
+                "mdb:identificationInfo/srv:SV_ServiceIdentification/mri:resourceConstraints/mco:MD_LegalConstraints/mco:accessConstraints/mco:MD_RestrictionCode/@codeListValue"
             ],
             multiplicity="*",
         ),
@@ -481,6 +621,7 @@ class ISO19115_3Document(ISODocument):
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:topicCategory/gmd:MD_TopicCategoryCode/text()",
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:topicCategory/gmd:MD_TopicCategoryCode/text()",
+                "mdb:identificationInfo/srv:SV_ServiceIdentification/mri:topicCategory/mri:MD_TopicCategoryCode/text()"
             ],
             multiplicity="*",
         ),
@@ -503,6 +644,7 @@ class ISO19115_3Document(ISODocument):
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox",
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox",
+                "mdb:identificationInfo/srv:SV_ServiceIdentification/mri:extent/gex:EX_Extent/gex:geographicElement/gex:EX_GeographicBoundingBox"
             ],
             multiplicity="*",
         ),
@@ -553,6 +695,7 @@ class ISO19115_3Document(ISODocument):
             name="data-format",
             search_paths=[
                 "gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat/gmd:MD_Format",
+                "mdb:distributionInfo/mrd:MD_Distribution/mrd:distributionFormat/mrd:MD_Format/mrd:formatSpecificationCitation/cit:CI_Citation"
             ],
             multiplicity="*",
         ),
@@ -605,6 +748,7 @@ class ISO19115_3Document(ISODocument):
             name="lineage",
             search_paths=[
                 "gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:lineage/gmd:LI_Lineage/gmd:statement/gco:CharacterString/text()",
+                "mdb:resourceLineage/mrl:LI_Lineage/mrl:statement/gco:CharacterString/text()"
             ],
             multiplicity="0..1",
         ),
@@ -613,8 +757,66 @@ class ISO19115_3Document(ISODocument):
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:graphicOverview/gmd:MD_BrowseGraphic",
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:graphicOverview/gmd:MD_BrowseGraphic",
+                "mdb:identificationInfo/srv:SV_ServiceIdentification/mri:graphicOverview/mcc:MD_BrowseGraphic"
             ],
             multiplicity="*",
         ),
-
+        ISO19115_3Element(
+            name="owner_org",
+            search_paths=[
+                'gmd:identificationInfo/gmd:MD_DataIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty[gmd:role/gmd:CI_RoleCode/@codeListValue="owner"]/gmd:organisationName/gco:CharacterString/text()',
+                'gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty[gmd:role/gmd:CI_RoleCode/@codeListValue="owner"]/gmd:organisationName/gco:CharacterString/text()',
+                "gmd:contact/gmd:CI_ResponsibleParty",
+                'mdb:identificationInfo/srv:SV_ServiceIdentification/mri:descriptiveKeywords/mri:MD_Keywords/mri:thesaurusName/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode/@codeListValue="owner"]/cit:party/cit:CI_Organisation/cit:name/gco:CharacterString/text()'
+            ],
+            multiplicity="*"
+        ),
+        ISO19115_3Element(
+            name="keyword-sensor",
+            search_paths=[
+                'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Sensors"]/gmd:keyword/gco:CharacterString/text()',
+                'mdb:identificationInfo/srv:SV_ServiceIdentification/mri:descriptiveKeywords/mri:MD_Keywords[mri:thesaurusName/cit:CI_Citation/cit:title/gco:CharacterString/text()="CMRE Sensors"]/mri:keyword/gco:CharacterString/text()'
+            ],
+            multiplicity="*"
+        ),
+        ISO19115_3Element(
+            name="keyword-experiment",
+            search_paths=[
+                'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Experiment Types"]/gmd:keyword/gco:CharacterString/text()',
+                'mdb:identificationInfo/srv:SV_ServiceIdentification/mri:descriptiveKeywords/mri:MD_Keywords[mri:thesaurusName/cit:CI_Citation/cit:title/gco:CharacterString/text()="CMRE Experiment Types"]/mri:keyword/gco:CharacterString/text()'
+            ],
+            multiplicity="*"
+        ),
+        ISO19115_3Element(
+            name="keyword-platform",
+            search_paths=[
+                'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Platforms"]/gmd:keyword/gco:CharacterString/text()',
+                'mdb:identificationInfo/srv:SV_ServiceIdentification/mri:descriptiveKeywords/mri:MD_Keywords[mri:thesaurusName/cit:CI_Citation/cit:title/gco:CharacterString/text()="CMRE Platforms"]/mri:keyword/gco:CharacterString/text()'
+            ],
+            multiplicity="*"
+        ),
+        ISO19115_3Element(
+            name="keyword-trial",
+            search_paths=[
+                'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Trials"]/gmd:keyword/gco:CharacterString/text()',
+                'mdb:identificationInfo/srv:SV_ServiceIdentification/mri:descriptiveKeywords/mri:MD_Keywords[mri:thesaurusName/cit:CI_Citation/cit:title/gco:CharacterString/text()="CMRE Trials"]/mri:keyword/gco:CharacterString/text()'
+            ],
+            multiplicity="*"
+        ),
+        ISO19115_3Element(
+            name="dimension_name",
+            search_paths=[
+                'gmd:contentInfo/gmd:MD_CoverageDescription/gmd:dimension/gmd:MD_Band/gmd:descriptor/gco:CharacterString/text()',
+                'mdb:contentInfo/mrc:MD_CoverageDescription/mrc:attributeDescription/text()'
+            ],
+            multiplicity="*"
+        ),
+        EKOEClassification(
+            name="ekoe-classification",
+            search_paths=[
+               "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_SecurityConstraints[gmd:classification/gmd:MD_ClassificationCode/@codeList='http://eden.ign.fr/xsd/ngmp/20110916/resources/codelist/ngmpCodelists.xml#MD_ClassificationCode']",
+                'mdb:identificationInfo/srv:SV_ServiceIdentification/mri:resourceConstraints/mco:MD_SecurityConstraints[mco:classification/mco:MD_ClassificationCode/@codeList="http://eden.ign.fr/xsd/ngmp/20110916/resources/codelist/ngmpCodelists.xml#MD_ClassificationCode"]'
+            ],
+            multiplicity="0..1"
+        )
     ]
