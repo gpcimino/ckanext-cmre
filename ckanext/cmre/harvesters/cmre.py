@@ -195,6 +195,9 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
         if len(iso_values.get('legal-use-constraints', [])):
             package_dict['extras'].append({'key': 'use-limitation', 'value': iso_values['legal-use-constraints'][0]})
 
+        if len(iso_values.get('extent-free-text', [])):
+            package_dict['extras'].append({'key': 'ekoe_identifier', 'value': iso_values['extent-free-text'][0]})
+
         date_created = iso_values.get('date-created')
         if date_created:
             package_dict['extras'].append({'key': 'date-created', 'value': date_created})

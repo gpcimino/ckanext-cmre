@@ -24,4 +24,5 @@ In order to handle the facets properly, you'll have to add edit the Solr configu
 <field name="ekoe_owner_org"       type="string" indexed="true" stored="true" multiValued="false"/>
 <field name="ekoe_dimension"       type="string" indexed="true" stored="true" multiValued="true"/>
 <field name="ekoe_classification"  type="string" indexed="true" stored="true" multiValued="true"/>
+<field name="ekoe_identifier"      type="string" indexed="true" stored="true" multiValued="true"/>
 ```

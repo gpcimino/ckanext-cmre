@@ -636,6 +636,7 @@ class ISO19115_3Document(ISODocument):
             search_paths=[
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicDescription/gmd:geographicIdentifier/gmd:MD_Identifier/gmd:code/gco:CharacterString/text()",
                 "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicDescription/gmd:geographicIdentifier/gmd:MD_Identifier/gmd:code/gco:CharacterString/text()",
+                "mdb:identificationInfo/srv:SV_ServiceIdentification/mri:extent/gex:EX_Extent/gex:geographicElement/gex:EX_GeographicDescription/gex:geographicIdentifier/mcc:MD_Identifier/mcc:code/gco:CharacterString/text()"
             ],
             multiplicity="*",
         ),
@@ -818,5 +819,5 @@ class ISO19115_3Document(ISODocument):
                 'mdb:identificationInfo/srv:SV_ServiceIdentification/mri:resourceConstraints/mco:MD_SecurityConstraints[mco:classification/mco:MD_ClassificationCode/@codeList="http://eden.ign.fr/xsd/ngmp/20110916/resources/codelist/ngmpCodelists.xml#MD_ClassificationCode"]'
             ],
             multiplicity="0..1"
-        )
+        ),
     ]
