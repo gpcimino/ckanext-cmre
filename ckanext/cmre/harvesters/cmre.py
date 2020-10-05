@@ -112,7 +112,6 @@ ISODocument.elements.append(
         search_paths=[
             'gmd:identificationInfo/gmd:MD_DataIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty[gmd:role/gmd:CI_RoleCode/@codeListValue="owner"]/gmd:organisationName/gco:CharacterString/text()',
             'gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty[gmd:role/gmd:CI_RoleCode/@codeListValue="owner"]/gmd:organisationName/gco:CharacterString/text()',
-            "gmd:contact/gmd:CI_ResponsibleParty",
         ],
         multiplicity="*"
     )
@@ -132,7 +131,8 @@ ISODocument.elements.append(
     ISOElement(
         name="keyword-platform",
         search_paths=[
-            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Platforms"]/gmd:keyword/gco:CharacterString/text()'
+            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Platforms"]/gmd:keyword/gco:CharacterString/text()',
+            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Platforms"]/ngmp:NGMP_GeospatialInformationTypeCode/text()'
         ],
         multiplicity="*"
     )
@@ -184,6 +184,7 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
         # log.info('::::::::::::::::: %r', package_dict)
 
         # OWNER ORGANIZATION
+        print("hahah", iso_values.get("owner_org"))
         if len(iso_values.get('owner_org', [])):
             package_dict['extras'].append({'key': 'ekoe_owner_org', 'value': iso_values['owner_org'][0]})
 
