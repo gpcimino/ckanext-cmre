@@ -1,0 +1,106 @@
+
+
+.jumbotron {
+  background-image: url('/base/img/glider_sonar_center.jpg');
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px #333333;
+}
+
+.homepage .module-search .tags,
+.account-masthead,
+.site-footer {
+  background: @cmre-brand-secondary;
+}
+
+@media (min-width: 1200px) {
+  .homepage .hero > .container {
+    width: 80%;
+  }
+}
+
+
+.homepage .row {
+  margin-bottom: 15px
+}
+
+.masthead .logo img {
+  padding: 1px;
+}
+
+.cmre-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  > * {
+    flex: 1;
+    min-width: 200px;
+    padding: 4px;
+    text-align: center;
+  }
+}
+
+.cmre-language {
+  .lang-select {
+    max-width: 200px;
+    margin: auto;
+  }
+  > form > label {
+    display: none;
+  }
+  .lang-container {
+    width: 100% !important;
+  }
+}
+
+.cmre-social-items {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  a {
+    text-decoration: none;
+    padding: 4px 0;
+    background: darken(@cmre-brand-secondary, 15%);
+    margin: 2px;
+    width: 28px;
+    text-align: center;
+  }
+  a:hover {
+    color: #ffffff;
+    background: darken(@cmre-brand-secondary, 10%);
+  }
+}
+
+.hero {
+  background:  #ffffff;
+}
+
+.homepage .stats {
+  h3 {
+    text-align: center;
+  }
+  ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  ul li a {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  ul li a strong {
+    font-size: @font-size-h2;
+  }
+  
+}
+
+@media (max-width: 767px) {
+  .cmre-footer {
+    flex-direction: column;
+  }
+}

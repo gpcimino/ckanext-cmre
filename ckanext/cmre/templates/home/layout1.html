@@ -1,0 +1,38 @@
+
+<div role="main" class="hero">
+    <div class="jumbotron">
+        <div class="container">
+            <h1>CMRE Data Catalog</h1>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="module-content box">
+                    You can search for scientific data using keywords such as a sea trial name, geographic area or variable name. You can click on dataset{link} to list all the available data in a predefined order, than you will be able to further search using multiple criteria.
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                {% block search %}
+                {% snippet 'home/snippets/search.html' %}
+                {% endblock %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                {% block promoted %}
+                {% snippet 'home/snippets/promoted.html' %}
+                {% endblock %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                {% block stats %}
+                {% snippet 'home/snippets/stats.html' %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>

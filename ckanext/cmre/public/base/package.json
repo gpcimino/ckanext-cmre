@@ -1,0 +1,15 @@
+{
+  "name": "ekoe-style",
+  "version": "1.0.0",
+  "description": "ekoe-style",
+  "scripts": {
+    "generate-less": "lessc -x less/main.less css/main.css"
+  },
+  "author": "",
+  "license": "",
+  "dependencies": {},
+  "devDependencies": {
+    "less": "^3.10.3",
+    "less-plugin-clean-css": "^1.5.1"
+  }
+}
