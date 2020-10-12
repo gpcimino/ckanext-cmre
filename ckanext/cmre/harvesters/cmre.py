@@ -38,6 +38,8 @@ log.info('CMRE EKOE harvester: extending ISODocument')
 #     )
 # )
 
+ISOElement.namespaces["ngmp"] = "urn:int:nato:geometoc:geo:metadata:ngmp:1.0"
+
 class EKOEClassification(ISOElement):
     elements = [
         ISOElement(
@@ -121,7 +123,8 @@ ISODocument.elements.append(
     ISOElement(
         name="keyword-trial",
         search_paths=[
-            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Trials"]/gmd:keyword/gco:CharacterString/text()'
+            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Trials"]/gmd:keyword/gco:CharacterString/text()',
+            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Trials"]/gmd:keyword/ngmp:NGMP_GeospatialInformationTypeCode/text()'
         ],
         multiplicity="*"
     )
@@ -132,7 +135,7 @@ ISODocument.elements.append(
         name="keyword-platform",
         search_paths=[
             'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Platforms"]/gmd:keyword/gco:CharacterString/text()',
-            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Platforms"]/ngmp:NGMP_GeospatialInformationTypeCode/text()'
+            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Platforms"]/gmd:keyword/ngmp:NGMP_GeospatialInformationTypeCode/text()'
         ],
         multiplicity="*"
     )
@@ -142,7 +145,8 @@ ISODocument.elements.append(
     ISOElement(
         name="keyword-sensor",
         search_paths=[
-            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Sensors"]/gmd:keyword/gco:CharacterString/text()'
+            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Sensors"]/gmd:keyword/gco:CharacterString/text()',
+            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Sensors"]/gmd:keyword/ngmp:NGMP_GeospatialInformationTypeCode/text()'
         ],
         multiplicity="*"
     )
@@ -152,7 +156,8 @@ ISODocument.elements.append(
     ISOElement(
         name="keyword-experiment",
         search_paths=[
-            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Experiment Types"]/gmd:keyword/gco:CharacterString/text()'
+            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Experiment Types"]/gmd:keyword/gco:CharacterString/text()',
+            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Experiment Types"]/gmd:keyword/ngmp:NGMP_GeospatialInformationTypeCode/text()'
         ],
         multiplicity="*"
     )
@@ -184,7 +189,6 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
         # log.info('::::::::::::::::: %r', package_dict)
 
         # OWNER ORGANIZATION
-        print("hahah", iso_values.get("owner_org"))
         if len(iso_values.get('owner_org', [])):
             package_dict['extras'].append({'key': 'ekoe_owner_org', 'value': iso_values['owner_org'][0]})
 
