@@ -114,13 +114,15 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
     # IFacets
     def dataset_facets(self, orig_facets_dict, package_type):
         facets_dict = OrderedDict()
-        facets_dict['ekoe_owner_org'] = plugins.toolkit._("Owner")
+        facets_dict['ekoe_owner_org'] = plugins.toolkit._("Owner org")
 
-        for f in ['trial', 'platform', 'sensor', 'experiment']:
-            facets_dict['ekoe_' + f] = plugins.toolkit._(f.capitalize())
+        for f, value in {'trial': 'Sea trials', 'platform': 'Platform id',
+                         'sensor': 'Instrument id', 'experiment': 'Experiment type'}.iteritems():
+            facets_dict['ekoe_' + f] = plugins.toolkit._(value.capitalize())
 
-        facets_dict['ekoe_classification'] = plugins.toolkit._("Classification")
-        facets_dict['ekoe_dimension'] = plugins.toolkit._("Scientific variable")
+        facets_dict['ekoe_classification'] = plugins.toolkit._("Data classification")
+        facets_dict['ekoe_dimension'] = plugins.toolkit._("Variable")
+        facets_dict['ekoe_identifier'] = plugins.toolkit._("Geographic identifier")
 
         remove = ['organization', 'groups']
 

@@ -24,7 +24,7 @@ setup(
 	],
 	entry_points="""
         [ckan.plugins]
-	cmre_harvester=ckanext.cmre.harvesters.cmre:CMREHarvester
-	cmre_facets=ckanext.cmre.plugin:CMREFacetsPlugin
+			cmre_harvester=ckanext.cmre.harvesters.cmre:CMREHarvester
+			cmre_facets=ckanext.cmre.plugin:CMREFacetsPlugin
 	""",
 )

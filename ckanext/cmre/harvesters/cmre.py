@@ -1,8 +1,5 @@
 import logging
-import datetime
 import json
-from pylons import config
-from dateutil.parser import parse
 
 from ckan.plugins.core import SingletonPlugin
 
@@ -11,162 +8,20 @@ from ckanext.cmre.harvesters.fs import FileSystemHarvester
 from ckanext.spatial.model import (ISODocument, ISOElement, ISOResponsibleParty)
 
 
+from ckan import logic, model
+from ckan import plugins as p
+from ckan.lib.navl.validators import not_empty
+from ckan.lib.search.index import PackageSearchIndex
+from ckanext.cmre.harvesters.ngmp_parser import EKOEDocument
+from ckanext.harvest.model import HarvestObject
+from ckanext.spatial.interfaces import ISpatialHarvester
+from ckanext.spatial.validation.validation import (Validators, XsdValidator,
+                                                   all_validators)
+
+from ckanext.cmre.harvesters.ngmp_validator import NgmpSchema
+
 log = logging.getLogger(__name__)
 
-# Extend the ISODocument definitions by adding some more useful elements
-
-log.info('CMRE EKOE harvester: extending ISODocument')
-
-# ISODocument.elements.append(
-#     ISOElement(
-#         name="legal-use-constraints",
-#         search_paths=[
-#             "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useLimitation/gco:CharacterString/text()",
-#             "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useLimitation/gco:CharacterString/text()"
-#         ],
-#         multiplicity="*"
-#     )
-# )
-#
-# ISODocument.elements.append(
-#     ISOElement(
-#         name="ngmp-security-classification-code",
-#         search_paths=[
-#            "gmd:metadataConstraints/gmd:MD_SecurityConstraints/gmd:classification/gmd:MD_ClassificationCode[@codeList='http://eden.ign.fr/xsd/ngmp/20110916/resources/codelist/ngmpCodelists.xml#MD_ClassificationCode']/text()"
-#         ],
-#         multiplicity="0..1"
-#     )
-# )
-
-class EKOEClassification(ISOElement):
-    elements = [
-        ISOElement(
-            name="code",
-            search_paths=[
-                "gmd:classification/gmd:MD_ClassificationCode/@codeListValue",
-            ],
-            multiplicity="1",
-        ),
-        ISOElement(
-            name="name",
-            search_paths=[
-                "gmd:classification/gmd:MD_ClassificationCode/text()",
-            ],
-            multiplicity="0..1",
-        ),
-        ISOElement(
-            name="classification",
-            search_paths=[
-                "gmd:classificationSystem/gco:CharacterString/text()",
-            ],
-            multiplicity="1",
-        )
-    ]
-
-ISODocument.elements.append(
-    EKOEClassification(
-        name="ekoe-classification",
-        search_paths=[
-           "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_SecurityConstraints[gmd:classification/gmd:MD_ClassificationCode/@codeList='http://eden.ign.fr/xsd/ngmp/20110916/resources/codelist/ngmpCodelists.xml#MD_ClassificationCode']"
-        ],
-        multiplicity="0..1"
-    )
-)
-
-ISODocument.elements.append(
-    ISOElement(
-        name="vertical-extent-min",
-        search_paths=[
-            "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent/gmd:minimumValue/gco:Real/text()",
-            "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent/gmd:minimumValue/gco:Real/text()"
-        ],
-        multiplicity="*"
-    )
-)
-
-ISODocument.elements.append(
-    ISOElement(
-        name="vertical-extent-max",
-        search_paths=[
-            "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent/gmd:maximumValue/gco:Real/text()",
-            "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent/gmd:maximumValue/gco:Real/text()"
-        ],
-        multiplicity="*"
-    )
-)
-
-ISODocument.elements.append(
-    ISOElement(
-        name="vertical-extent-crs-title",
-        search_paths=[
-            "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent/gmd:verticalCRS/@xlink:title",
-            "gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent/gmd:verticalCRS/@xlink:title"
-        ],
-        multiplicity="*"
-    )
-)
-
-ISODocument.elements.append(
-    ISOElement(
-        name="owner_org",
-        search_paths=[
-            'gmd:identificationInfo/gmd:MD_DataIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty[gmd:role/gmd:CI_RoleCode/@codeListValue="owner"]/gmd:organisationName/gco:CharacterString/text()',
-            'gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty[gmd:role/gmd:CI_RoleCode/@codeListValue="owner"]/gmd:organisationName/gco:CharacterString/text()',
-            "gmd:contact/gmd:CI_ResponsibleParty",
-        ],
-        multiplicity="*"
-    )
-),
-
-ISODocument.elements.append(
-    ISOElement(
-        name="keyword-trial",
-        search_paths=[
-            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Trials"]/gmd:keyword/gco:CharacterString/text()'
-        ],
-        multiplicity="*"
-    )
-)
-
-ISODocument.elements.append(
-    ISOElement(
-        name="keyword-platform",
-        search_paths=[
-            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Platforms"]/gmd:keyword/gco:CharacterString/text()'
-        ],
-        multiplicity="*"
-    )
-)
-
-ISODocument.elements.append(
-    ISOElement(
-        name="keyword-sensor",
-        search_paths=[
-            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Sensors"]/gmd:keyword/gco:CharacterString/text()'
-        ],
-        multiplicity="*"
-    )
-)
-
-ISODocument.elements.append(
-    ISOElement(
-        name="keyword-experiment",
-        search_paths=[
-            'gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()="CMRE Experiment Types"]/gmd:keyword/gco:CharacterString/text()'
-        ],
-        multiplicity="*"
-    )
-)
-
-ISODocument.elements.append(
-    ISOElement(
-        name="dimension_name",
-        search_paths=[
-            'gmd:contentInfo/gmd:MD_CoverageDescription/gmd:dimension/gmd:MD_Band/gmd:descriptor/gco:CharacterString/text()'
-        ],
-        multiplicity="*"
-    )
-)
 
 class CMREHarvester(FileSystemHarvester, SingletonPlugin):
 
@@ -174,14 +29,22 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
         return {
             'name': 'cmre-ekoe',
             'title': 'CMRE EKOE filesystem harvester',
-            'description': 'Harvests local documents',
+            'description': 'Harvests local documents for EKOE - Based on NGMP(ISO19115-2:2009)',
             'form_config_interface': 'Text'
         }
 
     def get_package_dict(self, iso_values, harvest_object):
         package_dict = super(CMREHarvester, self).get_package_dict(iso_values, harvest_object)
 
-        # log.info('::::::::::::::::: %r', package_dict)
+        try:
+            iso_parser = EKOEDocument(harvest_object.content)
+            iso_values = iso_parser.read_values()
+        except Exception, e:
+            self._save_object_error('Error parsing ISO document for object {0}: {1}'.format(harvest_object.id, str(e)),
+                                    harvest_object, 'Import')
+            return None
+
+        # log.info('CMREHarvester ::::::::::::::::: %r', package_dict)
 
         # OWNER ORGANIZATION
         if len(iso_values.get('owner_org', [])):
@@ -194,6 +57,9 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
         # LEGAL CONSTRAINTS
         if len(iso_values.get('legal-use-constraints', [])):
             package_dict['extras'].append({'key': 'use-limitation', 'value': iso_values['legal-use-constraints'][0]})
+
+        if len(iso_values.get('extent-free-text', [])):
+            package_dict['extras'].append({'key': 'ekoe_identifier', 'value': iso_values['extent-free-text'][0]})
 
         date_created = iso_values.get('date-created')
         if date_created:
@@ -246,9 +112,13 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
         if classif:
             code = classif.get("code")
             system = classif.get("classification")
-            package_dict['extras'].append({'key': "ekoe_classification", 'value': "{system} {code}".format(code=code, system=system).upper()})
+            package_dict['extras'].append({
+                'key': "ekoe_classification",
+                'value': "{system} {code}".format(code=code, system=system).upper()})
         else:
-            package_dict['extras'].append({'key': "ekoe_classification", 'value': "PUBLIC RELEASABLE"})
+            package_dict['extras'].append({
+                'key': "ekoe_classification",
+                'value': "PUBLIC RELEASABLE"})
 
 
         # ISO 19139 EXTENSION ELEMENTS (MyOcean)
@@ -286,3 +156,6 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
                 for file_type, extensions in file_types.iteritems():
                     if any(url.endswith(extension) for extension in extensions):
                         resource['format'] = file_type
+
+    def _get_validator(self):
+        return NgmpSchema

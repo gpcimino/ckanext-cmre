@@ -11,9 +11,22 @@ from ckanext.harvest.interfaces import IHarvester
 from ckanext.harvest.model import HarvestObject
 from ckanext.harvest.model import HarvestObjectExtra as HOExtra
 
-from ckanext.spatial.harvesters.base import SpatialHarvester, guess_standard
+from ckanext.spatial.harvesters.base import SpatialHarvester
 
 log = logging.getLogger(__name__)
+
+
+def guess_standard(content):
+    lowered = content.lower()
+    if '</gmd:MD_Metadata>'.lower() in lowered:
+        return 'iso'
+    if '</gmi:MI_Metadata>'.lower() in lowered:
+        return 'iso'
+    if '</mdb:MD_Metadata>'.lower() in lowered:
+        return 'iso'
+    if '</metadata>'.lower() in lowered:
+        return 'fgdc'
+    return 'unknown'
 
 
 class FileSystemHarvester(SpatialHarvester, SingletonPlugin):

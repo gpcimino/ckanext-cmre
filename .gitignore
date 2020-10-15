@@ -1,4 +1,6 @@
 ckanext_cmre.egg-info
 *.pyc
 .idea/
+*.DS_Store
+/venv
 
