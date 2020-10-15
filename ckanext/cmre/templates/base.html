@@ -1,0 +1,7 @@
+{% ckan_extends %}
+
+{% block styles %}
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+  {# removed {{ super() }} because custom main.css is compiled directly from the ckan .less files and include all css rules #}
+  <link rel="stylesheet" href="/base/css/main.css" />
+{% endblock %}
