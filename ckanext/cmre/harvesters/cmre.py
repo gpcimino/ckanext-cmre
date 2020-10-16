@@ -3,24 +3,21 @@ import json
 
 from ckan.plugins.core import SingletonPlugin
 
+from ckanext.cmre.ekoe_const import EKOE_TRIAL, EKOE_EXPERIMENT
 from ckanext.cmre.harvesters.fs import FileSystemHarvester
+from ckanext.cmre.ekoe_const import *
 
-from ckanext.spatial.model import (ISODocument, ISOElement, ISOResponsibleParty)
-
-
-from ckan import logic, model
-from ckan import plugins as p
-from ckan.lib.navl.validators import not_empty
-from ckan.lib.search.index import PackageSearchIndex
-from ckanext.cmre.harvesters.ngmp_parser import EKOEDocument
-from ckanext.harvest.model import HarvestObject
-from ckanext.spatial.interfaces import ISpatialHarvester
-from ckanext.spatial.validation.validation import (Validators, XsdValidator,
-                                                   all_validators)
+from ckanext.cmre.harvesters.ngmp_parser import EKOEDocument, NGMP_TYPES
 
 from ckanext.cmre.harvesters.ngmp_validator import NgmpSchema
 
 log = logging.getLogger(__name__)
+
+CMRE_WK_THESAURI_HREF = {
+    'http://datacatalog-dev/cruisedb' : EKOE_TRIAL,
+    'http://datacatalog-dev/experimenttype' : EKOE_EXPERIMENT,
+    'http://cfconventions.org/Data/cf-standard-names/current/src/cf-standard-name-table.xml': EKOE_VARIABLE,
+}
 
 
 class CMREHarvester(FileSystemHarvester, SingletonPlugin):
@@ -33,13 +30,14 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
             'form_config_interface': 'Text'
         }
 
-    def get_package_dict(self, iso_values, harvest_object):
-        package_dict = super(CMREHarvester, self).get_package_dict(iso_values, harvest_object)
+    def get_package_dict(self, super_iso_values, harvest_object):
+        package_dict = super(CMREHarvester, self).get_package_dict(super_iso_values, harvest_object)
 
         try:
             iso_parser = EKOEDocument(harvest_object.content)
             iso_values = iso_parser.read_values()
         except Exception, e:
+            log.warn('Error parsing EKOE document ')
             self._save_object_error('Error parsing ISO document for object {0}: {1}'.format(harvest_object.id, str(e)),
                                     harvest_object, 'Import')
             return None
@@ -47,39 +45,37 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
         # log.info('CMREHarvester ::::::::::::::::: %r', package_dict)
 
         # OWNER ORGANIZATION
-        if len(iso_values.get('owner_org', [])):
-            package_dict['extras'].append({'key': 'ekoe_owner_org', 'value': iso_values['owner_org'][0]})
-
-        # DIMENSIONS NAMES
-        if len(iso_values.get('dimension_name', [])):
-            package_dict['extras'].append({'key': 'ekoe_dimension', 'value': json.dumps(iso_values['dimension_name'])})
+        owner_org = iso_values.get('owner_org', [])
+        owner_org = owner_org[0] if len(owner_org) else 'Unknown organization'
+        package_dict['extras'].append({'key': EKOE_OWNER_ORG, 'value': owner_org})
 
         # LEGAL CONSTRAINTS
         if len(iso_values.get('legal-use-constraints', [])):
             package_dict['extras'].append({'key': 'use-limitation', 'value': iso_values['legal-use-constraints'][0]})
 
         if len(iso_values.get('extent-free-text', [])):
-            package_dict['extras'].append({'key': 'ekoe_identifier', 'value': iso_values['extent-free-text'][0]})
+            package_dict['extras'].append({'key': EKOE_GEO_IDENTIFIER, 'value': json.dumps(iso_values['extent-free-text'])})
 
         date_created = iso_values.get('date-created')
         if date_created:
             package_dict['extras'].append({'key': 'date-created', 'value': date_created})
 
         # VERTICAL ELEMENT
-        if len(iso_values.get('vertical-extent-min', [])) and len(iso_values.get('vertical-extent-max', [])):
+        if len(iso_values.get('vertical-extent-min', [])) or len(iso_values.get('vertical-extent-max', [])):
             crs_title = ''
 
             if len(iso_values.get('vertical-extent-crs-title', [])):
                 crs_title = iso_values['vertical-extent-crs-title'][0]
 
-            vert_ext_min = iso_values['vertical-extent-min'][0]
-            vert_ext_max = iso_values['vertical-extent-max'][0]
+            vert_ext_min = iso_values.get('vertical-extent-min', ['-'])[0]
+            vert_ext_max = iso_values.get('vertical-extent-max', ['-'])[0]
 
             if vert_ext_min == vert_ext_max:
-                package_dict['extras'].append({'key': 'vertical-extent', 'value': vert_ext_min + ' ' + crs_title})
+                package_dict['extras'].append(
+                    {'key': 'vertical-extent', 'value': vert_ext_min + ' ' + crs_title})
             else:
                 package_dict['extras'].append(
-                    {'key': 'vertical-extent', 'value': vert_ext_min + ' / ' + vert_ext_max + ' ' + crs_title})
+                    {'key': 'vertical-extent', 'value': '{} to {} {}'.format(vert_ext_min, vert_ext_max, crs_title)})
 
         # TEMPORAL ELEMENTS
         if len(iso_values.get('temporal-extent-instant', [])):
@@ -87,39 +83,119 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
             date_str = self.parseDate(tempstr)
             package_dict['extras'].append({'key': 'temporal-extent-instant', 'value': date_str})
 
-        for key in ['temporal-extent-begin', 'temporal-extent-end']:
-            if len(iso_values[key]) > 0:
-                tempstr = iso_values[key][0]
-
-                for extra in package_dict['extras']:
-                    extra_key = extra['key']
-
-                    if key == extra_key:
-                        extra['value'] = tempstr
+        temp_begin = iso_values.get('temporal-extent-begin', [])
+        temp_end = iso_values.get('temporal-extent-end', [])
+        if len(temp_begin) + len(temp_end):
+            temp_begin = temp_begin[0] if len(temp_begin) else '-'
+            temp_end = temp_end[0] if len(temp_end) else '-'
+            package_dict['extras'].append(
+                {'key': 'temporal-extent', 'value': '{} to {}'.format(temp_begin, temp_end)})
 
         # SECURITY CLASSIFICATION
-        for name in ['ngmp-security-classification-code', 'ngmp-security-classification-system']:
+        sec_constraints = iso_values.get('resource-security', None)
+        classification = "Unknown"
+        if sec_constraints:
+            classification = '{} {}'.format(sec_constraints['classification'], sec_constraints['code'])
+        else:
+            classification = iso_values.get('ngmp-resource-releasibility', classification)
+        package_dict['extras'].append({'key': EKOE_DATA_CLASSIFICATION, 'value': classification})
+
+        # METADATA CLASSIFICATION
+        sec_constraints = iso_values.get('metadata-security', None)
+        classification = "Unknown"
+        if sec_constraints:
+            classification = '{} {}'.format(sec_constraints['classification'], sec_constraints['code'])
+        package_dict['extras'].append({'key': 'ekoe_metadata_classification', 'value': classification})
+
+        # Copy strings
+        for name in [
+                'lineage',
+                'topic-category',
+                'extent-free-text',
+                'metadata-standard-name',
+                'metadata-standard-version',
+                'fileid',
+                'filehref',
+                'parentid',
+                'parenthref',
+                # 'spatial-reference-system'
+        ]:
             val = iso_values.get(name)
             if val:
                 package_dict['extras'].append({'key': name, 'value': val})
 
-        for name in ['trial', 'platform', 'sensor', 'experiment']:
-            val = iso_values.get("keyword-" + name)
-            if val:
-                package_dict['extras'].append({'key': "ekoe_"+name, 'value': json.dumps(val)})
+        # Copy complex nodes
+        # for name in [
+        #         "data-resp-party",
+        # ]:
+        #     val = iso_values.get(name)
+        #     if val:
+        #         package_dict['extras'].append({'key': name, 'value': json.dumps(val)})
 
-        classif = iso_values.get("ekoe-classification")
-        if classif:
-            code = classif.get("code")
-            system = classif.get("classification")
-            package_dict['extras'].append({
-                'key': "ekoe_classification",
-                'value': "{system} {code}".format(code=code, system=system).upper()})
-        else:
-            package_dict['extras'].append({
-                'key': "ekoe_classification",
-                'value': "PUBLIC RELEASABLE"})
+        for resp_key in ("data-resp-party", "metadata-resp-party"):
+            resp_values = iso_values.get(resp_key)
+            if resp_values:
+                resp_by_role = {}  # role: list of resppary
+                for resp_value in resp_values:
+                    role = resp_value['role']
+                    resp_list = resp_by_role.get(role, [])
+                    resp_list.append(resp_value)
+                    resp_by_role[role] = resp_list
+                package_dict['extras'].append({'key': resp_key, 'value': json.dumps(resp_by_role)})
 
+        for isokey, subfields in [
+                ('gmi-instrument', ('code', 'codespace', 'type', 'description')),
+                ('gmi-platform', ('code', 'codespace', 'description')),
+        ]:
+            isodict = iso_values.get(isokey)
+            if isodict:
+                extra_dict = {k: isodict[k] for k in subfields if isodict.get(k, None)}
+                # log.info("Adding key {} --> {}".format(isokey, extra_dict))
+                package_dict['extras'].append({'key': isokey, 'value': json.dumps(extra_dict)})
+
+        if iso_values.get('gmi-instrument', None):
+            package_dict['extras'].append({'key': EKOE_INSTRUMENT, 'value': iso_values['gmi-instrument']['code']})
+        if iso_values.get('gmi-platform', None):
+            package_dict['extras'].append({'key': EKOE_PLATFORM, 'value': iso_values['gmi-platform']['code']})
+
+        # Map keywords
+        tags = []
+        wk_thesauri = {}
+        other_thesauri = {}
+        for keyword in iso_values.get('keywords', []):
+            # log.info("KEYWORD {}".format(keyword))
+            if keyword['class'] in NGMP_TYPES:
+                # There may be multiple gmd:keyword nodes inside a gmd:descriptiveKeywords/gmd:MD_Keywords node,
+                # but the local-name will take the first one; we're assuming all of them have the same class
+                k = keyword['class']
+                wk_thesauri[k] = wk_thesauri.get(k, []) + keyword['any']
+            elif keyword.get('thesaurus_href',None) in CMRE_WK_THESAURI_HREF.keys():
+                k = CMRE_WK_THESAURI_HREF[keyword['thesaurus_href']]
+                wk_thesauri[k] = wk_thesauri.get(k, []) + keyword['any']
+            elif keyword['thesaurus_title']:
+                k = keyword['thesaurus_title']
+                other_thesauri[k] = other_thesauri.get(k, []) + keyword['any']
+            else:
+                # save as tags free keywords only
+                tags += keyword['any']
+
+        package_dict['tags'] = tags
+
+        for wkt, kwlist in wk_thesauri.items():
+            # log.info("Creating WK extras '{}':{}".format(wkt, kwlist))
+            package_dict['extras'].append({'key': wkt, 'value': json.dumps(kwlist)})
+
+        # log.info("Creating OT extras {}".format(other_thesauri))
+        package_dict['extras'].append({'key': 'controlled_keywords', 'value': json.dumps(other_thesauri)})
+
+        # temporary string: should be formatted elsewhere
+        if len(iso_values['bbox']) > 0:
+            bbox = iso_values['bbox'][0]
+            package_dict['extras'].append({'key': 'bbox-string', 'value': 'N:{n}  S:{s}  E:{e}  W:{w}'.format(
+                n=bbox['north'],
+                s=bbox['south'],
+                e=bbox['east'],
+                w=bbox['west'])})
 
         # ISO 19139 EXTENSION ELEMENTS (MyOcean)
         # for tag in iso_values['keyword-inspire-theme-anchor']:

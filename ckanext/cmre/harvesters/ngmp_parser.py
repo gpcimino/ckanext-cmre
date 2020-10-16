@@ -1,8 +1,27 @@
 import logging
+from lxml import etree
 
-from ckanext.spatial.model import (ISODocument, ISOElement, ISOBrowseGraphic)
+from ckanext.spatial.model import (
+    ISODocument,
+    ISOElement,
+    ISOBrowseGraphic,
+    ISOKeyword,
+    MappedXmlElement,
+    ISOResponsibleParty
+)
 
 log = logging.getLogger(__name__)
+
+NGMP_GeospatialInformationTypeCode = 'NGMP_GeospatialInformationTypeCode'
+NGMP_GeoreferencingLevelCode = 'NGMP_GeoreferencingLevelCode'
+NGMP_RepresentationFormCode = 'NGMP_RepresentationFormCode'
+NGMP_ThematicCode = 'NGMP_ThematicCode'
+NGMP_BaselineLevelCode = 'NGMP_BaselineLevelCode'
+NGMP_DesignationTypeCode = 'NGMP_DesignationTypeCode'
+
+NGMP_TYPES = [NGMP_GeoreferencingLevelCode, NGMP_GeospatialInformationTypeCode,
+              NGMP_RepresentationFormCode, NGMP_ThematicCode,
+              NGMP_BaselineLevelCode, NGMP_DesignationTypeCode]
 
 # Extend/patch the ISODocument definitions by adding some more useful elements
 log.info('CMRE EKOE harvester: extending ISODocument')
@@ -10,6 +29,56 @@ log.info('CMRE EKOE harvester: extending ISODocument')
 for el in ISOBrowseGraphic.elements:
     if el.name == "file":
         el.search_paths.append("gmd:fileName/gmx:Anchor/text()")
+
+for el in (
+        ISOElement(
+            name="thesaurus_title",
+            search_paths=[
+                "gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()",
+                "gmd:thesaurusName/gmd:CI_Citation/gmd:title/gmx:Anchor/text()",
+            ],
+            multiplicity="0..1",
+            ),
+        ISOElement(
+            name="thesaurus_href",
+            search_paths=[
+                "gmd:thesaurusName/gmd:CI_Citation/gmd:title/gmx:Anchor/@xlink:href",
+            ],
+            multiplicity="0..1",
+            ),
+        ISOElement(
+            name="any",
+            search_paths=[
+                "gmd:keyword/*/text()",
+            ],
+            multiplicity="*",
+        ),
+        ISOElement(
+            name="class",
+            search_paths=[
+                "local-name(gmd:keyword/*)",
+            ],
+            multiplicity="1",
+        )
+    ):
+    ISOKeyword.elements.append(el)
+
+# monkey patching MappedXmlElement.get_values bc original one does not support xpath returning plain strings
+def MappedXmlElement_get_values(self, elements):
+    values = []
+    # log.info("MXE === Returning str object ({}) [{}]".format(type(elements), elements))
+    if len(elements) == 0:
+        pass
+    elif type(elements) in [ str, etree._ElementStringResult]:
+        # log.info("MXE Returning str object [{}]".format(elements))
+        return [ elements ]
+    else:
+        for element in elements:
+            value = self.get_value(element)
+            values.append(value)
+    return values
+
+MappedXmlElement.get_values = MappedXmlElement_get_values
 
 
 class NgmpElement(ISOElement):
@@ -30,8 +99,7 @@ class NgmpElement(ISOElement):
         "ngmp": "urn:int:nato:geometoc:geo:metadata:ngmp:1.0"
     }
 
-
-class NGMPClassification(ISOElement):
+class ISOSecurityConstraints(ISOElement):
     elements = [
         ISOElement(
             name="code",
@@ -57,10 +125,63 @@ class NGMPClassification(ISOElement):
     ]
 
 
-def create_keyword_xpath(thesaurus_title):
-    return "gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords" \
-           "[gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString/text()='{}']" \
-           "/gmd:keyword/gco:CharacterString/text()".format(thesaurus_title)
+class GMIInstrument(NgmpElement):
+    elements = [
+        NgmpElement(
+            name="code",
+            search_paths=[
+                "gmi:identifier/gmd:RS_Identifier/gmd:code/*/text()",
+            ],
+            multiplicity="1",
+        ),
+        NgmpElement(
+            name="codespace",
+            search_paths=[
+                "gmi:identifier/gmd:RS_Identifier/gmd:codeSpace/gco:CharacterString/text()",
+            ],
+            multiplicity="1",
+        ),
+        NgmpElement(
+            name="type",
+            search_paths=[
+                "gmi:type/gco:CharacterString/text()",
+            ],
+            multiplicity="1",
+        ),
+        NgmpElement(
+            name="description",
+            search_paths=[
+                "gmi:description/gco:CharacterString/text()",
+            ],
+            multiplicity="1",
+        )
+    ]
+
+
+class GMIPlatform(NgmpElement):
+    elements = [
+        NgmpElement(
+            name="code",
+            search_paths=[
+                "gmi:identifier/gmd:RS_Identifier/gmd:code/*/text()",
+            ],
+            multiplicity="1",
+        ),
+        NgmpElement(
+            name="codespace",
+            search_paths=[
+                "gmi:identifier/gmd:RS_Identifier/gmd:codeSpace/gco:CharacterString/text()",
+            ],
+            multiplicity="1",
+        ),
+        NgmpElement(
+            name="description",
+            search_paths=[
+                "gmi:description/gco:CharacterString/text()",
+            ],
+            multiplicity="1",
+        )
+    ]
 
 
 class EKOEDocument(ISODocument):
@@ -75,50 +196,26 @@ class EKOEDocument(ISODocument):
             ],
             multiplicity="*"
         ),
-        ISOElement(
-            name="keyword-sensor",
-            search_paths=[
-                create_keyword_xpath("CMRE Sensors")
-            ],
-            multiplicity="*"
-        ),
-        ISOElement(
-            name="keyword-experiment",
-            search_paths=[
-                create_keyword_xpath("CMRE Experiment Types")
-            ],
-            multiplicity="*"
-        ),
-        ISOElement(
-            name="keyword-platform",
-            search_paths=[
-                create_keyword_xpath("CMRE Platforms")
-            ],
-            multiplicity="*"
-        ),
-        ISOElement(
-            name="keyword-trial",
-            search_paths=[
-                create_keyword_xpath("CMRE Trials")
-            ],
-            multiplicity="*"
-        ),
-        ISOElement(
-            name="dimension_name",
-            search_paths=[
-                'gmd:contentInfo/gmd:MD_CoverageDescription/gmd:dimension/'
-                'gmd:MD_Band/gmd:descriptor/gco:CharacterString/text()',
-            ],
-            multiplicity="*"
-        ),
-        NGMPClassification(
-            name="ekoe-classification",
+        ISOSecurityConstraints(
+            name="resource-security",
             search_paths=[
                 "gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_SecurityConstraints"
-                "[gmd:classification/gmd:MD_ClassificationCode/@codeList="
-                "'http://eden.ign.fr/xsd/ngmp/20110916/resources/codelist/ngmpCodelists.xml#MD_ClassificationCode']",
             ],
             multiplicity="0..1"
+        ),
+        ISOSecurityConstraints(
+            name="metadata-security",
+            search_paths=[
+                "gmd:metadataConstraints/gmd:MD_SecurityConstraints"
+            ],
+            multiplicity="0..1"
+        ),
+        NgmpElement(
+            name="ngmp-resource-releasibility",
+            search_paths=[
+                "gmd:identificationInfo/*/gmd:resourceConstraints/ngmp:NGMP_Constraints/ngmp:releasibility/ngmp:NGMP_Releasibility/ngmp:statement/gco:CharacterString/text()",
+            ],
+            multiplicity="1"
         ),
         ISOElement(
             name="vertical-extent-min",
@@ -140,7 +237,74 @@ class EKOEDocument(ISODocument):
                 "gmd:identificationInfo/*/gmd:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent/gmd:verticalCRS/@xlink:title",
             ],
             multiplicity="*"
-        )
+        ),
+        GMIInstrument(
+            name="gmi-instrument",
+            search_paths=[
+                "gmi:acquisitionInformation/gmi:MI_AcquisitionInformation/gmi:instrument/gmi:MI_Instrument",
+            ],
+            multiplicity="0..1"
+        ),
+        GMIPlatform(
+            name="gmi-platform",
+            search_paths=[
+                "gmi:acquisitionInformation/gmi:MI_AcquisitionInformation/gmi:platform/gmi:MI_Platform",
+            ],
+            multiplicity="0..1"
+        ),
+        ISOResponsibleParty(
+            name="data-resp-party",
+            search_paths=[
+                "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty",
+                "gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty",
+            ],
+            multiplicity="1..*",
+        ),
+        ISOResponsibleParty(
+            name="metadata-resp-party",
+            search_paths=[
+                "gmd:contact/gmd:CI_ResponsibleParty",
+            ],
+            multiplicity="1..*",
+        ),
+        ISOElement(
+            name="fileid",
+            search_paths="gmd:fileIdentifier/*/text()",
+            multiplicity="0..1",
+        ),
+        ISOElement(
+            name="filehref",
+            search_paths="gmd:fileIdentifier/gmx:Anchor/@xlink:href",
+            multiplicity="0..1",
+        ),
+        ISOElement(
+            name="parentid",
+            search_paths="gmd:parentIdentifier/*/text()",
+            multiplicity="0..1",
+        ),
+        ISOElement(
+            name="parenthref",
+            search_paths="gmd:parentIdentifier/gmx:Anchor/@xlink:href",
+            multiplicity="0..1",
+        ),
 
     ]:
-        elements.append(e)
+        log.info('Adding NGMP element {}'.format(element.name))
+        elements.append(element)
+
+    for element in elements:
+        # minor workaround from EKOE bad data
+        if element.name == "extent-free-text":
+            element.search_paths = [
+                "gmd:identificationInfo/*/*[local-name()='extent']/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicDescription/gmd:geographicIdentifier/*/gmd:code/gco:CharacterString/text()",
+            ]
+        elif element.name == "temporal-extent-begin":
+            element.search_paths= [
+                "gmd:identificationInfo/*/*[local-name()='extent']/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent/*[local-name()='TimePeriod']/*[local-name()='beginPosition']/text()",
+                "gmd:identificationInfo/*/*[local-name()='extent']/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent/*[local-name()='TimePeriod']/*[local-name()='begin']/*[local-name()='TimeInstant']/*[local-name()='timePosition']/text()",
+            ]
+        elif element.name == "temporal-extent-end":
+            element.search_paths= [
+                "gmd:identificationInfo/*/*[local-name()='extent']/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent/*[local-name()='TimePeriod']/*[local-name()='endPosition']/text()",
+                "gmd:identificationInfo/*/*[local-name()='extent']/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent/*[local-name()='TimePeriod']/*[local-name()='end']/*[local-name()='TimeInstant']/*[local-name()='timePosition']/text()",
+            ]

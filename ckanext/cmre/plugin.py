@@ -9,6 +9,8 @@ from dateutil.parser import parse
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 
+from ckanext.cmre.ekoe_const import *
+
 log = logging.getLogger(__name__)
 
 
@@ -53,23 +55,16 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
         log.debug("BEFORE_INDEX")
 
         # expand multi valued fields
+        # log.debug("INDEX FULL DICT {}".format(json.dumps(dataset_dict)))
+        log.debug("INDEX ----------------------------------------")
+        dict_update = {}
+        for k,v in dataset_dict.items():
+            if k.startswith('ekoe'):
+                log.debug("INDEX {} <{}>: {}".format(k, type(v), v))
+                if k in COMPLEX_EKOE_FIELDS:
+                    dict_update[k] = json.loads(v)
 
-        for f in ['trial', 'platform', 'sensor', 'experiment']:
-            key = 'ekoe_' + f
-            v = dataset_dict.get(key, None)
-            log.debug("INDEXING {} -> ({}) {}".format(key, type(v), v))
-
-            if v and isinstance(v, unicode):
-                dataset_dict[key] = json.loads(v)
-                log.debug("DUMPING {}".format(v))
-
-        for key in ['ekoe_dimension']:
-            v = dataset_dict.get(key, None)
-            log.debug("INDEXING {} -> ({}) {}".format(key, type(v), v))
-
-            if v and isinstance(v, unicode):
-                dataset_dict[key] = json.loads(v)
-                log.debug("DUMPING {}".format(v))
+        dataset_dict.update(dict_update)
 
         for isokey,ekoekey in [('temporal-extent-begin', 'ekoe_temporal_start'),
                                ('temporal-extent-end', 'ekoe_temporal_end')]:
@@ -114,15 +109,18 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
     # IFacets
     def dataset_facets(self, orig_facets_dict, package_type):
         facets_dict = OrderedDict()
-        facets_dict['ekoe_owner_org'] = plugins.toolkit._("Owner org")
 
-        for f, value in {'trial': 'Sea trials', 'platform': 'Platform id',
-                         'sensor': 'Instrument id', 'experiment': 'Experiment type'}.iteritems():
-            facets_dict['ekoe_' + f] = plugins.toolkit._(value.capitalize())
-
-        facets_dict['ekoe_classification'] = plugins.toolkit._("Data classification")
-        facets_dict['ekoe_dimension'] = plugins.toolkit._("Variable")
-        facets_dict['ekoe_identifier'] = plugins.toolkit._("Geographic identifier")
+        for f, value in [
+            (EKOE_OWNER_ORG, 'Owner'),
+            (EKOE_TRIAL, 'Sea trials'),
+            (EKOE_PLATFORM, 'Platforms'),
+            (EKOE_INSTRUMENT, 'Instruments'),
+            (EKOE_EXPERIMENT, 'Experiment type'),
+            (EKOE_DATA_CLASSIFICATION, 'Data classification'),
+            (EKOE_VARIABLE, 'Variable'),
+            (EKOE_GEO_IDENTIFIER, 'Geographic identifier'),
+        ]:
+            facets_dict[f] = plugins.toolkit._(value.capitalize())
 
         remove = ['organization', 'groups']
 
@@ -139,7 +137,6 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
 
     def group_facets(self, facets_dict, group_type, package_type):
         return facets_dict
-
 
     def update_config(self, config):
         toolkit.add_template_directory(config, 'templates')
