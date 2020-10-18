@@ -53,9 +53,6 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
         if len(iso_values.get('legal-use-constraints', [])):
             package_dict['extras'].append({'key': 'use-limitation', 'value': iso_values['legal-use-constraints'][0]})
 
-        if len(iso_values.get('extent-free-text', [])):
-            package_dict['extras'].append({'key': EKOE_GEO_IDENTIFIER, 'value': json.dumps(iso_values['extent-free-text'])})
-
         date_created = iso_values.get('date-created')
         if date_created:
             package_dict['extras'].append({'key': 'date-created', 'value': date_created})
@@ -107,11 +104,11 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
             classification = '{} {}'.format(sec_constraints['classification'], sec_constraints['code'])
         package_dict['extras'].append({'key': 'ekoe_metadata_classification', 'value': classification})
 
-        # Copy strings
+        # Copy and encode fields
         for name in [
                 'lineage',
                 'topic-category',
-                'extent-free-text',
+                ('extent-free-text', EKOE_GEO_IDENTIFIER),
                 'metadata-standard-name',
                 'metadata-standard-version',
                 'fileid',
@@ -120,17 +117,12 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
                 'parenthref',
                 # 'spatial-reference-system'
         ]:
+            name, rename = name if type(name) == tuple else (name, name)
             val = iso_values.get(name)
-            if val:
-                package_dict['extras'].append({'key': name, 'value': val})
 
-        # Copy complex nodes
-        # for name in [
-        #         "data-resp-party",
-        # ]:
-        #     val = iso_values.get(name)
-        #     if val:
-        #         package_dict['extras'].append({'key': name, 'value': json.dumps(val)})
+            if val:
+                val = json.dumps(val) if type(val) not in (str, unicode) else val
+                package_dict['extras'].append({'key': rename, 'value': val})
 
         for resp_key in ("data-resp-party", "metadata-resp-party"):
             resp_values = iso_values.get(resp_key)
@@ -188,14 +180,15 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
         # log.info("Creating OT extras {}".format(other_thesauri))
         package_dict['extras'].append({'key': 'controlled_keywords', 'value': json.dumps(other_thesauri)})
 
-        # temporary string: should be formatted elsewhere
         if len(iso_values['bbox']) > 0:
             bbox = iso_values['bbox'][0]
-            package_dict['extras'].append({'key': 'bbox-string', 'value': 'N:{n}  S:{s}  E:{e}  W:{w}'.format(
-                n=bbox['north'],
-                s=bbox['south'],
-                e=bbox['east'],
-                w=bbox['west'])})
+            box_dict = {
+                'n':bbox['north'],
+                's':bbox['south'],
+                'e':bbox['east'],
+                'w':bbox['west']
+            }
+            package_dict['extras'].append({'key': 'bbox-string', 'value': json.dumps(box_dict)})
 
         # ISO 19139 EXTENSION ELEMENTS (MyOcean)
         # for tag in iso_values['keyword-inspire-theme-anchor']:

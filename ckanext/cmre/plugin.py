@@ -4,6 +4,7 @@
 import logging
 import json
 from collections import OrderedDict
+
 from dateutil.parser import parse
 
 import ckan.plugins as plugins
@@ -19,6 +20,7 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IPackageController)
     plugins.implements(plugins.IFacets)
     plugins.implements(plugins.IConfigurer)
+    plugins.implements(plugins.ITemplateHelpers)
 
     # IPackageController
     def before_search(self, search_params):
@@ -52,15 +54,15 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
         return search_results
 
     def before_index(self, dataset_dict):
-        log.debug("BEFORE_INDEX")
+        # log.debug("BEFORE_INDEX")
 
         # expand multi valued fields
         # log.debug("INDEX FULL DICT {}".format(json.dumps(dataset_dict)))
-        log.debug("INDEX ----------------------------------------")
+        # log.debug("INDEX ----------------------------------------")
         dict_update = {}
         for k,v in dataset_dict.items():
             if k.startswith('ekoe'):
-                log.debug("INDEX {} <{}>: {}".format(k, type(v), v))
+                # log.debug("INDEX {} <{}>: {}".format(k, type(v), v))
                 if k in COMPLEX_EKOE_FIELDS:
                     dict_update[k] = json.loads(v)
 
@@ -70,7 +72,7 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
                                ('temporal-extent-end', 'ekoe_temporal_end')]:
             datetime = dataset_dict.get(isokey, None)
             if datetime:
-                log.debug("TEMPORAL:  {field}:{value}".format(field=isokey, value=datetime))
+                # log.debug("TEMPORAL:  {field}:{value}".format(field=isokey, value=datetime))
                 try:
                     date = parse(datetime)
                     dataset_dict[ekoekey] = date
@@ -142,3 +144,33 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
         toolkit.add_template_directory(config, 'templates')
         toolkit.add_resource('fanstatic', 'ckanext-datesearch')
         toolkit.add_public_directory(config, 'public')
+
+    def get_helpers(self):
+        return {'cmre_sorted_extras': cmre_sorted_extras}
+
+
+def cmre_sorted_extras(package_extras, include):
+    ''' Based on original sorted_extras() -- Used for outputting package extras
+
+    :param package_extras: the package extras
+    :type package_extras: dict
+    :include exclude: keys to include
+    :type exclude: list of strings
+    '''
+
+    extra_dict = {x['key']:x['value'] for x in package_extras if x.get('state') != 'deleted'}
+
+    output = []
+    for label, name in include:
+        v = extra_dict[name]
+        try:
+            v = json.loads(v)
+            # log.info('decoded [{}]'.format(name))
+        except Exception:
+            # not a string for sure, other unexpected types?
+            # if isinstance(v, (list, tuple)):
+            #     log.warn('Should be decoded [{}]<{}>->{}'.format(name, type(v), v))
+            pass
+
+        output.append((label, name, v))
+    return output

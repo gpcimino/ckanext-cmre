@@ -10,7 +10,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for label, key in [
+        {% set data_fields = (
               ('Classification', 'ekoe_data_classification'),
               ('Lineage', 'lineage'),
               ('Sea trial', 'ekoe_trial'),
@@ -21,7 +21,7 @@
               ('Data type', 'resource-type'),
               ('Coverage: time period', 'temporal-extent'),
               ('Coverage: bbox', 'bbox-string'),
-              ('Coverage: geographic identifier', 'extent-free-text'),
+              ('Coverage: geographic identifier', 'ekoe_geo_identifier'),
               ('Coverage: CRS', 'spatial-reference-system'),
               ('Coverage: vertical extent', 'vertical-extent'),
               ('Scientific data', 'ekoe_variable'),
@@ -32,17 +32,15 @@
               ('Owner organization', 'ekoe_owner_org'),
               ('Instrument', 'gmi-instrument'),
               ('Platform', 'gmi-platform'),
-        ]%}
-          {% for extra in h.sorted_extras(pkg_dict.extras) %}
-            {% set xkey, xvalue = extra %}
-            {% if key==xkey %}
-          <tr>
-            <th scope="row" class="dataset-label">{{ _(label) }}</th>
-            <td class="dataset-details">{{ xvalue }}</td>
-          </tr>
-            {% endif %}
-          {% endfor%}
-        {% endfor%}
+        )%}
+        {% for label,name,value in h.cmre_sorted_extras(pkg_dict.extras, data_fields) %}
+        <tr>
+          <th scope="row" class="dataset-label">{{ _(label) }}</th>
+          <td class="dataset-details">
+            {% snippet 'snippets/render_value.html', value=value %}
+          </td>
+        </tr>
+       {% endfor%}
       </tbody>
     </table>
 
@@ -59,7 +57,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for label, key in [
+        {% set metadadata_fields = (
               ('Classification', 'ekoe_metadata_classification'),
               ('Responsible parties', 'metadata-resp-party'),
               ('Modification', 'metadata-date'),
@@ -69,16 +67,14 @@
               ('Metadata identifier link', 'filehref'),
               ('Parent Metadata identifier', 'parentid'),
               ('Parent Metadata link', 'parenthref'),
-        ]%}
-          {% for extra in h.sorted_extras(pkg_dict.extras) %}
-            {% set xkey, xvalue = extra %}
-            {% if key==xkey %}
-          <tr>
-            <th scope="row" class="dataset-label">{{ _(label) }}</th>
-            <td class="dataset-details">{{ xvalue }}</td>
-          </tr>
-            {% endif %}
-          {% endfor%}
+        )%}
+        {% for label,name,value in h.cmre_sorted_extras(pkg_dict.extras, metadadata_fields) %}
+        <tr>
+          <th scope="row" class="dataset-label">{{ _(label) }}</th>
+          <td class="dataset-details">
+            {% snippet 'snippets/render_value.html', value=value %}
+          </td>
+        </tr>
         {% endfor%}
 
       </tbody>

@@ -1,0 +1,17 @@
+{% if value is string %}
+    {{ value }}
+{% elif value is mapping %}
+    <ul>
+    {% for k in value %}
+      <li>{{ k }} : {% snippet 'snippets/render_value.html', value=value[k] %} </li>
+    {% endfor %}
+    </ul>
+{% elif value is sequence %}
+    <ul>
+    {% for v in value %}
+      <li>{% snippet 'snippets/render_value.html', value=v %}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    (UNKNOWN TYPE){{ value }}
+{% endif %}
