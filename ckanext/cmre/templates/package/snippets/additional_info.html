@@ -1,178 +1,209 @@
 <section class="additional-info">
 
-  <div class="ekoe_data_tab">
-    <h3>{{ _('Tab data') }}</h3>
-    <table class="table table-striped table-bordered table-condensed">
-      <thead>
-        <tr>
-          <th scope="col">{{ _('Field') }}</th>
-          <th scope="col">{{ _('Value') }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% set data_fields = (
-              ('Classification', 'ekoe_data_classification'),
-              ('Lineage', 'lineage'),
-              ('Sea trial', 'ekoe_trial'),
-              ('Experiment', 'ekoe_experiment'),
-              ('Keywords', 'controlled_keywords'),
-              ('Theme', 'NGMP_ThematicCode'),
-              ('Topic', 'topic-category'),
-              ('Data type', 'resource-type'),
-              ('Coverage: time period', 'temporal-extent'),
-              ('Coverage: bbox', 'bbox-string'),
-              ('Coverage: geographic identifier', 'ekoe_geo_identifier'),
-              ('Coverage: CRS', 'spatial-reference-system'),
-              ('Coverage: vertical extent', 'vertical-extent'),
-              ('Scientific data', 'ekoe_variable'),
-              ('Dataset reference dates', 'dataset-reference-date'),
-              ('Maintenance frequency', 'frequency-of-update'),
-              ('Update status', 'progress'),
-              ('Responsible parties', 'data-resp-party'),
-              ('Owner organization', 'ekoe_owner_org'),
-              ('Instrument', 'gmi-instrument'),
-              ('Platform', 'gmi-platform'),
-        )%}
-        {% for label,name,value in h.cmre_sorted_extras(pkg_dict.extras, data_fields) %}
-        <tr>
-          <th scope="row" class="dataset-label">{{ _(label) }}</th>
-          <td class="dataset-details">
-            {% snippet 'snippets/render_value.html', value=value %}
-          </td>
-        </tr>
-       {% endfor%}
-      </tbody>
-    </table>
-
-
-  </div>
-
-  <div class="ekoe_metadata_tab">
-    <h3>{{ _('Tab metadata') }}</h3>
-    <table class="table table-striped table-bordered table-condensed">
-      <thead>
-        <tr>
-          <th scope="col">{{ _('Field') }}</th>
-          <th scope="col">{{ _('Value') }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% set metadadata_fields = (
-              ('Classification', 'ekoe_metadata_classification'),
-              ('Responsible parties', 'metadata-resp-party'),
-              ('Modification', 'metadata-date'),
-              ('Metadata standard name', 'metadata-standard-name'),
-              ('Metadata standard version', 'metadata-standard-version'),
-              ('Metadata identifier', 'fileid'),
-              ('Metadata identifier link', 'filehref'),
-              ('Parent Metadata identifier', 'parentid'),
-              ('Parent Metadata link', 'parenthref'),
-        )%}
-        {% for label,name,value in h.cmre_sorted_extras(pkg_dict.extras, metadadata_fields) %}
-        <tr>
-          <th scope="row" class="dataset-label">{{ _(label) }}</th>
-          <td class="dataset-details">
-            {% snippet 'snippets/render_value.html', value=value %}
-          </td>
-        </tr>
+  {% resource 'ckanext-datesearch/ekoe_data_nav.js' %}
+  <div
+    class="ekoe-data-nav"
+    data-module="ekoe_data_nav"
+    data-module-data_id_attribute="data-tab-id"
+    data-module-content_class_name=".ekoe-tab-content"
+    >
+    <ul class="nav nav-tabs">
+      <li data-tab-id="data"><a href="#/data">{{ _('Data') }}</a></li>
+      <li data-tab-id="metadata"><a href="#/metadata">{{ _('Metadata') }}</a></li>
+    </ul>
+    <div class="ekoe-tab-content ekoe-data-tab" data-tab-id="data">
+      <h3>{{ _('Data') }}</h3>
+      <table class="table table-striped table-bordered table-condensed">
+        <thead>
+          <tr>
+            <th scope="col">{{ _('Field') }}</th>
+            <th scope="col">{{ _('Value') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% set data_fields = (
+                ('Classification', 'ekoe_data_classification'),
+                ('Lineage', 'lineage'),
+                ('Sea trial', 'ekoe_trial'),
+                ('Experiment', 'ekoe_experiment'),
+                ('Keywords', 'controlled_keywords'),
+                ('Theme', 'NGMP_ThematicCode'),
+                ('Topic', 'topic-category'),
+                ('Data type', 'resource-type'),
+                ('Coverage: time period', 'temporal-extent'),
+                ('Coverage: bbox', 'bbox-string'),
+                ('Coverage: geographic identifier', 'ekoe_geo_identifier'),
+                ('Coverage: CRS', 'spatial-reference-system'),
+                ('Coverage: vertical extent', 'vertical-extent'),
+                ('Scientific data', 'ekoe_variable'),
+                ('Dataset reference dates', 'dataset-reference-date'),
+                ('Maintenance frequency', 'frequency-of-update'),
+                ('Update status', 'progress'),
+                ('Responsible parties', 'data-resp-party'),
+                ('Owner organization', 'ekoe_owner_org')
+          )%}
+          {% for label,name,value in h.cmre_sorted_extras(pkg_dict.extras, data_fields) %}
+          <tr>
+            <th scope="row" class="dataset-label">{{ _(label) }}</th>
+            <td class="dataset-details">
+              {% snippet 'snippets/render_value.html', value=value %}
+            </td>
+          </tr>
         {% endfor%}
+        </tbody>
+      </table>
+      {% set data_fields_tablevalue = (
+          ('Instrument', 'gmi-instrument'),
+          ('Platform', 'gmi-platform'),
+      )%}
+      {% for label,name,value in h.cmre_sorted_extras(pkg_dict.extras, data_fields_tablevalue) %}
+        <div class="dataset-label"><strong>{{ _(label) }}</strong></div>
+        <table class="table table-striped table-bordered table-condensed dataset-details">
+          <thead>
+            <tr>
+              {% for key in value %}
+                <th scope="row">{{ _(key) }}</th>
+              {% endfor%}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {% for key, val in value.items() %}
+                <td class="dataset-details">{{ val }}</td>
+              {% endfor%}
+            </tr>
+          </tbody>
+        </table>
+      {% endfor%}
 
-      </tbody>
-    </table>
 
+    </div>
 
+    <div class="ekoe-tab-content ekoe-metadata-tab" data-tab-id="metadata">
+      <h3>{{ _('Metadata') }}</h3>
+      <table class="table table-striped table-bordered table-condensed">
+        <thead>
+          <tr>
+            <th scope="col">{{ _('Field') }}</th>
+            <th scope="col">{{ _('Value') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% set metadadata_fields = (
+                ('Classification', 'ekoe_metadata_classification'),
+                ('Responsible parties', 'metadata-resp-party'),
+                ('Modification', 'metadata-date'),
+                ('Metadata standard name', 'metadata-standard-name'),
+                ('Metadata standard version', 'metadata-standard-version'),
+                ('Metadata identifier', 'fileid'),
+                ('Metadata identifier link', 'filehref'),
+                ('Parent Metadata identifier', 'parentid'),
+                ('Parent Metadata link', 'parenthref'),
+          )%}
+          {% for label,name,value in h.cmre_sorted_extras(pkg_dict.extras, metadadata_fields) %}
+          <tr>
+            <th scope="row" class="dataset-label">{{ _(label) }}</th>
+            <td class="dataset-details">
+              {% snippet 'snippets/render_value.html', value=value %}
+            </td>
+          </tr>
+          {% endfor%}
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ekoe-additional-info-tab">
+      <h3>{{ _('Additional Info') }}</h3>
+      <table class="table table-striped table-bordered table-condensed">
+        <thead>
+          <tr>
+            <th scope="col">{{ _('Field') }}</th>
+            <th scope="col">{{ _('Value') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% block package_additional_info %}
+            {% if pkg_dict.url %}
+              <tr>
+                <th scope="row" class="dataset-label">{{ _('Source') }}</th>
+                {% if h.is_url(pkg_dict.url) %}
+                  <td class="dataset-details" property="foaf:homepage">{{ h.link_to(pkg_dict.url, pkg_dict.url, rel='foaf:homepage', target='_blank') }}</td>
+                {% else %}
+                  <td class="dataset-details" property="foaf:homepage">{{ pkg_dict.url }}</td>
+                {% endif %}
+              </tr>
+            {% endif %}
+
+            {% if pkg_dict.author_email %}
+              <tr>
+                <th scope="row" class="dataset-label">{{ _("Author") }}</th>
+                <td class="dataset-details" property="dc:creator">{{ h.mail_to(email_address=pkg_dict.author_email, name=pkg_dict.author) }}</td>
+              </tr>
+            {% elif pkg_dict.author %}
+              <tr>
+                <th scope="row" class="dataset-label">{{ _("Author") }}</th>
+                <td class="dataset-details" property="dc:creator">{{ pkg_dict.author }}</td>
+              </tr>
+            {% endif %}
+
+            {% if pkg_dict.maintainer_email %}
+              <tr>
+                <th scope="row" class="dataset-label">{{ _('Maintainer') }}</th>
+                <td class="dataset-details" property="dc:contributor">{{ h.mail_to(email_address=pkg_dict.maintainer_email, name=pkg_dict.maintainer) }}</td>
+              </tr>
+            {% elif pkg_dict.maintainer %}
+              <tr>
+                <th scope="row" class="dataset-label">{{ _('Maintainer') }}</th>
+                <td class="dataset-details" property="dc:contributor">{{ pkg_dict.maintainer }}</td>
+              </tr>
+            {% endif %}
+
+            {% if pkg_dict.version %}
+              <tr>
+                <th scope="row" class="dataset-label">{{ _("Version") }}</th>
+                <td class="dataset-details">{{ pkg_dict.version }}</td>
+              </tr>
+            {% endif %}
+
+            {% if h.check_access('package_update',{'id':pkg_dict.id}) %}
+              <tr>
+                <th scope="row" class="dataset-label">{{ _("State") }}</th>
+                <td class="dataset-details">{{ _(pkg_dict.state) }}</td>
+              </tr>
+            {% endif %}
+            {% if pkg_dict.metadata_modified %}
+              <tr>
+                <th scope="row" class="dataset-label">{{ _("Last Updated") }}</th>
+                <td class="dataset-details">
+                    {% snippet 'snippets/local_friendly_datetime.html', datetime_obj=pkg_dict.metadata_modified %}
+                </td>
+              </tr>
+            {% endif %}
+            {% if pkg_dict.metadata_created %}
+              <tr>
+                <th scope="row" class="dataset-label">{{ _("Created") }}</th>
+
+                <td class="dataset-details">
+                    {% snippet 'snippets/local_friendly_datetime.html', datetime_obj=pkg_dict.metadata_created %}
+                </td>
+              </tr>
+            {% endif %}
+
+          {% block extras scoped %}
+            {% for extra in h.sorted_extras(pkg_dict.extras) %}
+              {% set key, value = extra %}
+              <tr rel="dc:relation" resource="_:extra{{ i }}">
+                <th scope="row" class="dataset-label" property="rdfs:label">{{ _(key) }}</th>
+                <td class="dataset-details" property="rdf:value">{{ value }}</td>
+              </tr>
+            {% endfor %}
+          {% endblock %}
+
+          {% endblock %}
+        </tbody>
+      </table>
+    </div>
 
   </div>
-
-
-
-  <h3>{{ _('Additional Info') }}</h3>
-  <table class="table table-striped table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th scope="col">{{ _('Field') }}</th>
-        <th scope="col">{{ _('Value') }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% block package_additional_info %}
-        {% if pkg_dict.url %}
-          <tr>
-            <th scope="row" class="dataset-label">{{ _('Source') }}</th>
-            {% if h.is_url(pkg_dict.url) %}
-              <td class="dataset-details" property="foaf:homepage">{{ h.link_to(pkg_dict.url, pkg_dict.url, rel='foaf:homepage', target='_blank') }}</td>
-            {% else %}
-              <td class="dataset-details" property="foaf:homepage">{{ pkg_dict.url }}</td>
-            {% endif %}
-          </tr>
-        {% endif %}
-
-        {% if pkg_dict.author_email %}
-          <tr>
-            <th scope="row" class="dataset-label">{{ _("Author") }}</th>
-            <td class="dataset-details" property="dc:creator">{{ h.mail_to(email_address=pkg_dict.author_email, name=pkg_dict.author) }}</td>
-          </tr>
-        {% elif pkg_dict.author %}
-          <tr>
-            <th scope="row" class="dataset-label">{{ _("Author") }}</th>
-            <td class="dataset-details" property="dc:creator">{{ pkg_dict.author }}</td>
-          </tr>
-        {% endif %}
-
-        {% if pkg_dict.maintainer_email %}
-          <tr>
-            <th scope="row" class="dataset-label">{{ _('Maintainer') }}</th>
-            <td class="dataset-details" property="dc:contributor">{{ h.mail_to(email_address=pkg_dict.maintainer_email, name=pkg_dict.maintainer) }}</td>
-          </tr>
-        {% elif pkg_dict.maintainer %}
-          <tr>
-            <th scope="row" class="dataset-label">{{ _('Maintainer') }}</th>
-            <td class="dataset-details" property="dc:contributor">{{ pkg_dict.maintainer }}</td>
-          </tr>
-        {% endif %}
-
-        {% if pkg_dict.version %}
-          <tr>
-            <th scope="row" class="dataset-label">{{ _("Version") }}</th>
-            <td class="dataset-details">{{ pkg_dict.version }}</td>
-          </tr>
-        {% endif %}
-
-        {% if h.check_access('package_update',{'id':pkg_dict.id}) %}
-          <tr>
-            <th scope="row" class="dataset-label">{{ _("State") }}</th>
-            <td class="dataset-details">{{ _(pkg_dict.state) }}</td>
-          </tr>
-        {% endif %}
-        {% if pkg_dict.metadata_modified %}
-          <tr>
-            <th scope="row" class="dataset-label">{{ _("Last Updated") }}</th>
-            <td class="dataset-details">
-                {% snippet 'snippets/local_friendly_datetime.html', datetime_obj=pkg_dict.metadata_modified %}
-            </td>
-          </tr>
-        {% endif %}
-        {% if pkg_dict.metadata_created %}
-          <tr>
-            <th scope="row" class="dataset-label">{{ _("Created") }}</th>
-
-            <td class="dataset-details">
-                {% snippet 'snippets/local_friendly_datetime.html', datetime_obj=pkg_dict.metadata_created %}
-            </td>
-          </tr>
-        {% endif %}
-
-      {% block extras scoped %}
-        {% for extra in h.sorted_extras(pkg_dict.extras) %}
-          {% set key, value = extra %}
-          <tr rel="dc:relation" resource="_:extra{{ i }}">
-            <th scope="row" class="dataset-label" property="rdfs:label">{{ _(key) }}</th>
-            <td class="dataset-details" property="rdf:value">{{ value }}</td>
-          </tr>
-        {% endfor %}
-      {% endblock %}
-
-      {% endblock %}
-    </tbody>
-  </table>
 </section>
