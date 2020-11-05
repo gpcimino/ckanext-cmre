@@ -1,6 +1,8 @@
 import logging
 import json
 
+from repoze.who.tests.test__auth_tkt import Test_helpers
+
 from ckan.plugins.core import SingletonPlugin
 
 from ckanext.cmre.ekoe_const import EKOE_TRIAL, EKOE_EXPERIMENT
@@ -13,10 +15,20 @@ from ckanext.cmre.harvesters.ngmp_validator import NgmpSchema
 
 log = logging.getLogger(__name__)
 
+THES_PROCESSING_LEVEL = 'processing-level'
+THES_DATA_DELIVERY = 'data-delivery'
+
 CMRE_WK_THESAURI_HREF = {
-    'http://datacatalog-dev/cruisedb' : EKOE_TRIAL,
-    'http://datacatalog-dev/experimenttype' : EKOE_EXPERIMENT,
-    'http://cfconventions.org/Data/cf-standard-names/current/src/cf-standard-name-table.xml': EKOE_VARIABLE,
+    # 'http://cfconventions.org/Data/cf-standard-names/current/src/cf-standard-name-table.xml': EKOE_VARIABLE,
+}
+
+CMRE_WK_THESAURI_TITLE = {
+    'CMRE cruise db': EKOE_TRIAL,
+    'CMRE experiment type': EKOE_EXPERIMENT,
+    'CF standard name table': EKOE_VARIABLE,
+    'NON-CF name': 'var-non-cf',
+    'processing level': THES_PROCESSING_LEVEL,
+    'data delivery': THES_DATA_DELIVERY,
 }
 
 
@@ -191,7 +203,7 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
                 extracted_list = [isodict[isodictkey] for isodict in isolist]
                 package_dict['extras'].append({'key': extrakey, 'value': json.dumps(extracted_list)})
 
-        # Map keywords
+        # === Map keywords
         tags = []
         wk_thesauri = {}
         other_thesauri = {}
@@ -202,8 +214,11 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
                 # but the local-name will take the first one; we're assuming all of them have the same class
                 k = keyword['class']
                 wk_thesauri[k] = wk_thesauri.get(k, []) + keyword['any']
-            elif keyword.get('thesaurus_href',None) in CMRE_WK_THESAURI_HREF.keys():
+            elif keyword.get('thesaurus_href', None) in CMRE_WK_THESAURI_HREF:
                 k = CMRE_WK_THESAURI_HREF[keyword['thesaurus_href']]
+                wk_thesauri[k] = wk_thesauri.get(k, []) + keyword['any']
+            elif keyword.get('thesaurus_title', None) in CMRE_WK_THESAURI_TITLE:
+                k = CMRE_WK_THESAURI_TITLE[keyword['thesaurus_title']]
                 wk_thesauri[k] = wk_thesauri.get(k, []) + keyword['any']
             elif keyword['thesaurus_title']:
                 k = keyword['thesaurus_title']
@@ -221,6 +236,11 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
         # log.info("Creating OT extras {}".format(other_thesauri))
         package_dict['extras'].append({'key': 'controlled_keywords', 'value': json.dumps(other_thesauri)})
 
+        bundled_processing_level = {k: wk_thesauri[k][0]
+                                    for k in [THES_PROCESSING_LEVEL, THES_DATA_DELIVERY] if k in wk_thesauri}
+        package_dict['extras'].append({'key': 'bundled_processing_level', 'value': json.dumps(bundled_processing_level)})
+
+        # === BBOX
         if len(iso_values['bbox']) > 0:
             bbox = iso_values['bbox'][0]
             box_dict = {
