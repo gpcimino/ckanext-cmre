@@ -296,6 +296,26 @@ class ISOLISource(ISOElement):
     ]
 
 
+class ISOLIProcessStep(ISOElement):
+    elements = [
+        ISOElement(
+            name="description",
+            search_paths=["gmd:description/gco:CharacterString/text()"],
+            multiplicity="1",
+        ),
+        ISOElement(
+            name="date",
+            search_paths=["gmd:dateTime/gco:DateTime/text()"],
+            multiplicity="0..1",
+        ),
+        ISOElement(
+            name="organization",
+            search_paths=["gmd:processor/gmd:CI_ResponsibleParty/gmd:organisationName/gco:CharacterString/text()"],
+            multiplicity="*",
+        ),
+    ]
+
+
 class EKOEDocument(ISODocument):
     elements = [e for e in ISODocument.elements]
 
@@ -389,6 +409,13 @@ class EKOEDocument(ISODocument):
             name="sources",
             search_paths=[
                 "gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:lineage/gmd:LI_Lineage/gmd:source/gmd:LI_Source",
+            ],
+            multiplicity="*",
+        ),
+        ISOLIProcessStep(
+            name="process-step",
+            search_paths=[
+                "gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:lineage/gmd:LI_Lineage/gmd:processStep/gmd:LI_ProcessStep",
             ],
             multiplicity="*",
         ),

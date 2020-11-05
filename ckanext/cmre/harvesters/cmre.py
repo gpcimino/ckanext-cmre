@@ -117,6 +117,7 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
                 'parentid',
                 'parenthref',
                 'sources',
+                'process-step',
                 # 'spatial-reference-system'
         ]:
             name, rename = name if type(name) == tuple else (name, name)
