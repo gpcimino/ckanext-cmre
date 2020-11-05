@@ -125,17 +125,33 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
                 val = json.dumps(val) if type(val) not in (str, unicode) else val
                 package_dict['extras'].append({'key': rename, 'value': val})
 
+        def _append_string(src, add, delim=', '):
+            return '{}{}{}'.format(src, delim if src else '', add) if add else src
+
         # responsible parties
-        for resp_key in ("data-resp-party", "metadata-resp-party"):
-            resp_values = iso_values.get(resp_key)
-            if resp_values:
-                resp_by_role = {}  # role: list of resppary
-                for resp_value in resp_values:
-                    role = resp_value['role']
+        for resp_key, repack_key in (
+                ("data-resp-party", "repackaged-data-resp-party"),
+                ("metadata-resp-party", "repackaged-metadata-resp-party")
+        ):
+            all_resp_list = iso_values.get(resp_key)
+            if all_resp_list:
+                resp_by_role = {}  # role: list of respparties
+                for resp_party in all_resp_list:
+                    contact = resp_party.get('contact-info', {})
+
+                    line = ''
+                    line = _append_string(line, resp_party.get('individual-name', None))
+                    line = _append_string(line, contact.get('mail', None))
+                    line = _append_string(line, resp_party.get('position-name', None))
+                    line = _append_string(line, resp_party.get('organisation-name', None), ' - ')
+                    line = _append_string(line, contact.get('city', None))
+                    line = _append_string(line, contact.get('country', None))
+
+                    role = resp_party['role']
                     resp_list = resp_by_role.get(role, [])
-                    resp_list.append(resp_value)
+                    resp_list.append(line)
                     resp_by_role[role] = resp_list
-                package_dict['extras'].append({'key': resp_key, 'value': json.dumps(resp_by_role)})
+                package_dict['extras'].append({'key': repack_key, 'value': json.dumps(resp_by_role)})
 
         # extract and encode sub dicts
         for isokey, subfields in [

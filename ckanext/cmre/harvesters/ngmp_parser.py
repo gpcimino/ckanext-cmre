@@ -26,9 +26,15 @@ NGMP_TYPES = [NGMP_GeoreferencingLevelCode, NGMP_GeospatialInformationTypeCode,
 # Extend/patch the ISODocument definitions by adding some more useful elements
 log.info('CMRE EKOE harvester: extending ISODocument')
 
-for el in ISOBrowseGraphic.elements:
-    if el.name == "file":
-        el.search_paths.append("gmd:fileName/gmx:Anchor/text()")
+
+def _get_iso_elem(source_iso_elem, name):
+    for el in source_iso_elem.elements:
+        if el.name == name:
+            return el
+    return None
+
+
+_get_iso_elem(ISOBrowseGraphic, "file").search_paths.append("gmd:fileName/gmx:Anchor/text()")
 
 for el in (
         ISOElement(
@@ -60,8 +66,9 @@ for el in (
             ],
             multiplicity="1",
         )
-    ):
+):
     ISOKeyword.elements.append(el)
+
 
 # monkey patching MappedXmlElement.get_values bc original one does not support xpath returning plain strings
 def MappedXmlElement_get_values(self, elements):
@@ -77,6 +84,7 @@ def MappedXmlElement_get_values(self, elements):
             value = self.get_value(element)
             values.append(value)
     return values
+
 
 MappedXmlElement.get_values = MappedXmlElement_get_values
 
@@ -98,6 +106,7 @@ class NgmpElement(ISOElement):
         "gmi": "http://standards.iso.org/iso/19115/-2/gmi/1.0",  # ISO19115-2:2009 specific
         "ngmp": "urn:int:nato:geometoc:geo:metadata:ngmp:1.0"
     }
+
 
 class ISOSecurityConstraints(ISOElement):
     elements = [
@@ -184,7 +193,7 @@ class GMIPlatform(NgmpElement):
     ]
 
 
-class ISOVerticalExtent(NgmpElement):
+class ISOVerticalExtent(ISOElement):
     elements = [
         ISOElement(
             name="min",
@@ -215,6 +224,56 @@ class ISOVerticalExtent(NgmpElement):
             multiplicity="0..1"
         ),
     ]
+
+
+class ISOAddress(ISOElement):
+    elements = [
+       ISOElement(
+           name="delivery-point",
+           search_paths=[
+               "gmd:deliveryPoint/gco:CharacterString/text()",
+           ],
+           multiplicity="0..1"
+       ),
+       ISOElement(
+           name="city",
+           search_paths=[
+               "gmd:city/gco:CharacterString/text()",
+           ],
+           multiplicity="0..1"
+       ),
+       ISOElement(
+           name="postal-code",
+           search_paths=[
+               "gmd:postalCode/gco:CharacterString/text()",
+           ],
+           multiplicity="0..1"
+       ),
+       ISOElement(
+           name="country",
+           search_paths=[
+               "gmd:country/gco:CharacterString/text()",
+           ],
+           multiplicity="0..1"
+       ),
+       ISOElement(
+           name="mail",
+           search_paths=[
+               "gmd:electronicMailAddress/gco:CharacterString/text()",
+           ],
+           multiplicity="0..1"
+       ),
+    ]
+
+
+_get_iso_elem(ISOResponsibleParty, "contact-info").elements.append(
+    ISOAddress(
+        name="address",
+        search_paths=[
+            "gmd:address/gmd:CI_Address",
+        ],
+        multiplicity="0..1",
+    ))
 
 
 class EKOEDocument(ISODocument):
