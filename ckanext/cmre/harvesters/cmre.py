@@ -258,6 +258,10 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
         if repack_dates:
             package_dict['extras'].append({'key': 'repackaged-dates', 'value': json.dumps(repack_dates)})
 
+        #
+        missions = [op['code'] for op in iso_values.get('gmi-operation', [])]
+        if len(missions):
+            package_dict['extras'].append({'key': 'mission-codes', 'value': json.dumps(missions)})
 
         # ISO 19139 EXTENSION ELEMENTS (MyOcean)
         # for tag in iso_values['keyword-inspire-theme-anchor']:

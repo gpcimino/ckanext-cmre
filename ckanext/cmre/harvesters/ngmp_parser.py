@@ -193,6 +193,18 @@ class GMIPlatform(NgmpElement):
     ]
 
 
+class GMIOperation(NgmpElement):
+    elements = [
+        NgmpElement(
+            name="code",
+            search_paths=[
+                "gmi:identifier/gmd:MD_Identifier/gmd:code/*/text()",
+            ],
+            multiplicity="1",
+        ),
+    ]
+
+
 class ISOVerticalExtent(ISOElement):
     elements = [
         ISOElement(
@@ -361,7 +373,7 @@ class EKOEDocument(ISODocument):
             search_paths=[
                 "gmi:acquisitionInformation/gmi:MI_AcquisitionInformation/gmi:instrument/gmi:MI_Instrument",
             ],
-            multiplicity="0..*"
+            multiplicity="*"
         ),
         GMIPlatform(
             name="gmi-platform",
@@ -369,6 +381,13 @@ class EKOEDocument(ISODocument):
                 "gmi:acquisitionInformation/gmi:MI_AcquisitionInformation/gmi:platform/gmi:MI_Platform",
             ],
             multiplicity="1"
+        ),
+        GMIOperation(
+            name="gmi-operation",
+            search_paths=[
+                "gmi:acquisitionInformation/gmi:MI_AcquisitionInformation/gmi:operation/gmi:MI_Operation",
+            ],
+            multiplicity="*"
         ),
         ISOResponsibleParty(
             name="data-resp-party",
