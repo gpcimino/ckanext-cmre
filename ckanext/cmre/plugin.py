@@ -113,7 +113,7 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
         facets_dict = OrderedDict()
 
         for f, value in [
-            (EKOE_OWNER_ORG, 'Owner'),
+            (EKOE_OWNER_ORG, 'Owner org'),
             (EKOE_TRIAL, 'Sea trials'),
             (EKOE_PLATFORM, 'Platforms'),
             (EKOE_INSTRUMENT, 'Instruments'),
