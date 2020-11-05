@@ -121,6 +121,7 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
             (EKOE_DATA_CLASSIFICATION, 'Data classification'),
             (EKOE_VARIABLE, 'Variable'),
             (EKOE_GEO_IDENTIFIER, 'Geographic identifier'),
+            (EKOE_OVERALL_DATA_CATEGORY, 'Overall data category'),
         ]:
             facets_dict[f] = plugins.toolkit._(value.capitalize())
 

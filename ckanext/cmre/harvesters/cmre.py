@@ -29,6 +29,7 @@ CMRE_WK_THESAURI_TITLE = {
     'NON-CF name': 'var-non-cf',
     'processing level': THES_PROCESSING_LEVEL,
     'data delivery': THES_DATA_DELIVERY,
+    'CMRE overall data category': EKOE_OVERALL_DATA_CATEGORY,
 }
 
 
