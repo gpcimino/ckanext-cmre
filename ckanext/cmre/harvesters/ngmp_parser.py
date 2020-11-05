@@ -243,14 +243,14 @@ class EKOEDocument(ISODocument):
             search_paths=[
                 "gmi:acquisitionInformation/gmi:MI_AcquisitionInformation/gmi:instrument/gmi:MI_Instrument",
             ],
-            multiplicity="0..1"
+            multiplicity="0..*"
         ),
         GMIPlatform(
             name="gmi-platform",
             search_paths=[
                 "gmi:acquisitionInformation/gmi:MI_AcquisitionInformation/gmi:platform/gmi:MI_Platform",
             ],
-            multiplicity="0..1"
+            multiplicity="1"
         ),
         ISOResponsibleParty(
             name="data-resp-party",

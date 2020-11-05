@@ -104,7 +104,7 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
             classification = '{} {}'.format(sec_constraints['classification'], sec_constraints['code'])
         package_dict['extras'].append({'key': 'ekoe_metadata_classification', 'value': classification})
 
-        # Copy and encode fields
+        # Copy and encode strings and full complex objects
         for name in [
                 'lineage',
                 'topic-category',
@@ -124,6 +124,7 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
                 val = json.dumps(val) if type(val) not in (str, unicode) else val
                 package_dict['extras'].append({'key': rename, 'value': val})
 
+        # responsible parties
         for resp_key in ("data-resp-party", "metadata-resp-party"):
             resp_values = iso_values.get(resp_key)
             if resp_values:
@@ -135,9 +136,9 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
                     resp_by_role[role] = resp_list
                 package_dict['extras'].append({'key': resp_key, 'value': json.dumps(resp_by_role)})
 
+        # extract and encode sub dicts
         for isokey, subfields in [
-                ('gmi-instrument', ('code', 'codespace', 'type', 'description')),
-                ('gmi-platform', ('code', 'codespace', 'description')),
+                ('gmi-platform', ('code', 'description')),
         ]:
             isodict = iso_values.get(isokey)
             if isodict:
@@ -145,10 +146,31 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
                 # log.info("Adding key {} --> {}".format(isokey, extra_dict))
                 package_dict['extras'].append({'key': isokey, 'value': json.dumps(extra_dict)})
 
-        if iso_values.get('gmi-instrument', None):
-            package_dict['extras'].append({'key': EKOE_INSTRUMENT, 'value': iso_values['gmi-instrument']['code']})
+        # extract info for index
         if iso_values.get('gmi-platform', None):
             package_dict['extras'].append({'key': EKOE_PLATFORM, 'value': iso_values['gmi-platform']['code']})
+
+        # extract and encode list of sub dicts
+        for isokey, subfields in [
+                ('gmi-instrument', ('code', 'type', 'description')),
+        ]:
+            isolist = iso_values.get(isokey)
+            if isolist:
+                extracted_list = []
+                for isodict in isolist:
+                    extracted_dict = {k: isodict[k] for k in subfields if isodict.get(k, None)}
+                    extracted_list.append(extracted_dict)
+                    # log.info("Adding key {} --> {}".format(isokey, extra_dict))
+                package_dict['extras'].append({'key': isokey, 'value': json.dumps(extracted_list)})
+
+        # extract list of info for index
+        for isokey, isodictkey, extrakey in [
+                ('gmi-instrument', 'code', EKOE_INSTRUMENT),
+        ]:
+            if isokey in iso_values:
+                isolist = iso_values[isokey]
+                extracted_list = [isodict[isodictkey] for isodict in isolist]
+                package_dict['extras'].append({'key': extrakey, 'value': json.dumps(extracted_list)})
 
         # Map keywords
         tags = []

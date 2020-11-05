@@ -162,6 +162,10 @@ def cmre_sorted_extras(package_extras, include):
 
     output = []
     for label, name in include:
+        if name not in extra_dict:
+            log.warn("Missing EKOE name in extras: {}".format(name))
+            continue
+
         v = extra_dict[name]
         try:
             v = json.loads(v)
