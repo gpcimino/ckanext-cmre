@@ -52,6 +52,8 @@
         {% endfor%}
         </tbody>
       </table>
+
+
       {% set data_fields_tablevalue = (
           ('Instrument', 'gmi-instrument'),
       )%}
@@ -73,6 +75,30 @@
               {% for key in data_fields_keys %}
                 <td class="dataset-details">{{ row[key] }}</td>
               {% endfor%}
+            </tr>
+              {% endfor%}
+          </tbody>
+        </table>
+      {% endfor%}
+
+
+      {% set data_fields_tablevalue = (
+          ('Sources', 'sources'),
+      )%}
+      {% for label,name,value in h.cmre_sorted_extras(pkg_dict.extras, data_fields_tablevalue) %}
+        <div class="dataset-label"><strong>{{ _(label) }}</strong></div>
+        <table class="table table-striped table-bordered table-condensed dataset-details">
+          <thead>
+            <tr>
+                <th scope="row">{{ _('Title') }}</th>
+                <th scope="row">{{ _('Description') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for row in value %}
+            <tr>
+              <td class="dataset-details"><a href="{{ row['title_href'] }}">{{ row['title'] }}</a></td>
+                <td class="dataset-details">{{ row['description'] }}</td>
             </tr>
               {% endfor%}
           </tbody>

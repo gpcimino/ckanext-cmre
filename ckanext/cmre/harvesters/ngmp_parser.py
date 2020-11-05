@@ -276,6 +276,26 @@ _get_iso_elem(ISOResponsibleParty, "contact-info").elements.append(
     ))
 
 
+class ISOLISource(ISOElement):
+    elements = [
+        ISOElement(
+            name="description",
+            search_paths=["gmd:description/gco:CharacterString/text()",],
+            multiplicity="0..1",
+        ),
+        ISOElement(
+            name="title",
+            search_paths=["gmd:sourceCitation/gmd:CI_Citation/gmd:title/*/text()"],
+            multiplicity="0..1",
+        ),
+        ISOElement(
+            name="title_href",
+            search_paths=["gmd:sourceCitation/gmd:CI_Citation/gmd:title/gmx:Anchor/@xlink:href", ],
+            multiplicity="0..1",
+        ),
+    ]
+
+
 class EKOEDocument(ISODocument):
     elements = [e for e in ISODocument.elements]
 
@@ -364,6 +384,13 @@ class EKOEDocument(ISODocument):
             name="parenthref",
             search_paths="gmd:parentIdentifier/gmx:Anchor/@xlink:href",
             multiplicity="0..1",
+        ),
+        ISOLISource(
+            name="sources",
+            search_paths=[
+                "gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:lineage/gmd:LI_Lineage/gmd:source/gmd:LI_Source",
+            ],
+            multiplicity="*",
         ),
 
     ]:
