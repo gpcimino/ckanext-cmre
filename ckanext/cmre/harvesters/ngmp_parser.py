@@ -184,6 +184,39 @@ class GMIPlatform(NgmpElement):
     ]
 
 
+class ISOVerticalExtent(NgmpElement):
+    elements = [
+        ISOElement(
+            name="min",
+            search_paths=[
+                "gmd:minimumValue/gco:Real/text()",
+            ],
+            multiplicity="0..1"
+        ),
+        ISOElement(
+            name="max",
+            search_paths=[
+                "gmd:maximumValue/gco:Real/text()",
+            ],
+            multiplicity="0..1"
+        ),
+        ISOElement(
+            name="crs-title",
+            search_paths=[
+                "gmd:verticalCRS/text()",
+            ],
+            multiplicity="0..1"
+        ),
+        ISOElement(
+            name="crs-href",
+            search_paths=[
+                "gmd:verticalCRS/@xlink:href",
+            ],
+            multiplicity="0..1"
+        ),
+    ]
+
+
 class EKOEDocument(ISODocument):
     elements = [e for e in ISODocument.elements]
 
@@ -217,24 +250,10 @@ class EKOEDocument(ISODocument):
             ],
             multiplicity="1"
         ),
-        ISOElement(
-            name="vertical-extent-min",
+        ISOVerticalExtent(
+            name="vertical-extent",
             search_paths=[
-                "gmd:identificationInfo/*/gmd:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent/gmd:minimumValue/gco:Real/text()",
-            ],
-            multiplicity="*"
-        ),
-        ISOElement(
-            name="vertical-extent-max",
-            search_paths=[
-                "gmd:identificationInfo/*/gmd:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent/gmd:maximumValue/gco:Real/text()",
-            ],
-            multiplicity="*"
-        ),
-        ISOElement(
-            name="vertical-extent-crs-title",
-            search_paths=[
-                "gmd:identificationInfo/*/gmd:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent/gmd:verticalCRS/@xlink:title",
+                "gmd:identificationInfo/*/gmd:extent/gmd:EX_Extent/gmd:verticalElement/gmd:EX_VerticalExtent",
             ],
             multiplicity="*"
         ),

@@ -58,21 +58,22 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
             package_dict['extras'].append({'key': 'date-created', 'value': date_created})
 
         # VERTICAL ELEMENT
-        if len(iso_values.get('vertical-extent-min', [])) or len(iso_values.get('vertical-extent-max', [])):
-            crs_title = ''
+        vext_list = iso_values.get('vertical-extent')
+        if vext_list:
+            vext = vext_list[0]
+            if len(vext_list) > 1:
+                log.warn("Skipping multiple vertical extent")
 
-            if len(iso_values.get('vertical-extent-crs-title', [])):
-                crs_title = iso_values['vertical-extent-crs-title'][0]
+            crs_title = vext.get('crs-title', None) or vext.get('crs-href', None)
 
-            vert_ext_min = iso_values.get('vertical-extent-min', ['-'])[0]
-            vert_ext_max = iso_values.get('vertical-extent-max', ['-'])[0]
+            vext_min = vext.get('min', '-')
+            vext_max = vext.get('max', '-')
 
-            if vert_ext_min == vert_ext_max:
-                package_dict['extras'].append(
-                    {'key': 'vertical-extent', 'value': vert_ext_min + ' ' + crs_title})
-            else:
-                package_dict['extras'].append(
-                    {'key': 'vertical-extent', 'value': '{} to {} {}'.format(vert_ext_min, vert_ext_max, crs_title)})
+            vext_crs = ' ({})'.format(crs_title) if crs_title else ''
+            vext_string = '{}{}'.format(vext_min, vext_crs) if vext_min == vext_max else \
+                          '{} to {}{}'.format(vext_min, vext_max, vext_crs)
+
+            package_dict['extras'].append({'key': 'vertical-extent', 'value': vext_string})
 
         # TEMPORAL ELEMENTS
         if len(iso_values.get('temporal-extent-instant', [])):
