@@ -213,6 +213,14 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
             }
             package_dict['extras'].append({'key': 'bbox-string', 'value': json.dumps(box_dict)})
 
+        # repackage dates
+        repack_dates = {}
+        for date in iso_values['dataset-reference-date']:
+            repack_dates[date['type']] = date['value']
+        if repack_dates:
+            package_dict['extras'].append({'key': 'repackaged-dates', 'value': json.dumps(repack_dates)})
+
+
         # ISO 19139 EXTENSION ELEMENTS (MyOcean)
         # for tag in iso_values['keyword-inspire-theme-anchor']:
         #    tag = tag[:50] if len(tag) > 50 else tag
