@@ -156,7 +156,7 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
 
                     line = ''
                     line = _append_string(line, resp_party.get('individual-name', None))
-                    line = _append_string(line, contact.get('mail', None))
+                    line = _append_string(line, contact.get('email', None))
                     line = _append_string(line, resp_party.get('position-name', None))
                     line = _append_string(line, resp_party.get('organisation-name', None), ' - ')
                     line = _append_string(line, contact.get('city', None))
