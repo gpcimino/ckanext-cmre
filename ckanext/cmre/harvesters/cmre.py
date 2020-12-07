@@ -184,7 +184,7 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
 
         # extract info for index
         if iso_values.get('gmi-platform', None):
-            package_dict['extras'].append({'key': EKOE_PLATFORM, 'value': iso_values['gmi-platform']['type']}) # use 'type' instead of code to portray the right facet for platforms
+            package_dict['extras'].append({'key': EKOE_PLATFORM, 'value': iso_values['gmi-platform']['code']})
 
         # extract and encode list of sub dicts
         for isokey, subfields in [
@@ -201,7 +201,7 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
 
         # extract list of info for index
         for isokey, isodictkey, extrakey in [
-                ('gmi-instrument', 'code', EKOE_INSTRUMENT),
+                ('gmi-instrument', 'type', EKOE_INSTRUMENT),
         ]:
             if isokey in iso_values:
                 isolist = iso_values[isokey]
