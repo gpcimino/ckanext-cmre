@@ -156,11 +156,15 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
 
                     line = ''
                     line = _append_string(line, resp_party.get('individual-name', None))
-                    line = _append_string(line, contact.get('email', None))
+                    # this conditions handle the case when there are no contacts info in the metadata
+                    if isinstance(contact, dict):
+                        line = _append_string(line, contact.get('email', None))
                     line = _append_string(line, resp_party.get('position-name', None))
                     line = _append_string(line, resp_party.get('organisation-name', None), ' - ')
-                    line = _append_string(line, contact.get('city', None))
-                    line = _append_string(line, contact.get('country', None))
+                    # this conditions handle the case when there are no contacts info in the metadata
+                    if isinstance(contact, dict):
+                        line = _append_string(line, contact.get('city', None))
+                        line = _append_string(line, contact.get('country', None))
 
                     role = resp_party['role']
                     resp_list = resp_by_role.get(role, [])
@@ -180,7 +184,7 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
 
         # extract info for index
         if iso_values.get('gmi-platform', None):
-            package_dict['extras'].append({'key': EKOE_PLATFORM, 'value': iso_values['gmi-platform']['code']})
+            package_dict['extras'].append({'key': EKOE_PLATFORM, 'value': iso_values['gmi-platform']['type']}) # use 'type' instead of code to portray the right facet for platforms
 
         # extract and encode list of sub dicts
         for isokey, subfields in [
