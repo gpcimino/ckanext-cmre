@@ -49,7 +49,7 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
         try:
             iso_parser = EKOEDocument(harvest_object.content)
             iso_values = iso_parser.read_values()
-        except Exception, e:
+        except Exception as e:
             log.warn('Error parsing EKOE document ')
             self._save_object_error('Error parsing ISO document for object {0}: {1}'.format(harvest_object.id, str(e)),
                                     harvest_object, 'Import')
@@ -137,7 +137,7 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
             val = iso_values.get(name)
 
             if val:
-                val = json.dumps(val) if type(val) not in (str, unicode) else val
+                val = json.dumps(val) if type(val) not in (str, str) else val
                 package_dict['extras'].append({'key': rename, 'value': val})
 
         def _append_string(src, add, delim=', '):
@@ -234,7 +234,7 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
 
         package_dict['tags'] = tags
 
-        for wkt, kwlist in wk_thesauri.items():
+        for wkt, kwlist in list(wk_thesauri.items()):
             # log.info("Creating WK extras '{}':{}".format(wkt, kwlist))
             package_dict['extras'].append({'key': wkt, 'value': json.dumps(kwlist)})
 
@@ -300,7 +300,7 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
                         'asc': ['asc'],
                     }
 
-                for file_type, extensions in file_types.iteritems():
+                for file_type, extensions in file_types.items():
                     if any(url.endswith(extension) for extension in extensions):
                         resource['format'] = file_type
 

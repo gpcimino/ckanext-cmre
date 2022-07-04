@@ -60,7 +60,7 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
         # log.debug("INDEX FULL DICT {}".format(json.dumps(dataset_dict)))
         # log.debug("INDEX ----------------------------------------")
         dict_update = {}
-        for k,v in dataset_dict.items():
+        for k,v in list(dataset_dict.items()):
             if k.startswith('ekoe'):
                 # log.debug("INDEX {} <{}>: {}".format(k, type(v), v))
                 if k in COMPLEX_EKOE_FIELDS:
@@ -128,7 +128,7 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
         remove = ['organization', 'groups']
 
         # Add back original facets to the bottom
-        for key, value in orig_facets_dict.items():
+        for key, value in list(orig_facets_dict.items()):
             if key not in remove:
                 # log.info("Add facet key:{key}".format(key=key))
                 facets_dict[key] = value
