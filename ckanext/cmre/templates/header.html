@@ -14,13 +14,14 @@
 {% block header_site_navigation_tabs %}
     {% if c.userobj.sysadmin %}
         {{ h.build_nav_main(
-            ('search', _('Datasets')),
-            ('organizations_index', _('Organizations')),
-            ('group_index', _('Groups')),
+            ('dataset.search', _('Datasets')),
+            ('group.index', _('Groups')),
+            ('organization.index', _('Organizations')),
             ('home.about', _('About'))
         ) }}
     {% else %}
         {{ h.build_nav_main(
+            ('dataset.search', _('Datasets')),
             ('home.about', _('About'))
         ) }}
     {% endif %}

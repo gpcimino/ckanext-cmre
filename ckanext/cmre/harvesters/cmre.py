@@ -49,10 +49,15 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
         try:
             iso_parser = EKOEDocument(harvest_object.content)
             iso_values = iso_parser.read_values()
+            log.error("ISO VALUES")
+            log.error("-----------------------------------------")
         except Exception as e:
-            log.warn('Error parsing EKOE document ')
-            self._save_object_error('Error parsing ISO document for object {0}: {1}'.format(harvest_object.id, str(e)),
-                                    harvest_object, 'Import')
+            log.warn('Error parsing EKOE document')
+            self._save_object_error(
+                'Error parsing ISO document for object {0}: {1}'.format(harvest_object.id, str(e)),
+                harvest_object,
+                'Import'
+            )
             return None
 
         # log.info('CMREHarvester ::::::::::::::::: %r', package_dict)

@@ -53,6 +53,7 @@ class FileSystemHarvester(SpatialHarvester, SingletonPlugin):
 
     def gather_stage(self, harvest_job, collection_package_id=None):
         log = logging.getLogger(__name__ + '.LFS.gather')
+
         log.debug('LFSHarvester gather_stage for job: %r', harvest_job)
 
         self.harvest_job = harvest_job
@@ -187,9 +188,15 @@ class FileSystemHarvester(SpatialHarvester, SingletonPlugin):
         fullpath = os.path.join(filepath, filename)
 
         # Get contents
+        log = logging.getLogger(__name__ + ".LFS.fetch")
+ 
+
         try:
-            with open(fullpath) as reader:
+            with open(fullpath, encoding='utf-8') as reader:
                 content = reader.read()
+                log.error("read from file " + fullpath)
+                # log.error(content)
+                # log.error("------------------------------------------")
         except Exception as e:
             msg = 'FSHarvester: Could not read file {0}: {1}'.format(fullpath, e)
             self._save_object_error(msg, harvest_object)
@@ -198,9 +205,11 @@ class FileSystemHarvester(SpatialHarvester, SingletonPlugin):
         # Check if it is an ISO document
         document_format = guess_standard(content)
         if document_format == 'iso':
-            harvest_object.content = content
+            log.error("it is iso")
+            harvest_object.content = content.encode('utf-8')
             harvest_object.save()
         else:
+            log.error("it NOT is iso")
             extra = HOExtra(
                     object=harvest_object,
                     key='original_document',
@@ -212,5 +221,5 @@ class FileSystemHarvester(SpatialHarvester, SingletonPlugin):
                     key='original_format',
                     value=document_format)
             extra.save()
-
+        log.error("exiting retur true")
         return True

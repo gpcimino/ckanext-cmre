@@ -23,7 +23,7 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.ITemplateHelpers)
 
     # IPackageController
-    def before_dataset_search(self, search_params):
+    def before_search(self, search_params):
         return self._temporal_search(search_params)
 
     def _temporal_search(self, search_params):
@@ -50,10 +50,10 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
         search_params['fq'] = fq
         return search_params
 
-    def after_dataset_search(self, search_results, search_params):
+    def after_search(self, search_results, search_params):
         return search_results
 
-    def before_dataset_index(self, dataset_dict):
+    def before_index(self, dataset_dict):
         # log.debug("BEFORE_INDEX")
 
         # expand multi valued fields
@@ -81,7 +81,7 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
 
         return dataset_dict
 
-    def before_dataset_view(self, pkg_dict):
+    def before_view(self, pkg_dict):
         return pkg_dict
 
     def read(self, entity):
@@ -96,16 +96,16 @@ class CMREFacetsPlugin(plugins.SingletonPlugin):
     def delete(self, entity):
         return entity
 
-    def after_dataset_create(self, context, pkg_dict):
+    def after_create(self, context, pkg_dict):
         return pkg_dict
 
-    def after_dataset_update(self, context, pkg_dict):
+    def after_update(self, context, pkg_dict):
         return pkg_dict
 
-    def after_dataset_delete(self, context, pkg_dict):
+    def after_delete(self, context, pkg_dict):
         return pkg_dict
 
-    def after_dataset_show(self, context, pkg_dict):
+    def after_show(self, context, pkg_dict):
         return pkg_dict
 
     # IFacets
