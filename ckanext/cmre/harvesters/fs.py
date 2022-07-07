@@ -195,6 +195,15 @@ class FileSystemHarvester(SpatialHarvester, SingletonPlugin):
             with open(fullpath, encoding='utf-8') as reader:
                 content = reader.read()
                 log.error("read from file " + fullpath)
+                import re
+                # Remove original XML declaration
+                content = re.sub('<\?xml(.*)\?>', '', content)
+
+                # Get rid of the BOM and other rubbish at the beginning of the file
+                content = re.sub('.*?<', '<', content, 1)
+                content = content[content.index('<'):]
+
+
                 # log.error(content)
                 # log.error("------------------------------------------")
         except Exception as e:
@@ -206,7 +215,7 @@ class FileSystemHarvester(SpatialHarvester, SingletonPlugin):
         document_format = guess_standard(content)
         if document_format == 'iso':
             log.error("it is iso")
-            harvest_object.content = content.encode('utf-8')
+            harvest_object.content = content
             harvest_object.save()
         else:
             log.error("it NOT is iso")
