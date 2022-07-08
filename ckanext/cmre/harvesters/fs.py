@@ -12,6 +12,7 @@ from ckanext.harvest.model import HarvestObject
 from ckanext.harvest.model import HarvestObjectExtra as HOExtra
 
 from ckanext.spatial.harvesters.base import SpatialHarvester
+from ckanext.cmre.harvesters.utils import _my_log
 
 log = logging.getLogger(__name__)
 
@@ -210,7 +211,7 @@ class FileSystemHarvester(SpatialHarvester, SingletonPlugin):
             msg = 'FSHarvester: Could not read file {0}: {1}'.format(fullpath, e)
             self._save_object_error(msg, harvest_object)
             return False
-
+        _my_log(fullpath)
         # Check if it is an ISO document
         document_format = guess_standard(content)
         if document_format == 'iso':

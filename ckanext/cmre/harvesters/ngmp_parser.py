@@ -9,6 +9,8 @@ from ckanext.spatial.model import (
     MappedXmlElement,
     ISOResponsibleParty
 )
+from ckanext.cmre.harvesters.utils import _my_log
+
 
 log = logging.getLogger(__name__)
 
@@ -329,6 +331,7 @@ class ISOLIProcessStep(ISOElement):
 
 
 class EKOEDocument(ISODocument):
+    _my_log("EKOEDocument")
     elements = [e for e in ISODocument.elements]
 
     for element in [
@@ -461,22 +464,20 @@ class EKOEDocument(ISODocument):
             ]
 
 
-    def _my_log(self, msg):
-        with open("/var/log/ckan/my_ckan.log", "a") as f:
-            f.write(msg+"\n")
+
 
     def get_xml_tree(self):
-        self._my_log("call get_xml_tree")
+        _my_log("call get_xml_tree")
         import six
         if self.xml_tree is None:
-            self._my_log("xml_tree is none")
+            _my_log("xml_tree is none")
             # parser = etree.XMLParser(remove_blank_text=True)
             # xml_str = six.ensure_str(self.xml_str)
             # self.xml_tree = etree.fromstring(xml_str, parser=parser)
             parser = etree.XMLParser(remove_blank_text=True, encoding='utf-8')
             xml_str = six.ensure_str(self.xml_str)
             self.xml_tree = etree.fromstring(xml_str.encode('utf-8'), parser=parser)
-            self._my_log("if done")
+            _my_log("if done")
 
 
         return self.xml_tree

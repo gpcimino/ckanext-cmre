@@ -13,6 +13,9 @@ from ckanext.cmre.harvesters.ngmp_parser import EKOEDocument, NGMP_TYPES
 
 from ckanext.cmre.harvesters.ngmp_validator import NgmpSchema
 
+from ckanext.cmre.harvesters.utils import _my_log
+
+
 log = logging.getLogger(__name__)
 
 THES_PROCESSING_LEVEL = 'processing-level'
@@ -32,13 +35,10 @@ CMRE_WK_THESAURI_TITLE = {
     'CMRE overall data category': EKOE_OVERALL_DATA_CATEGORY,
 }
 
-
 class CMREHarvester(FileSystemHarvester, SingletonPlugin):
 
 
-    def _my_log(self, msg):
-        with open("/tmp/my_ckan.log", "a") as f:
-            f.write(msg+"\n")
+
 
     def info(self):
         return {
@@ -52,16 +52,15 @@ class CMREHarvester(FileSystemHarvester, SingletonPlugin):
         package_dict = super(CMREHarvester, self).get_package_dict(super_iso_values, harvest_object)
 
         try:
-            self._my_log("A")
+            _my_log("A")
             iso_parser = EKOEDocument(harvest_object.content)
-            self._my_log("B")
+            _my_log("B")
             iso_values = iso_parser.read_values()
-            self._my_log("OK")
+            _my_log("OK")
         except Exception as e:
             import traceback
-            # `e` is an exception object that you get from somewhere
             traceback_str = ''.join(traceback.format_tb(e.__traceback__))
-            self._my_log(traceback_str)
+            _my_log(traceback_str)
             log.warn('Error parsing EKOE document')
             self._save_object_error(
                 'Error parsing ISO document for object {0}: {1}'.format(harvest_object.id, str(e)),
