@@ -459,3 +459,24 @@ class EKOEDocument(ISODocument):
                 "gmd:identificationInfo/*/*[local-name()='extent']/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent/*[local-name()='TimePeriod']/*[local-name()='endPosition']/text()",
                 "gmd:identificationInfo/*/*[local-name()='extent']/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent/*[local-name()='TimePeriod']/*[local-name()='end']/*[local-name()='TimeInstant']/*[local-name()='timePosition']/text()",
             ]
+
+
+    def _my_log(self, msg):
+        with open("/var/log/ckan/my_ckan.log", "a") as f:
+            f.write(msg+"\n")
+
+    def get_xml_tree(self):
+        self._my_log("call get_xml_tree")
+        import six
+        if self.xml_tree is None:
+            self._my_log("xml_tree is none")
+            # parser = etree.XMLParser(remove_blank_text=True)
+            # xml_str = six.ensure_str(self.xml_str)
+            # self.xml_tree = etree.fromstring(xml_str, parser=parser)
+            parser = etree.XMLParser(remove_blank_text=True, encoding='utf-8')
+            xml_str = six.ensure_str(self.xml_str)
+            self.xml_tree = etree.fromstring(xml_str.encode('utf-8'), parser=parser)
+            self._my_log("if done")
+
+
+        return self.xml_tree
